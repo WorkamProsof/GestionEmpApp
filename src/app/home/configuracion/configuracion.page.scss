@@ -1,0 +1,11 @@
+::ng-deep {
+	ion-select-popover {
+		ion-item {
+			--background: var(--ion-color-light);
+			color: var(--ion-color-dark);
+		}
+	}
+}
+ion-range::part(pin) {
+	color: var(--ion-color-dark) !important;
+}

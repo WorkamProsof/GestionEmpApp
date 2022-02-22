@@ -1,0 +1,24 @@
+<app-header titulo="Configuracion"></app-header>
+
+<ion-content color="gray">
+	<ion-list mode="ios" lines="full">
+		<ion-item [ngClass]='fontSize' color='light'>
+			<ion-label>Tema</ion-label>
+			<ion-select interface="popover" cancelText="Cancelar" okText="Aceptar" placeholder="Opciones"
+				(ionChange)="setTema($event)" [(ngModel)]='theme.temaActual'>
+				<ion-select-option color='light' *ngFor="let item of temas;" [value]="item.valor">{{ item.titulo }}
+				</ion-select-option>
+			</ion-select>
+		</ion-item>
+		<ion-item [ngClass]='fontSize' color='light'>
+			<ion-label>
+				Fuente
+			</ion-label>
+			<ion-range #rangeLetra class="ion-padding-vertical ion-margin-vertical" (ionChange)="valorFuente($event)" min="12" max="30"
+				pin="true" snaps="true" step="3">
+			</ion-range>
+			<ion-checkbox #checkLetra mode='md' [checked]="theme.getStyle()" (ionChange)='restaurarLetra($event)'>
+			</ion-checkbox>
+		</ion-item>
+	</ion-list>
+</ion-content>

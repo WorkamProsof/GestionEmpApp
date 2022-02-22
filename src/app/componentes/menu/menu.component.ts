@@ -24,14 +24,23 @@ export class MenuComponent implements OnInit {
 			}]
 		},
 		{
-			modulo: 'AUTOGESTION', icon: '', title: 'Gestión', path: '', hijos: [{
-				icon: 'documents-outline', title: 'Documentos', path: '/modulos/gestion'
-			}]
+			modulo: 'AUTOGEST', icon: '', title: 'Auto Gestión', path: '', hijos: [{
+				icon: 'person-add-outline', title: 'Datos básicos', path: '/modulos/datosbasicos'
+			},
+      {
+				icon: 'newspaper-outline', title: 'Solicitar vacaciones', path: '/modulos/solicitarvacaciones'
+			},
+      {
+				icon: 'documents-outline', title: 'Certificados Laborales', path: '/modulos/solicitarvacaciones'
+			},
+    ]
 		}
 	];
 	datosUsuario: Object = {};
 	public logo: string = 'assets/images/nofoto.png';
 	modulos: Array<object> = [];
+
+  foto: string = FuncionesGenerales.urlGestion();
 
 	constructor(
 		private menuController: MenuController,
@@ -47,8 +56,9 @@ export class MenuComponent implements OnInit {
 		this.menus.unshift({
 			icon: '', title: '', path: '', hijos: [{
 				icon: 'home-outline', title: 'Inicio', path: '/modulos/inicio'
-			}]
-		});
+			},
+    ]
+		})
 	}
 
 	ngOnInit() {

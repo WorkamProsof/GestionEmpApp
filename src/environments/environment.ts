@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  urlGestion : 'http://192.168.0.224:8016/dev/Gestion_Empresarial/',
   urlBack: 'http://192.168.0.224:8016/dev/GestionGastosAPP/Back_Nuevo/'
 };
 

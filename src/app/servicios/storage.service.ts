@@ -38,4 +38,8 @@ export class StorageService {
 		//this.set('version', version);
 		this.router.navigateByUrl('login');
 	}
+
+  public clear() {
+		return this.storage.clear();
+	}
 }

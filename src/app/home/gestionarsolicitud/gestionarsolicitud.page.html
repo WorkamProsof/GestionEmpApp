@@ -1,0 +1,76 @@
+
+
+<ion-header>
+	<ion-toolbar>
+		<ion-buttons slot="start">
+			<ion-back-button defaultHref="" (click)="dismissModal()"></ion-back-button>
+		</ion-buttons>
+    <ion-title>Solicitud</ion-title>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<ion-item-divider>
+		<ion-label color="secondary">
+			Información Principal
+		</ion-label>
+	</ion-item-divider>
+	<ion-card>
+		<ion-card-content>
+			<p><b>Empleado: </b> {{solicitud.empleado}}</p>
+			<p><b>Fecha: </b> {{solicitud.fecha}}</p>
+			<p><b>Cargo: </b> {{solicitud.cargo}}</p>
+			<p><b>Sucursal: </b> {{solicitud.sucursal}}</p>
+			<p><b>Centro Trabajo: </b> {{solicitud.centroTrabajo}}</p>
+			<p><b>Centro Costo: </b> {{solicitud.centroCosto}}</p>
+			<p><b>Fecha Inicio: </b> {{solicitud.fechaIni}}</p>
+			<p><b>Fecha Fin: </b> {{solicitud.fechaFin}}</p>
+			<p><b>Proyecto: </b> {{solicitud.proyecto}}</p>
+			<p><b>Fase: </b> {{solicitud.fase}}</p>
+			<p><b>Descripción: </b> {{solicitud.descripcion}}</p>
+		</ion-card-content>
+	</ion-card>
+
+	<ion-item-divider>
+		<ion-label color="secondary">
+			Tipos de Gastos Proyecto
+		</ion-label>
+	</ion-item-divider>
+
+	<ion-list>
+		<ion-item *ngFor="let value of solicitud.dataTG">
+			<ion-label>
+				<h4><b style="font-size: 12px;">{{value.TipoGasto}}</b> <span class="listFecha" style="float: right;font-size: 12px;">${{value.ValorAprobado}}</span></h4>
+				<ion-card-subtitle>{{value.Observacion}}</ion-card-subtitle>
+			</ion-label>
+		</ion-item>
+	</ion-list>
+
+	<ion-item-divider>
+		<ion-label color="secondary">
+			Detalles
+		</ion-label>
+		<ion-buttons slot="end" title="Agregar" (click)="addDetalle()">
+			<ion-button>
+				<ion-icon name="add-circle"></ion-icon>
+			</ion-button>
+		</ion-buttons>
+	</ion-item-divider>
+
+	<ion-card>
+		<ion-card-content>
+			<p><b>Total Presupuesto: </b> ${{totalPresupuesto}}</p>
+			<p><b>Total de Gastos: </b> ${{totalGasto}}</p>
+		</ion-card-content>
+	</ion-card>
+
+	<ion-list>
+		<ion-item *ngFor="let value of solicitud.dataDetalle">
+			<ion-label (click)="itemDetalle(value)">
+				<h4><b style="font-size: 12px;">{{value.TipoGasto}}</b> <span class="listFecha" style="float: right;font-size: 12px;">${{value.Valor}}</span></h4>
+				<ion-card-subtitle>{{value.Fecha}}</ion-card-subtitle>
+				<!-- Id -->
+			</ion-label>
+		</ion-item>
+	</ion-list>
+</ion-content>

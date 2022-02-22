@@ -1,5 +1,6 @@
 import { RxFormGroup, RxFormBuilder } from '@rxweb/reactive-form-validators';
 import * as moment from 'moment';
+import { environment } from '../../../environments/environment';
 
 export class FuncionesGenerales {
 
@@ -18,6 +19,10 @@ export class FuncionesGenerales {
 		}
 		return valorFecha.format(formato ? formato : 'DD/MM/YYYY')
 	}
+
+  static urlGestion(){
+    return environment.urlGestion;
+  }
 
 	static crearFormulario(service: any, group?: boolean) {
 		let formulario: RxFormGroup;

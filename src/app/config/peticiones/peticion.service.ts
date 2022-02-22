@@ -20,7 +20,7 @@ export class PeticionService {
 	private notificacionesService: NotificacionesService;
 	private httpClient: HttpClient;
 	public url: string = environment.urlBack;
-	public categoria: string = 'API/';
+	public categoria: string = '';
 
 	constructor() {
 		if (!this.httpClient) {
@@ -28,6 +28,9 @@ export class PeticionService {
 		}
 		if (!this.storageService) {
 			this.storageService = CustomInjectorService.injector.get<StorageService>(StorageService);
+		}
+		if (!this.notificacionesService) {
+			this.notificacionesService = CustomInjectorService.injector.get<NotificacionesService>(NotificacionesService);
 		}
 	}
 
@@ -67,7 +70,14 @@ export class PeticionService {
 		const Conexion = await this.storageService.get('conexion').then(resp => resp);
 		let NIT = await this.storageService.get('nit').then(resp => resp);
 		let usuario = await this.desencriptar(JSON.parse(await this.storageService.get('usuario').then(resp => resp)));
-		const headers = new HttpHeaders({ Token: usuario.IngresoId, Conexion, NIT, Usuario: usuario.usuarioId });
+		const headers = new HttpHeaders({
+			Token: usuario.IngresoId,
+			Conexion,
+			NIT,
+			Usuario: usuario.usuarioId,
+			Num_docu: usuario.num_docu,
+			Tercero_id: usuario.tercero_id
+		});
 		return await this.ejecutarPeticion('post', uri, data, headers).toPromise().then(async resp => {
 			const desencriptado = await this.desencriptar(resp);
 			if (desencriptado.activoLogueo) {

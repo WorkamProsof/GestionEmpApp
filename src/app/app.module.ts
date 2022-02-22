@@ -10,6 +10,7 @@ import { CustomInjectorService } from './config/peticiones/peticion.service';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { HttpClientModule } from '@angular/common/http';
 import { Drivers } from '@ionic/storage';
+import { IonicSelectableModule } from 'ionic-selectable';
 
 @NgModule({
 	declarations: [
@@ -21,6 +22,7 @@ import { Drivers } from '@ionic/storage';
 		, IonicModule.forRoot()
 		, AppRoutingModule
 		, HttpClientModule
+    , IonicSelectableModule
 		, IonicStorageModule.forRoot({
 			driverOrder: [Drivers.IndexedDB, Drivers.LocalStorage],
 			name: '__GestionEmpresarialDB',

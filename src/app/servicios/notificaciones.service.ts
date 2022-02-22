@@ -8,7 +8,7 @@ import { AlertInput, AlertButton } from '@ionic/core/dist/types/components/alert
 export class NotificacionesService {
 
   	constructor(
-		private toastController: ToastController, 
+		private toastController: ToastController,
 		private alertaController: AlertController
 	) { }
 
@@ -18,7 +18,7 @@ export class NotificacionesService {
 		});
 		return toast.present();
 	}
-	
+
 	async alerta(message: string, header?: string, cssClass?: string[],  buttons?: AlertButton[], inputs?: AlertInput[], backdropDismiss?: boolean, mode?: 'ios' | 'md') {
 		if (!buttons) {
 		  	buttons = [{
@@ -32,5 +32,15 @@ export class NotificacionesService {
 		});
 		await alerta.present();
 		return alerta.onWillDismiss();
+	}
+
+  async presentToast(message: any, position: any = 'top') {
+		const toast = await this.toastController.create({
+			message: message,
+			duration: 2000,
+			position: position,
+			color: 'dark'
+		});
+		toast.present();
 	}
 }

@@ -60,4 +60,28 @@ export class Constantes {
 			{ themeVariable: '--toolbar-menu', value: '#f1f1f1' }
 		]
 	}];
+
+  static generos = [{
+		valor: 'M', titulo: 'Masculino'
+	}, {
+		valor: 'F', titulo: 'Femenino'
+	}];
+
+
+  static grupo_sanguineo = [
+    {valor: 'O-' , titulo: 'O-'},
+    {valor: 'O+' , titulo: 'O+'},
+    {valor: 'A-' , titulo: 'A-'},
+    {valor: 'A+' , titulo: 'A+'},
+    {valor: 'B-' , titulo: 'B-'},
+    {valor: 'B+' , titulo: 'B+'},
+    {valor: 'AB-' , titulo: 'AB-'}
+  ];
+
+  static ppal = [{
+		valor: 0, titulo: 'NO'
+	}, {
+		valor: 1, titulo: 'Si'
+	}];
+
 }

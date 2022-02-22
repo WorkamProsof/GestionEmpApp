@@ -13,6 +13,30 @@ const routes: Routes = [
   {
     path: 'gestion',
     loadChildren: () => import('./gestion/gestion.module').then( m => m.GestionPageModule)
+  },
+  {
+    path: 'gestionarsolicitud',
+    loadChildren: () => import('./gestionarsolicitud/gestionarsolicitud.module').then( m => m.GestionarsolicitudPageModule)
+  },
+  {
+    path: 'detalle',
+    loadChildren: () => import('./detalle/detalle.module').then( m => m.DetallePageModule)
+  },
+  {
+    path: 'datosbasicos',
+    loadChildren: () => import('./autogestion/datosbasicos/datosbasicos.module').then( m => m.DatosbasicosPageModule)
+  },
+  {
+    path: 'solicitarvacaciones',
+    loadChildren: () => import('./autogestion/solicitarvacaciones/solicitarvacaciones.module').then( m => m.SolicitarvacacionesPageModule)
+  },
+  {
+    path: 'certificados',
+    loadChildren: () => import('./autogestion/certificados/certificados.module').then( m => m.CertificadosPageModule)
+  },
+  {
+    path: 'configuracion',
+    loadChildren: () => import('./configuracion/configuracion.module').then( m => m.ConfiguracionPageModule)
   }
 ];
 
