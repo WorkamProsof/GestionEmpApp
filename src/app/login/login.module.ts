@@ -11,7 +11,7 @@ import { LoginPage } from './login.page';
 import { File } from '@awesome-cordova-plugins/file/ngx';
 import { FileOpener } from '@awesome-cordova-plugins/file-opener/ngx';
 import { FileTransfer   } from '@awesome-cordova-plugins/file-transfer/ngx';
-
+import { DocumentViewer } from '@awesome-cordova-plugins/document-viewer/ngx';
 @NgModule({
 	imports: [
 		CommonModule,
@@ -21,7 +21,7 @@ import { FileTransfer   } from '@awesome-cordova-plugins/file-transfer/ngx';
 		ReactiveFormsModule,
 		RxReactiveFormsModule,
 	],
-  providers: [File,FileOpener,FileTransfer],
+  providers: [File,FileOpener,FileTransfer,DocumentViewer],
 	declarations: [LoginPage]
 })
 export class LoginPageModule { }
