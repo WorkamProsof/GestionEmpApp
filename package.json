@@ -23,6 +23,7 @@
     "@awesome-cordova-plugins/file": "^5.39.1",
     "@awesome-cordova-plugins/file-opener": "^5.39.1",
     "@awesome-cordova-plugins/file-transfer": "^5.39.1",
+    "@capacitor/android": "^3.4.1",
     "@capacitor/core": "3.4.0",
     "@ionic-native/camera": "^5.36.0",
     "@ionic-native/core": "^5.36.0",
