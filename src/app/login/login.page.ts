@@ -14,10 +14,39 @@ import { Constantes } from '../config/constantes/constantes';
 import { File } from '@awesome-cordova-plugins/file/ngx';
 import { FileOpener } from '@awesome-cordova-plugins/file-opener/ngx';
 import { FileTransfer, FileUploadOptions, FileTransferObject  } from '@awesome-cordova-plugins/file-transfer/ngx';
+import { DocumentViewer } from '@awesome-cordova-plugins/document-viewer/ngx';
 
 import * as pdfMake from "pdfmake/build/pdfmake";
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import { Platform } from '@ionic/angular';
+
+export interface DocumentViewerOptions {
+  title?: string;
+  documentView?: {
+    closeLabel: string;
+  };
+  navigationView?: {
+    closeLabel: string;
+  };
+  email?: {
+    enabled: boolean;
+  };
+  print?: {
+    enabled: boolean;
+  };
+  openWith?: {
+    enabled: boolean;
+  };
+  bookmarks?: {
+    enabled: boolean;
+  };
+  search?: {
+    enabled: boolean;
+  };
+  autoClose?: {
+    onPause: boolean;
+  };
+}
 
 @Component({
   selector: 'app-login',
@@ -35,6 +64,8 @@ export class LoginPage implements OnInit {
 
   pdfObj: any;
 
+
+
   constructor(
     private sanitizer: DomSanitizer,
     private theme: ThemeService,
@@ -47,7 +78,8 @@ export class LoginPage implements OnInit {
     private transfer: FileTransfer,
 		private fileOpener: FileOpener,
 		private file: File,
-    private platform :Platform
+    private platform :Platform,
+    private document: DocumentViewer
   ) { }
 
   ngOnInit() {
@@ -175,7 +207,7 @@ export class LoginPage implements OnInit {
 				{
 					text: 'It is possible to apply multiple styles, by passing an array. This paragraph uses two styles: quote and small. When multiple styles are provided, they are evaluated in the specified order which is important in case they define the same properties',
 					style: ['quote', 'small']
-				}
+				},
 			],
 			styles: {
 				header: {
@@ -184,6 +216,7 @@ export class LoginPage implements OnInit {
 				},
 				subheader: {
 					fontSize: 15,
+          justifi:true,
 					bold: true
 				},
 				quote: {
@@ -198,18 +231,45 @@ export class LoginPage implements OnInit {
 
 
 
-		this.pdfObj = pdfMake.createPdf(dd).open();
+
+
+		// this.pdfObj = pdfMake.createPdf(dd).open();
 		/* this.pdfObj.getBase64((data) => {
 			console.log('data:image/pdf;base64,' + data);
 			this.base64 = 'data:image/pdf;base64,' + data;
 		}); */
 		// this.pdfObj.download();
+
+    const options: DocumentViewerOptions = {
+      title: 'My PDF'
+    }
+
+
+    let data = this.document.viewDocument('http://www.example.com/file.pdf', 'application/pdf', options);
+    console.log('data',data);
+
 	}
 
 	OpenPDF() {
-    this.fileOpener.open('http://192.168.0.224:8016/dev/Gestion_Empresarial/uploads/111111111/AutoGestion/CIR_4585401_2022.pdf', 'application/pdf')
-      .then(() => console.log('File is opened'))
-      .catch(e => console.log('Error opening file', e));
+    if(this.platform.is('cordova')){
+      this.pdfObj.getBuffer((buffer)=>{
+        var blob = new Blob([buffer],{type:'application/pdf'});
+        this.file.writeFile(this.file.dataDirectory,'hola.pdf',blob,{replace:true}).then(fileEntry =>{
+          this.fileOpener.open(this.file.dataDirectory + 'hola.pdf','application/pdf');
+        });
+      });
+      return true;
+    }
+    // this.fileOpener.open('http://192.168.0.224:8016/dev/Gestion_Empresarial/uploads/111111111/AutoGestion/CIR_4585401_2022.pdf', 'application/pdf')
+    //   .then(() => {
+    //     console.log('File is opened')
+    //   })
+
+    //   .catch(e =>{
+    //     alert(e);
+    //     this.notificaciones.notificacion('Error opening file', e)
+    //     }
+    //   );
 
     // this.fileOpener.
 
@@ -233,7 +293,7 @@ export class LoginPage implements OnInit {
     fileTransfer.download(url, this.file.dataDirectory + 'file.pdf').then((entry) => {
       console.log('download complete: ' + entry.toURL());
     }, (error) => {
-      // Controlamos el error aquí.
+      this.notificaciones.notificacion('Error opening file', error)
     });
   }
 
