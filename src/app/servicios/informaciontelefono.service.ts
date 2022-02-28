@@ -6,7 +6,6 @@ import { PeticionService } from '../config/peticiones/peticion.service';
 	providedIn: 'root'
 })
 export class InformacionTelefono extends PeticionService {
-
 	private _fijo: string;
 	private _celular: string;
 	private _principal: string;
@@ -24,7 +23,7 @@ export class InformacionTelefono extends PeticionService {
 		this._principal = value;
 	}
 
-  @maxLength({ value: 30, message: 'Maximo 30 caracteres' })
+  @maxLength({ value: 50, message: 'Maximo 50 caracteres' })
 	public set fijo(value: string) {
     this._fijo = value;
 	}
@@ -32,7 +31,7 @@ export class InformacionTelefono extends PeticionService {
     return this._fijo;
 	}
 
-	@maxLength({ value: 30, message: 'Maximo 30 caracteres' })
+	@maxLength({ value: 50, message: 'Maximo 50 caracteres' })
   @required({ message: 'Campo requerido.' })
 	public set celular(value: string) {
 		this._celular = value;

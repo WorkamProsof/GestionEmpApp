@@ -13,7 +13,7 @@ export class FiltroListaPipe implements PipeTransform {
 
 		buscar = buscar.toLowerCase();
 
-		return array.filter(item => item[column].toLowerCase().includes(buscar));
+		return array.filter(item => (item[column] || '').toLowerCase().includes(buscar));
 	}
 
 

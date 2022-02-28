@@ -1,5 +1,7 @@
 {
   "name": "GestionEmpresarialApp",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

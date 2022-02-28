@@ -23,7 +23,7 @@ export class InformacionCorreo extends PeticionService {
 		this._principal = value;
 	}
 
-  @maxLength({ value: 30, message: 'Maximo 30 caracteres' })
+  @maxLength({ value: 50, message: 'Maximo 50 caracteres' })
   @required({ message: 'Campo requerido.' })
 	public set correo(value: string) {
     this._correo = value;

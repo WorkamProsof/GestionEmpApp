@@ -18,7 +18,7 @@ export class InformacionAcademica extends PeticionService {
 		super();
 	}
 
-	@maxLength({ value: 30, message: 'Maximo 30 caracteres' })
+	@maxLength({ value: 200, message: 'Maximo 30 caracteres' })
 	public set ultimocursado(value: string) {
 		this._ultimocursado = value;
 	}
@@ -42,7 +42,7 @@ export class InformacionAcademica extends PeticionService {
 		return this._fecha_finalizacion;
 	}
 
-	@maxLength({ value: 120, message: 'Maximo 30 caracteres' })
+	@maxLength({ value: 200, message: 'Maximo 30 caracteres' })
 	public set institucion(value: string) {
 		this._institucion = value;
 	}
@@ -51,7 +51,7 @@ export class InformacionAcademica extends PeticionService {
 	}
 
 	@required({ message: 'Campo requerido.' })
-	@maxLength({ value: 120, message: 'Maximo 30 caracteres' })
+	@maxLength({ value: 200, message: 'Maximo 30 caracteres' })
 	public set titulo(value: string) {
 		this._titulo = value;
 	}

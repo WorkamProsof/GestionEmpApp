@@ -23,7 +23,7 @@ export class InformacionFamiliar extends PeticionService {
 	}
 
 	@required({ message: 'Campo requerido.' })
-	@maxLength({ value: 120, message: 'Maximo 120 caracteres' })
+	@maxLength({ value: 200, message: 'Maximo 200 caracteres' })
 	public get nombre(): string {
 		return this._nombre;
 	}
@@ -55,7 +55,7 @@ export class InformacionFamiliar extends PeticionService {
 		this._num_docu = value;
 	}
 
-	@maxLength({ value: 30, message: 'Maximo 30 caracteres' })
+	@maxLength({ value: 50, message: 'Maximo 50 caracteres' })
 	public get tel_fijo(): string {
 		return this._tel_fijo;
 	}
@@ -63,7 +63,7 @@ export class InformacionFamiliar extends PeticionService {
 		this._tel_fijo = value;
 	}
 
-	@maxLength({ value: 30, message: 'Maximo 30 caracteres' })
+	@maxLength({ value: 50, message: 'Maximo 50 caracteres' })
 	public get celular(): string {
 		return this._celular;
 	}
@@ -71,7 +71,7 @@ export class InformacionFamiliar extends PeticionService {
 		this._celular = value;
 	}
 
-	@maxLength({ value: 120, message: 'Maximo 30 caracteres' })
+	@maxLength({ value: 50, message: 'Maximo 50 caracteres' })
 	public get direccion(): string {
 		return this._direccion;
 	}

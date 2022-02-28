@@ -1,4 +1,4 @@
-<ion-item>
+<ion-item [disabled]="formulario.get(formControlSelect).disabled">
 	<ion-label position="stacked" color="dark">{{ title }}</ion-label>
 	<ionic-selectable #selectConjuntos placeholder="Elija una opción" [itemValueField]="valueField"
 		[(ngModel)]="valorCampo" [itemTextField]="textField" [items]="lista" searchPlaceholder="Buscar"

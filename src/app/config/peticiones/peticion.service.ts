@@ -103,6 +103,7 @@ export class PeticionService {
 		data = {
 			user: data.usuario,
 			password: data.password,
+      permisos: data.permisos,
 			userSeccion: 1
 		};
 		data = {
