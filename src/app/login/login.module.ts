@@ -1,17 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 import { IonicModule } from '@ionic/angular';
 import { LoginPageRoutingModule } from './login-routing.module';
 import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
 import { LoginPage } from './login.page';
+import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
 
-
-import { File } from '@awesome-cordova-plugins/file/ngx';
-import { FileOpener } from '@awesome-cordova-plugins/file-opener/ngx';
-import { FileTransfer   } from '@awesome-cordova-plugins/file-transfer/ngx';
-import { DocumentViewer } from '@awesome-cordova-plugins/document-viewer/ngx';
 @NgModule({
 	imports: [
 		CommonModule,
@@ -21,7 +16,7 @@ import { DocumentViewer } from '@awesome-cordova-plugins/document-viewer/ngx';
 		ReactiveFormsModule,
 		RxReactiveFormsModule,
 	],
-  providers: [File,FileOpener,FileTransfer,DocumentViewer],
+	providers: [InAppBrowser],
 	declarations: [LoginPage]
 })
 export class LoginPageModule { }

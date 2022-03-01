@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">GestionEmpresarialApp</string>
+    <string name="title_activity_main">GestionEmpresarialApp</string>
+    <string name="package_name">com.prosof.co</string>
+    <string name="custom_url_scheme">com.prosof.co</string>
+</resources>

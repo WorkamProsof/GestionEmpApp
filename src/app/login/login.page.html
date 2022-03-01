@@ -1,11 +1,12 @@
-<ion-content [fullscreen]="true">
+<ion-content>
+	<ion-button (click)="GenerarPDF()">Generar PDF</ion-button>
+	<ion-button (click)="OpenPDF()">Abrir PDF</ion-button>
+	<ion-button (click)="download()">Download PDF 2</ion-button>
+</ion-content>
 
-
+<!-- <ion-content [fullscreen]="true">
 	<div [style]="obtenerFondo()">
 		<div class="content">
-      <ion-button (click)="GenerarPDF()">Generar PDF</ion-button>
-      <ion-button *ngIf="pdfObj" (click)="OpenPDF()">Abrir PDF</ion-button>
-      <!-- <ion-button (click)="download()">Download PDF 2</ion-button> -->
 
 			<form [formGroup]="formLogin.formulario" *ngIf="ingresoDocumento">
 				<ion-item class="ion-margin-top" lines="none">
@@ -69,4 +70,4 @@
 			</form>
 		</div>
 	</div>
-</ion-content>
+</ion-content> -->
