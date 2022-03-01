@@ -37,6 +37,8 @@ export class CertificadosPage implements OnInit {
 	foto: string = FuncionesGenerales.urlGestion();
 	base64 = '';
 
+  tipoactividades :any =  [{nombre:'cesar'},{nombre:'juan'}]
+
 
 	constructor(
     private transfer: FileTransfer,
