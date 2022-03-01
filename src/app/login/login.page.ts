@@ -9,44 +9,9 @@ import { StorageService } from '../servicios/storage.service';
 import { ThemeService } from '../servicios/theme.service';
 import { RxFormGroup } from '@rxweb/reactive-form-validators';
 import { timer } from 'rxjs';
-import { Constantes } from '../config/constantes/constantes';
-
-import { File } from '@awesome-cordova-plugins/file/ngx';
-import { FileOpener } from '@awesome-cordova-plugins/file-opener/ngx';
-import { FileTransfer, FileUploadOptions, FileTransferObject  } from '@awesome-cordova-plugins/file-transfer/ngx';
-import { DocumentViewer } from '@awesome-cordova-plugins/document-viewer/ngx';
-
-import * as pdfMake from "pdfmake/build/pdfmake";
-import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
 import { Platform } from '@ionic/angular';
 
-export interface DocumentViewerOptions {
-  title?: string;
-  documentView?: {
-    closeLabel: string;
-  };
-  navigationView?: {
-    closeLabel: string;
-  };
-  email?: {
-    enabled: boolean;
-  };
-  print?: {
-    enabled: boolean;
-  };
-  openWith?: {
-    enabled: boolean;
-  };
-  bookmarks?: {
-    enabled: boolean;
-  };
-  search?: {
-    enabled: boolean;
-  };
-  autoClose?: {
-    onPause: boolean;
-  };
-}
 
 @Component({
   selector: 'app-login',
@@ -74,12 +39,8 @@ export class LoginPage implements OnInit {
     private loginService: LoginService,
     private storageService: StorageService,
     private cargadorService: CargadorService,
-
-    private transfer: FileTransfer,
-		private fileOpener: FileOpener,
-		private file: File,
-    private platform :Platform,
-    private document: DocumentViewer
+    private platform: Platform,
+    private iab: InAppBrowser
   ) { }
 
   ngOnInit() {
@@ -187,114 +148,78 @@ export class LoginPage implements OnInit {
 
   GenerarPDF() {
 
-		var dd = {
-			content: [
-				{
-					text: 'This is a header, using header style',
-					style: 'header'
-				},
-				'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Confectum ponit legam, perferendis nomine miserum, animi. Moveat nesciunt triari naturam.\n\n',
-				{
-					text: 'Subheader 1 - using subheader style',
-					style: 'subheader'
-				},
-				'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Confectum ponit legam, perferendis nomine miserum, animi. Moveat nesciunt triari naturam posset, eveniunt specie deorsus efficiat sermone instituendarum fuisse veniat, eademque mutat debeo. Delectet plerique protervi diogenem dixerit logikh levius probabo adipiscuntur afficitur, factis magistra inprobitatem aliquo andriam obiecta, religionis, imitarentur studiis quam, clamat intereant vulgo admonitionem operis iudex stabilitas vacillare scriptum nixam, reperiri inveniri maestitiam istius eaque dissentias idcirco gravis, refert suscipiet recte sapiens oportet ipsam terentianus, perpauca sedatio aliena video.',
-				{
-					text: 'Subheader 2 - using subheader style',
-					style: 'subheader'
-				},
-				'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Confectum ponit legam, perferendis nomine miserum, animi. Moveat nesciunt triari naturam posset, eveniunt specie deorsus efficiat sermone instituendarum fuisse veniat, eademque mutat debeo. Delectet plerique protervi diogenem dixerit logikh levius probabo adipiscuntur afficitur, factis magistra inprobitatem aliquo andriam obiecta, religionis, imitarentur studiis quam, clamat intereant vulgo admonitionem operis iudex stabilitas vacillare scriptum nixam, reperiri inveniri maestitiam istius eaque dissentias idcirco gravis, refert suscipiet recte sapiens oportet ipsam terentianus, perpauca sedatio aliena video.',
-				{
-					text: 'It is possible to apply multiple styles, by passing an array. This paragraph uses two styles: quote and small. When multiple styles are provided, they are evaluated in the specified order which is important in case they define the same properties',
-					style: ['quote', 'small']
-				},
-			],
-			styles: {
-				header: {
-					fontSize: 18,
-					bold: true
-				},
-				subheader: {
-					fontSize: 15,
-          justifi:true,
-					bold: true
-				},
-				quote: {
-					italics: true
-				},
-				small: {
-					fontSize: 8
-				}
-			}
+    /* var dd = {
+      content: [
+        {
+          text: 'This is a header, using header style',
+          style: 'header'
+        },
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Confectum ponit legam, perferendis nomine miserum, animi. Moveat nesciunt triari naturam.\n\n',
+        {
+          text: 'Subheader 1 - using subheader style',
+          style: 'subheader'
+        },
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Confectum ponit legam, perferendis nomine miserum, animi. Moveat nesciunt triari naturam posset, eveniunt specie deorsus efficiat sermone instituendarum fuisse veniat, eademque mutat debeo. Delectet plerique protervi diogenem dixerit logikh levius probabo adipiscuntur afficitur, factis magistra inprobitatem aliquo andriam obiecta, religionis, imitarentur studiis quam, clamat intereant vulgo admonitionem operis iudex stabilitas vacillare scriptum nixam, reperiri inveniri maestitiam istius eaque dissentias idcirco gravis, refert suscipiet recte sapiens oportet ipsam terentianus, perpauca sedatio aliena video.',
+        {
+          text: 'Subheader 2 - using subheader style',
+          style: 'subheader'
+        },
+        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Confectum ponit legam, perferendis nomine miserum, animi. Moveat nesciunt triari naturam posset, eveniunt specie deorsus efficiat sermone instituendarum fuisse veniat, eademque mutat debeo. Delectet plerique protervi diogenem dixerit logikh levius probabo adipiscuntur afficitur, factis magistra inprobitatem aliquo andriam obiecta, religionis, imitarentur studiis quam, clamat intereant vulgo admonitionem operis iudex stabilitas vacillare scriptum nixam, reperiri inveniri maestitiam istius eaque dissentias idcirco gravis, refert suscipiet recte sapiens oportet ipsam terentianus, perpauca sedatio aliena video.',
+        {
+          text: 'It is possible to apply multiple styles, by passing an array. This paragraph uses two styles: quote and small. When multiple styles are provided, they are evaluated in the specified order which is important in case they define the same properties',
+          style: ['quote', 'small']
+        },
+      ],
+      styles: {
+        header: {
+          fontSize: 18,
+          bold: true
+        },
+        subheader: {
+          fontSize: 15,
+          justifi: true,
+          bold: true
+        },
+        quote: {
+          italics: true
+        },
+        small: {
+          fontSize: 8
+        }
+      }
 
-		}
-
-
+    } */
 
 
 
-		// this.pdfObj = pdfMake.createPdf(dd).open();
-		/* this.pdfObj.getBase64((data) => {
-			console.log('data:image/pdf;base64,' + data);
-			this.base64 = 'data:image/pdf;base64,' + data;
-		}); */
-		// this.pdfObj.download();
 
-    const options: DocumentViewerOptions = {
-      title: 'My PDF'
+
+    // this.pdfObj = pdfMake.createPdf(dd).open();
+    /* this.pdfObj.getBase64((data) => {
+      console.log('data:image/pdf;base64,' + data);
+      this.base64 = 'data:image/pdf;base64,' + data;
+    }); */
+    // this.pdfObj.download();
+  }
+
+  figureOutFile(file: string) {
+    if (this.platform.is('ios')) {
+      const baseUrl = location.href.replace('/index.html', '');
+      return baseUrl + `/assets/${file}`;
     }
-
-
-    let data = this.document.viewDocument('http://www.example.com/file.pdf', 'application/pdf', options);
-    console.log('data',data);
-
-	}
-
-	OpenPDF() {
-    if(this.platform.is('cordova')){
-      this.pdfObj.getBuffer((buffer)=>{
-        var blob = new Blob([buffer],{type:'application/pdf'});
-        this.file.writeFile(this.file.dataDirectory,'hola.pdf',blob,{replace:true}).then(fileEntry =>{
-          this.fileOpener.open(this.file.dataDirectory + 'hola.pdf','application/pdf');
-        });
-      });
-      return true;
+    if (this.platform.is('android')) {
+      return `file:///android_asset/www/assets/${file}`;
     }
-    // this.fileOpener.open('http://192.168.0.224:8016/dev/Gestion_Empresarial/uploads/111111111/AutoGestion/CIR_4585401_2022.pdf', 'application/pdf')
-    //   .then(() => {
-    //     console.log('File is opened')
-    //   })
+  }
 
-    //   .catch(e =>{
-    //     alert(e);
-    //     this.notificaciones.notificacion('Error opening file', e)
-    //     }
-    //   );
-
-    // this.fileOpener.
-
-    // this.fileOpener.showOpenWithDialog('http://192.168.0.224:8016/dev/Gestion_Empresarial/uploads/111111111/AutoGestion/CIR_4585401_2022.pdf', 'application/pdf')
-    // .then(() => console.log('File is opened'))
-    // .catch(e => console.log('Error opening file', e));
-
-		//const fileTransfer: FileTransferObject = this.transfer.create();
-		/* const url = 'http://192.168.0.224:8016/dev/Gestion_Empresarial/uploads/111111111/Terceros/TerceroFoto_2807__Cardona_Montoya_Norbey.jpg'
-		// const url = 'http://www.example.com/file.pdf';
-		fileTransfer.download(url, this.file.dataDirectory + 'file.pdf').then((entry) => {
-			console.log('download complete: ' + entry.toURL());
-		}, (error) => {
-			// handle error
-		}); */
-	}
+  OpenPDF() { }
 
   download() {
-    const fileTransfer: FileTransferObject = this.transfer.create();
-    const url = 'http://www.example.com/file.pdf';
-    fileTransfer.download(url, this.file.dataDirectory + 'file.pdf').then((entry) => {
-      console.log('download complete: ' + entry.toURL());
-    }, (error) => {
-      this.notificaciones.notificacion('Error opening file', error)
-    });
+    var target = "_system";
+    var options = "location=yes,hidden=no,enableViewportScale=yes,toolbar=no,hardwareback=yes";
+    const browser = this.iab.create('https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf', target, options);
+
+    browser.show();
   }
 
 }
