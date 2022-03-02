@@ -4,6 +4,7 @@ import { HomePage } from './home/home.page';
 import { RutasAutenticadoGuard } from './config/guards/rutas-autenticado.guard';
 import { RutasNoAutenticadoGuard } from './config/guards/rutas-no-autenticado.guard';
 
+
 const routes: Routes = [
 	{
 		path: 'login',

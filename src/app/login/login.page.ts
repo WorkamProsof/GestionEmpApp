@@ -9,9 +9,6 @@ import { StorageService } from '../servicios/storage.service';
 import { ThemeService } from '../servicios/theme.service';
 import { RxFormGroup } from '@rxweb/reactive-form-validators';
 import { timer } from 'rxjs';
-import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
-import { Platform } from '@ionic/angular';
-
 
 @Component({
   selector: 'app-login',
@@ -29,8 +26,6 @@ export class LoginPage implements OnInit {
 
   pdfObj: any;
 
-
-
   constructor(
     private sanitizer: DomSanitizer,
     private theme: ThemeService,
@@ -38,9 +33,7 @@ export class LoginPage implements OnInit {
     private notificaciones: NotificacionesService,
     private loginService: LoginService,
     private storageService: StorageService,
-    private cargadorService: CargadorService,
-    private platform: Platform,
-    private iab: InAppBrowser
+    private cargadorService: CargadorService
   ) { }
 
   ngOnInit() {
@@ -138,88 +131,4 @@ export class LoginPage implements OnInit {
       FuncionesGenerales.formularioTocado(this.formLogin.formulario);
     }
   }
-
-
-
-
-
-
-
-
-  GenerarPDF() {
-
-    /* var dd = {
-      content: [
-        {
-          text: 'This is a header, using header style',
-          style: 'header'
-        },
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Confectum ponit legam, perferendis nomine miserum, animi. Moveat nesciunt triari naturam.\n\n',
-        {
-          text: 'Subheader 1 - using subheader style',
-          style: 'subheader'
-        },
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Confectum ponit legam, perferendis nomine miserum, animi. Moveat nesciunt triari naturam posset, eveniunt specie deorsus efficiat sermone instituendarum fuisse veniat, eademque mutat debeo. Delectet plerique protervi diogenem dixerit logikh levius probabo adipiscuntur afficitur, factis magistra inprobitatem aliquo andriam obiecta, religionis, imitarentur studiis quam, clamat intereant vulgo admonitionem operis iudex stabilitas vacillare scriptum nixam, reperiri inveniri maestitiam istius eaque dissentias idcirco gravis, refert suscipiet recte sapiens oportet ipsam terentianus, perpauca sedatio aliena video.',
-        {
-          text: 'Subheader 2 - using subheader style',
-          style: 'subheader'
-        },
-        'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Confectum ponit legam, perferendis nomine miserum, animi. Moveat nesciunt triari naturam posset, eveniunt specie deorsus efficiat sermone instituendarum fuisse veniat, eademque mutat debeo. Delectet plerique protervi diogenem dixerit logikh levius probabo adipiscuntur afficitur, factis magistra inprobitatem aliquo andriam obiecta, religionis, imitarentur studiis quam, clamat intereant vulgo admonitionem operis iudex stabilitas vacillare scriptum nixam, reperiri inveniri maestitiam istius eaque dissentias idcirco gravis, refert suscipiet recte sapiens oportet ipsam terentianus, perpauca sedatio aliena video.',
-        {
-          text: 'It is possible to apply multiple styles, by passing an array. This paragraph uses two styles: quote and small. When multiple styles are provided, they are evaluated in the specified order which is important in case they define the same properties',
-          style: ['quote', 'small']
-        },
-      ],
-      styles: {
-        header: {
-          fontSize: 18,
-          bold: true
-        },
-        subheader: {
-          fontSize: 15,
-          justifi: true,
-          bold: true
-        },
-        quote: {
-          italics: true
-        },
-        small: {
-          fontSize: 8
-        }
-      }
-
-    } */
-
-
-
-
-
-    // this.pdfObj = pdfMake.createPdf(dd).open();
-    /* this.pdfObj.getBase64((data) => {
-      console.log('data:image/pdf;base64,' + data);
-      this.base64 = 'data:image/pdf;base64,' + data;
-    }); */
-    // this.pdfObj.download();
-  }
-
-  figureOutFile(file: string) {
-    if (this.platform.is('ios')) {
-      const baseUrl = location.href.replace('/index.html', '');
-      return baseUrl + `/assets/${file}`;
-    }
-    if (this.platform.is('android')) {
-      return `file:///android_asset/www/assets/${file}`;
-    }
-  }
-
-  OpenPDF() { }
-
-  download() {
-    var target = "_system";
-    var options = "location=yes,hidden=no,enableViewportScale=yes,toolbar=no,hardwareback=yes";
-    const browser = this.iab.create('https://vadimdez.github.io/ng2-pdf-viewer/assets/pdf-test.pdf', target, options);
-
-    browser.show();
-  }
-
 }

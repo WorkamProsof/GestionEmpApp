@@ -5,7 +5,6 @@ import { IonicModule } from '@ionic/angular';
 import { LoginPageRoutingModule } from './login-routing.module';
 import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
 import { LoginPage } from './login.page';
-import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
 
 @NgModule({
 	imports: [
@@ -16,7 +15,6 @@ import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
 		ReactiveFormsModule,
 		RxReactiveFormsModule,
 	],
-	providers: [InAppBrowser],
 	declarations: [LoginPage]
 })
 export class LoginPageModule { }

@@ -12,6 +12,10 @@ import { IonicStorageModule } from '@ionic/storage-angular';
 import { HttpClientModule } from '@angular/common/http';
 import { Drivers } from '@ionic/storage';
 import { IonicSelectableModule } from 'ionic-selectable';
+import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import { fas } from '@fortawesome/free-solid-svg-icons'
+import { far } from '@fortawesome/free-regular-svg-icons'
+import { fab } from '@fortawesome/free-brands-svg-icons'
 
 @NgModule({
 	declarations: [
@@ -24,6 +28,7 @@ import { IonicSelectableModule } from 'ionic-selectable';
 		, AppRoutingModule
 		, HttpClientModule
     , IonicSelectableModule
+    , FontAwesomeModule
 		, IonicStorageModule.forRoot({
 			driverOrder: [Drivers.IndexedDB, Drivers.LocalStorage],
 			name: '__GestionEmpresarialDB',
@@ -37,7 +42,8 @@ import { IonicSelectableModule } from 'ionic-selectable';
 	bootstrap: [AppComponent],
 })
 export class AppModule {
-	constructor(private injector: Injector) {
+	constructor(private injector: Injector,library: FaIconLibrary) {
+    library.addIconPacks(fas, fab, far);
 		if (!CustomInjectorService.injector) {
 			CustomInjectorService.injector = this.injector;
 		}

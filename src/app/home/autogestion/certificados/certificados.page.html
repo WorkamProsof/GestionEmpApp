@@ -1,45 +1,87 @@
-<app-header titulo="Certificados"></app-header>
+<app-header titulo="Certificados Laborales"></app-header>
 
-<ion-content>
-	<ion-list lines="full" class="ion-no-padding">
-		<ion-item-sliding *ngFor="let item of tipoactividades | filtro: 'nombre': buscarLista; let i = index;"
-			[id]="'slidingInvitados' + i">
-			<ion-item>
-				<ion-label class="ion-no-margin">
-					<h5>{{ item['nombre'] }}</h5>
-					<!-- <p color="primary">{{ item['accion'] }}</p> -->
-					<ion-text class="ion-text-left" color="primary">
-					<p>{{ item['nombreaccion'] }}</p>
-					</ion-text>
-				</ion-label>
-				<!-- <ion-text class="ion-text-center" color="primary">
-					<p>{{ item['accion'] }}</p>
-				</ion-text> -->
-			</ion-item>
+<ion-content class="ion-padding-top" [ngSwitch]="segmento">
+  <ion-searchbar *ngIf="segmento=='historicoFamilia'" (ionChange)="buscarFiltro('buscarListaHistorico', $event)"
+  clearIcon="close-sharp" placeholder="Buscar mes" [debounce]="250"></ion-searchbar>
+  <div *ngSwitchCase="'historicoFamilia'">
+    <ion-refresher *ngSwitchCase="'historicoFamilia'" slot="fixed"
+      (ionRefresh)="obtenerDatosEmpleado($event)">
+      <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
+    <ion-accordion-group value="EX">
+
+      <ion-accordion value="EX" toggle-icon="arrow-down-circle">
+        <ion-item class="b-item" slot="header">
+          <ion-label>Extractos</ion-label>
+        </ion-item>
+
+        <ion-list lines="full" slot="content" class="ion-no-padding">
+            <ion-item-sliding (click)="sliding('slidingExtractos' + i)"
+              *ngFor="let item of qExtractos  | filtro: 'mes': buscarListaHistorico; let i = index;"
+              [id]="'slidingExtractos' + i">
+              <ion-item>
+                <ion-label>
+                  <h2>{{ item['anio'] }} - {{ item['mes'] }}</h2>
+                  <p> {{ item['Tipo'] }}</p>
+                </ion-label>
+                <ion-text class="ion-text-center" color="primary">
+                  <h6>Quincena</h6>
+                  <ion-badge color="warning">
+                    {{ item['quincena'] }}
+                  </ion-badge>
+                </ion-text>
+              </ion-item>
+              <ion-item-options side="end">
+                <ion-item-option slot="end" color="danger" (click)="download(item['ruta'])">
+                  <fa-icon slot="icon-only" icon="file-pdf"></fa-icon>
+                </ion-item-option>
+              </ion-item-options>
+            </ion-item-sliding>
+          <div class="ion-padding ion-text-center nohayresultado" *ngIf="!qExtractos.length && !searching">
+            No tiene adjuntos.
+          </div>
+        </ion-list>
+      </ion-accordion>
+
+      <ion-accordion value="CI" toggle-icon="arrow-down-circle">
+        <ion-item class="b-item" slot="header">
+          <ion-label>Certificados</ion-label>
+        </ion-item>
+
+        <ion-list slot="content" class="ion-no-padding">
+          <ion-item-sliding (click)="sliding('slidingCIR' + i)"
+            *ngFor="let item of qCIR; let i = index;"
+            [id]="'slidingCIR' + i">
+            <ion-item>
+              <ion-label>
+                <h2>{{ item['Tipo'] }}</h2>
+                <p> {{ item['filename'] }}</p>
+              </ion-label>
+              <ion-text class="ion-text-center" color="primary">
+                <h6>{{ item['anio'] }}</h6>
+              </ion-text>
+            </ion-item>
+            <ion-item-options side="end">
+              <ion-item-option slot="end" color="danger" (click)="download(item['ruta'])">
+                <fa-icon slot="icon-only" icon="file-pdf"></fa-icon>
+              </ion-item-option>
+            </ion-item-options>
+          </ion-item-sliding>
+        </ion-list>
+        <div class="ion-padding ion-text-center nohayresultado" *ngIf="!qCIR.length && !searching">
+          No tiene adjuntos.
+        </div>
 
 
-			<ion-item-options side="end">
+      </ion-accordion>
 
-				<ion-item-option slot="end"  color="warning">
-					<ion-icon slot="icon-only" name="pause"></ion-icon>
-				</ion-item-option>
+    </ion-accordion-group>
+  </div>
+  <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+		<ion-fab-button [disabled]="searching" color="secondary" (click)="filtros()">
+			<ion-icon name="funnel"></ion-icon>
+		</ion-fab-button>
+	</ion-fab>
 
-				<ion-item-option slot="end"  color="success" >
-					<ion-icon slot="icon-only" name="play"></ion-icon>
-				</ion-item-option>
-
-				<ion-item-option slot="end" color="success"
-				 >
-					<ion-icon slot="icon-only" name="play"></ion-icon>
-				</ion-item-option>
-
-				<ion-item-option slot="end" color="danger" *ngIf="item['accion'] == 'continuar' || item['accion'] == 'iniciar'"
-					>
-					<ion-icon slot="icon-only" name="square"></ion-icon>
-				</ion-item-option>
-
-			</ion-item-options>
-		</ion-item-sliding>
-
-	</ion-list>
 </ion-content>
+

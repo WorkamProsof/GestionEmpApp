@@ -7,6 +7,9 @@ import { CertificadosPage } from './certificados.page';
 import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
 import { ComponentesModule } from '../../../componentes/componentes.module';
 import { PipesModule } from '../../../pipes/pipes.module';
+import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { FiltrosCertificadosComponent } from './filtros-certificados/filtros-certificados/filtros-certificados.component';
 
 @NgModule({
 	imports: [
@@ -17,8 +20,10 @@ import { PipesModule } from '../../../pipes/pipes.module';
 		ReactiveFormsModule,
 		RxReactiveFormsModule,
 		ComponentesModule,
+    FontAwesomeModule,
 		PipesModule
 	],
-	declarations: [CertificadosPage]
+  providers: [InAppBrowser],
+	declarations: [CertificadosPage,FiltrosCertificadosComponent]
 })
 export class CertificadosPageModule { }

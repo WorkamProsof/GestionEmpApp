@@ -19,7 +19,8 @@ export class PeticionService {
 	private storageService: StorageService;
 	private notificacionesService: NotificacionesService;
 	private httpClient: HttpClient;
-	public url: string = environment.urlBack;
+	public url       : string = environment.urlBack;
+  public urlGestion: string = environment.urlGestion;
 	public categoria: string = '';
 
 	constructor() {
@@ -74,9 +75,10 @@ export class PeticionService {
 			Token: usuario.IngresoId,
 			Conexion,
 			NIT,
-			Usuario: usuario.usuarioId,
-			Num_docu: usuario.num_docu,
-			Tercero_id: usuario.tercero_id
+			Usuario    : usuario.usuarioId,
+			Num_docu   : usuario.num_docu,
+			Tercero_id : usuario.tercero_id,
+      urlGestion : this.urlGestion
 		});
 		return await this.ejecutarPeticion('post', uri, data, headers).toPromise().then(async resp => {
 			const desencriptado = await this.desencriptar(resp);

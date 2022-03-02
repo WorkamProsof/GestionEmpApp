@@ -65,6 +65,7 @@ ion-button {
 .modal-color {
 	.alert-title,
 	.alert-radio-label,
+  .alert-checkbox-label,
 	.alert-button {
 		color: var(--ion-color-dark) !important;
 	}
@@ -72,7 +73,7 @@ ion-button {
 		text-align: center;
 	}
 	.alert-wrapper {
-		background-color: var(--ion-background-color) !important;
+		// background-color: var(--ion-background-color) !important;
 	}
 }
 
