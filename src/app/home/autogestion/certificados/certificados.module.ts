@@ -10,6 +10,8 @@ import { PipesModule } from '../../../pipes/pipes.module';
 import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FiltrosCertificadosComponent } from './filtros-certificados/filtros-certificados/filtros-certificados.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { VerPdfComponent } from './ver-pdf/ver-pdf.component';
 
 @NgModule({
 	imports: [
@@ -20,10 +22,11 @@ import { FiltrosCertificadosComponent } from './filtros-certificados/filtros-cer
 		ReactiveFormsModule,
 		RxReactiveFormsModule,
 		ComponentesModule,
-    FontAwesomeModule,
-		PipesModule
+		FontAwesomeModule,
+		PipesModule,
+		PdfViewerModule
 	],
-  providers: [InAppBrowser],
-	declarations: [CertificadosPage,FiltrosCertificadosComponent]
+	providers: [InAppBrowser],
+	declarations: [CertificadosPage, FiltrosCertificadosComponent, VerPdfComponent]
 })
 export class CertificadosPageModule { }

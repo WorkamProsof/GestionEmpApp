@@ -2,10 +2,9 @@
 
 <ion-content class="ion-padding-top" [ngSwitch]="segmento">
   <ion-searchbar *ngIf="segmento=='historicoFamilia'" (ionChange)="buscarFiltro('buscarListaHistorico', $event)"
-  clearIcon="close-sharp" placeholder="Buscar mes" [debounce]="250"></ion-searchbar>
+    clearIcon="close-sharp" placeholder="Buscar mes" [debounce]="250"></ion-searchbar>
   <div *ngSwitchCase="'historicoFamilia'">
-    <ion-refresher *ngSwitchCase="'historicoFamilia'" slot="fixed"
-      (ionRefresh)="obtenerDatosEmpleado($event)">
+    <ion-refresher *ngSwitchCase="'historicoFamilia'" slot="fixed" (ionRefresh)="obtenerDatosEmpleado($event)">
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
     <ion-accordion-group value="EX">
@@ -16,27 +15,27 @@
         </ion-item>
 
         <ion-list lines="full" slot="content" class="ion-no-padding">
-            <ion-item-sliding (click)="sliding('slidingExtractos' + i)"
-              *ngFor="let item of qExtractos  | filtro: 'mes': buscarListaHistorico; let i = index;"
-              [id]="'slidingExtractos' + i">
-              <ion-item>
-                <ion-label>
-                  <h2>{{ item['anio'] }} - {{ item['mes'] }}</h2>
-                  <p> {{ item['Tipo'] }}</p>
-                </ion-label>
-                <ion-text class="ion-text-center" color="primary">
-                  <h6>Quincena</h6>
-                  <ion-badge color="warning">
-                    {{ item['quincena'] }}
-                  </ion-badge>
-                </ion-text>
-              </ion-item>
-              <ion-item-options side="end">
-                <ion-item-option slot="end" color="danger" (click)="download(item['ruta'])">
-                  <fa-icon slot="icon-only" icon="file-pdf"></fa-icon>
-                </ion-item-option>
-              </ion-item-options>
-            </ion-item-sliding>
+          <ion-item-sliding (click)="sliding('slidingExtractos' + i)"
+            *ngFor="let item of qExtractos  | filtro: 'mes': buscarListaHistorico; let i = index;"
+            [id]="'slidingExtractos' + i">
+            <ion-item>
+              <ion-label>
+                <h2>{{ item['anio'] }} - {{ item['mes'] }}</h2>
+                <p> {{ item['Tipo'] }}</p>
+              </ion-label>
+              <ion-text class="ion-text-center" color="primary">
+                <h6>Quincena</h6>
+                <ion-badge color="warning">
+                  {{ item['quincena'] }}
+                </ion-badge>
+              </ion-text>
+            </ion-item>
+            <ion-item-options side="end">
+              <ion-item-option slot="end" color="danger" (click)="download(item['ruta'])">
+                <fa-icon slot="icon-only" icon="file-pdf"></fa-icon>
+              </ion-item-option>
+            </ion-item-options>
+          </ion-item-sliding>
           <div class="ion-padding ion-text-center nohayresultado" *ngIf="!qExtractos.length && !searching">
             No tiene adjuntos.
           </div>
@@ -49,8 +48,7 @@
         </ion-item>
 
         <ion-list slot="content" class="ion-no-padding">
-          <ion-item-sliding (click)="sliding('slidingCIR' + i)"
-            *ngFor="let item of qCIR; let i = index;"
+          <ion-item-sliding (click)="sliding('slidingCIR' + i)" *ngFor="let item of qCIR; let i = index;"
             [id]="'slidingCIR' + i">
             <ion-item>
               <ion-label>
@@ -78,10 +76,9 @@
     </ion-accordion-group>
   </div>
   <ion-fab horizontal="end" vertical="bottom" slot="fixed">
-		<ion-fab-button [disabled]="searching" color="secondary" (click)="filtros()">
-			<ion-icon name="funnel"></ion-icon>
-		</ion-fab-button>
-	</ion-fab>
+    <ion-fab-button [disabled]="searching" color="secondary" (click)="filtros()">
+      <ion-icon name="funnel"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 
 </ion-content>
-

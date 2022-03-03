@@ -1,0 +1,17 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="ligth">
+    <ion-title color="dark" class="ion-text-center">Filtros</ion-title>
+    <ion-buttons slot="end" (click)="cerrarModal()">
+      <ion-icon color="dark" slot='icon-only' size='large' name='close-outline'>
+      </ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+{{ url }}
+
+<ion-content>
+  <pdf-viewer [src]="url" [show-borders]="true" [zoom]="" [render-text]="true"
+    [original-size]="false" style="    width: 95vw;height: 90vh;">
+  </pdf-viewer>
+</ion-content>
