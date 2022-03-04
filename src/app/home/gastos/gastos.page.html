@@ -1,13 +1,16 @@
-<ion-header>
+<app-header  [titulo]="'Gastos'"></app-header>
+
+<!-- <ion-header>
 	<ion-toolbar class="toolbarPrincipal">
 		<ion-buttons slot="start">
 			<ion-menu-button></ion-menu-button>
 		</ion-buttons>
 		<ion-title>Gastos</ion-title>
 	</ion-toolbar>
+</ion-header> -->
 
-	<ion-progress-bar type="indeterminate" [hidden]=cargando></ion-progress-bar>
-</ion-header>
+<ion-progress-bar type="indeterminate" [hidden]=cargando></ion-progress-bar>
+
 
 <ion-content>
 	<ion-refresher class="refresh" slot="fixed" pullFactor="0.5" pullMin="35" pullMax="150" (ionRefresh)="doRefresh($event)">

@@ -1,11 +1,9 @@
-
-
 <ion-header>
 	<ion-toolbar>
 		<ion-buttons slot="start">
 			<ion-back-button defaultHref="" (click)="dismissModal()"></ion-back-button>
 		</ion-buttons>
-    <ion-title>Solicitud</ion-title>
+		<ion-title>Solicitud</ion-title>
 	</ion-toolbar>
 </ion-header>
 
@@ -40,7 +38,8 @@
 	<ion-list>
 		<ion-item *ngFor="let value of solicitud.dataTG">
 			<ion-label>
-				<h4><b style="font-size: 12px;">{{value.TipoGasto}}</b> <span class="listFecha" style="float: right;font-size: 12px;">${{value.ValorAprobado}}</span></h4>
+				<h4><b style="font-size: 12px;">{{value.TipoGasto}}</b> <span class="listFecha"
+						style="float: right;font-size: 12px;">${{value.ValorAprobado}}</span></h4>
 				<ion-card-subtitle>{{value.Observacion}}</ion-card-subtitle>
 			</ion-label>
 		</ion-item>
@@ -67,7 +66,8 @@
 	<ion-list>
 		<ion-item *ngFor="let value of solicitud.dataDetalle">
 			<ion-label (click)="itemDetalle(value)">
-				<h4><b style="font-size: 12px;">{{value.TipoGasto}}</b> <span class="listFecha" style="float: right;font-size: 12px;">${{value.Valor}}</span></h4>
+				<h4><b style="font-size: 12px;">{{value.TipoGasto}}</b> <span class="listFecha"
+						style="float: right;font-size: 12px;">${{value.Valor}}</span></h4>
 				<ion-card-subtitle>{{value.Fecha}}</ion-card-subtitle>
 				<!-- Id -->
 			</ion-label>
