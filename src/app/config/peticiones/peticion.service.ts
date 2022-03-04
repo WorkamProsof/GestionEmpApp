@@ -103,7 +103,7 @@ export class PeticionService {
 
 	async iniciarSesionUser(data) {
 		data = {
-			user: data.usuario,
+			user: data.num_docu,
 			password: data.password,
       permisos: data.permisos,
 			userSeccion: 1

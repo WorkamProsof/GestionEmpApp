@@ -64,7 +64,6 @@ export class CertificadosPage implements OnInit {
 		this.datosUsuario = await this.loginService.desencriptar(
 			JSON.parse(await this.storage.get('usuario').then(resp => resp))
 		);
-		console.log('datosUsuario', this.foto + this.datosUsuario['foto']);
 	}
 
 	ionViewDidEnter() {
@@ -92,9 +91,6 @@ export class CertificadosPage implements OnInit {
 				this.qCIR = qCertificados.CIR;
 				this.qExtractos = qCertificados.Extracto;
 				this.terceroId = datos.id_tercero;
-				console.log('datos', datos);
-				console.log('this.qCIR', this.qCIR);
-				console.log('this.qExtractos', this.qExtractos);
 			}
 			this.searching = false;
 			if (event) {
@@ -104,10 +100,6 @@ export class CertificadosPage implements OnInit {
 	}
 
 	async download(url) {
-		console.log(url);
-		/* let target = "_self"; // _system _self _blank
-		const browser = this.iab.create(url, target, this.options);
-		browser.show(); */
 		const modal = await this.modalController.create({
 			component: VerPdfComponent,
 			backdropDismiss: true,
@@ -132,7 +124,6 @@ export class CertificadosPage implements OnInit {
 		modal.onWillDismiss().then(({ data }) => {
 			if (data) {
 				if (data.limpiar) {
-					console.log('data.limpiar', data);
 					this.fechaActual();
 				} else {
 					this.formFiltro['meses'] = data.meses;
@@ -168,15 +159,9 @@ export class CertificadosPage implements OnInit {
 		});
 	}
 
-	obtenerArchivo(base) {
-
-		//Browser.open({ url: 'data:application/pdf; base64, ' + base });
-
-		Browser.open({ url: 'https://prosof.co:8011/dev/Gestion_Empresarial/uploads/111111111/AutoGestion/CIR_4585401_2022.pdf' });
-
-		/* let target = "_self"; // _system _self _blank
-		const browser = this.iab.create('data:application/pdf; base64, ' + base, target, this.options);
-		browser.show(); */
+	obtenerArchivo(url) {
+		url = 'data:application/pdf; base64, ' + url;
+		Browser.open({ url });
 	}
 }
 

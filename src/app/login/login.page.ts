@@ -111,8 +111,9 @@ export class LoginPage implements OnInit {
       this.cargadorService.presentar().then(resp => {
         let permisos = FuncionesGenerales.permisos();
         let data = { ...this.formLogin.formulario.value, permisos };
+        console.log('data',data);
         this.loginService.iniciarSesionUser(data).then(async respuesta => {
-          console.log(respuesta);
+          console.log('resp',respuesta.valido);
           if (respuesta && respuesta.valido) {
             this.storageService.set('usuario', respuesta.usuario);
             this.router.navigateByUrl('/modulos/inicio');

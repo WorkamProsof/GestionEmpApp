@@ -24,11 +24,11 @@
 				[class]="'animate__animated animate__faster ' + claseUsuario">
 				<ion-item class="ion-margin-top" lines="full">
 					<ion-icon class="ion-margin-end" name="person-outline"></ion-icon>
-					<ion-input formControlName="usuario" type="text" placeholder="Usuario"></ion-input>
+					<ion-input formControlName="num_docu" type="text" placeholder="N°. Documento"></ion-input>
 				</ion-item>
 				<ion-text class="animate__animated animate__bounceIn animate__faster validadores"
-					*ngIf="formLogin.formulario.get('usuario').touched && formLogin.formulario.get('usuario').invalid">
-					{{ formLogin.formulario.get('usuario')['errorMessage'] }}
+					*ngIf="formLogin.formulario.get('num_docu').touched && formLogin.formulario.get('num_docu').invalid">
+					{{ formLogin.formulario.get('num_docu')['errorMessage'] }}
 				</ion-text>
 				<ion-item class="ion-margin-top" lines="none">
 					<ion-icon class="ion-margin-end" slot="start" name="lock-closed-outline"></ion-icon>
@@ -46,7 +46,7 @@
 						<ion-col size="6" size-xs='12' size-lg='6' size-md='6'
 							class="ion-align-self-center ion-text-center">
 							<ion-button
-								[disabled]="formLogin.formulario.get('usuario').invalid || formLogin.formulario.get('password').invalid"
+								[disabled]="formLogin.formulario.get('num_docu').invalid || formLogin.formulario.get('password').invalid"
 								type="submit" class="ion-no-margin">
 								Iniciar sesión
 								<ion-icon slot="start" name="log-in-outline"></ion-icon>

@@ -9,12 +9,11 @@ import { ModalController } from '@ionic/angular';
 export class VerPdfComponent implements OnInit {
 
 	@Input() url: string;
+	valorZoom: number = 1;
 
 	constructor(private modalController: ModalController) { }
 
-	ngOnInit() {
-		console.log('data:application/pdf; base64, ' + this.url);
-	}
+	ngOnInit() { }
 
 	cerrarModal(datos?) {
 		this.modalController.dismiss(datos);

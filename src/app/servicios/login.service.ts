@@ -8,7 +8,7 @@ import { PeticionService } from '../config/peticiones/peticion.service';
 export class LoginService extends PeticionService {
 
 	private _nit: string;
-	private _usuario: string;
+	private _num_docu: string;
 	private _password: string;
 
 	constructor() {
@@ -24,12 +24,12 @@ export class LoginService extends PeticionService {
 		this._nit = value;
 	}
 
-	@required({ message: 'Ingreso nombre de usuario.' })
-	public get usuario(): string {
-		return this._usuario;
+	@required({ message: 'Ingreso n° documento.' })
+	public get num_docu(): string {
+		return this._num_docu;
 	}
-	public set usuario(value: string) {
-		this._usuario = value;
+	public set num_docu(value: string) {
+		this._num_docu = value;
 	}
 
 	@required({ message: 'Ingrese la contraseña.' })

@@ -81,3 +81,16 @@ ion-button {
 	color: var(--ion-color-dark);
 	background: var(--toolbar-menu);
 }
+
+pdf-viewer {
+	.ng2-pdf-viewer-container {
+		.pdfViewer {
+			.page {
+				margin-top: 20px;
+			}
+			.page:nth-child(1) {
+				margin-top: 0px;
+			}
+		}
+	}
+}
