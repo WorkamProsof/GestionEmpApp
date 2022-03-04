@@ -10,7 +10,6 @@ import { DatosbasicosService } from 'src/app/servicios/datosbasicos.service';
 import { ModalController } from '@ionic/angular';
 import { FiltrosCertificadosComponent } from './filtros-certificados/filtros-certificados/filtros-certificados.component';
 import { VerPdfComponent } from './ver-pdf/ver-pdf.component';
-import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
 import { Browser } from '@capacitor/browser';
 
 @Component({
@@ -41,8 +40,7 @@ export class CertificadosPage implements OnInit {
 		private storage: StorageService,
 		private menu: CambioMenuService,
 		private datosBasicosService: DatosbasicosService,
-		private modalController: ModalController,
-		private iab: InAppBrowser
+		private modalController: ModalController
 	) { }
 
 	ngOnInit() { }
@@ -88,7 +86,7 @@ export class CertificadosPage implements OnInit {
 			qCertificados,
 		}) => {
 			if (datos) {
-				this.qCIR = qCertificados.CIR;
+				//this.qCIR = qCertificados.CIR;
 				this.qExtractos = qCertificados.Extracto;
 				this.terceroId = datos.id_tercero;
 			}

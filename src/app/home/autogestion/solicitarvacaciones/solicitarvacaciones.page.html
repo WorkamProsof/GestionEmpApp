@@ -2,11 +2,16 @@
 <ion-progress-bar *ngIf="searching" type="indeterminate"></ion-progress-bar>
 
 <ion-content class="ion-padding-top">
+
+	<ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+		<ion-refresher-content></ion-refresher-content>
+	</ion-refresher>
+
 	<ion-accordion-group value="SV">
 
 		<ion-accordion value="SV" toggle-icon="arrow-down-circle">
 			<ion-item class="b-item" slot="header">
-				<ion-label>Periodos vacacionales pendientes  </ion-label>
+				<ion-label>Periodos vacacionales pendientes </ion-label>
 			</ion-item>
 
 			<ion-list slot="content">
@@ -41,25 +46,23 @@
 										<span>{{ item['DiaCompensado'] }}</span>
 									</div>
 
-                  <div class="item d-flex justify-content-between">
+									<div class="item d-flex justify-content-between">
 										<span><b>Estado solicitud</b></span>
-                      <ion-label class="ion-text-wrap">
-                        <ion-text [color]="item['ColorEstado']">
-                          <span><b>{{ item['Estado'] }}</b></span>
-                        </ion-text>
-                      </ion-label>
+										<ion-label class="ion-text-wrap">
+											<ion-text [color]="item['ColorEstado']">
+												<span><b>{{ item['Estado'] }}</b></span>
+											</ion-text>
+										</ion-label>
 									</div>
 
 								</ion-label>
 							</ion-item>
 						</ion-list>
-						<div class="ion-padding ion-text-center nohayresultado" *ngIf="!qPendientes.length && !searching">
+						<div class="ion-padding ion-text-center nohayresultado"
+							*ngIf="!qPendientes.length && !searching">
 							No tiene solicitud en el historico.
 						</div>
 					</div>
-					<ion-refresher *ngSwitchCase="'historicoFamilia'" slot="fixed" (ionRefresh)="refresh($event)">
-						<ion-refresher-content></ion-refresher-content>
-					</ion-refresher>
 
 					<div *ngSwitchCase="'pendientes'">
 						<ion-list lines="full" [formGroup]="datosSolicitud.formulario">
@@ -90,8 +93,7 @@
 									<ion-col size="12" size-xs='12' size-lg='12' size-md='12'
 										class="ion-align-self-center ion-text-center">
 										<ion-button [disabled]="datosSolicitud.formulario.invalid" type="submit"
-											class="ion-no-margin"
-											(click)="submitDataFamiliaContacto()">
+											class="ion-no-margin" (click)="submitDataFamiliaContacto()">
 											Registrar Solicitud
 											<ion-icon slot="start" name="save-outline"></ion-icon>
 										</ion-button>
@@ -106,21 +108,17 @@
 			</ion-list>
 		</ion-accordion>
 
-    <ion-accordion value="VD" toggle-icon="arrow-down-circle">
+		<ion-accordion value="VD" toggle-icon="arrow-down-circle">
 			<ion-item class="b-item" slot="header">
 				<ion-label>Periodos vacacionales disfrutados o pagados</ion-label>
 			</ion-item>
 
 			<ion-list slot="content">
-
-				<div class="informacion-familiar"  color="gray">
-					<ion-searchbar
-						(ionChange)="buscarFiltro('buscarDisfrutados', $event)" clearIcon="close-sharp"
+				<div class="informacion-familiar" color="gray">
+					<ion-searchbar (ionChange)="buscarFiltro('buscarDisfrutados', $event)" clearIcon="close-sharp"
 						placeholder="Buscar Nombre" [debounce]="250"></ion-searchbar>
 					<div>
-
 						<ion-list lines="full" class="ion-no-padding">
-
 							<ion-item *ngFor="let item of qAprobados | filtro: 'fechIni': buscarDisfrutados;"
 								class="ion-margin familiar" lines="none" [style]="item['Color']">
 
@@ -135,22 +133,22 @@
 										<span>{{ item['fechaFin'] }}</span>
 									</div>
 
-                  <div class="item d-flex justify-content-between">
+									<div class="item d-flex justify-content-between">
 										<span><b>Dias Aprobados</b></span>
 										<span>{{ item['dias'] }}</span>
 									</div>
 
-                  <div class="item d-flex justify-content-between">
+									<div class="item d-flex justify-content-between">
 										<span><b>Dias disfrutados</b></span>
 										<span>{{ item['disfrutado'] }}</span>
 									</div>
 
-                  <div class="item d-flex justify-content-between">
+									<div class="item d-flex justify-content-between">
 										<span><b>Valor</b></span>
 										<span>{{ item['Valor'] }}</span>
 									</div>
 
-                  <div class="item d-flex justify-content-between">
+									<div class="item d-flex justify-content-between">
 										<span><b>Fecha liquidación</b></span>
 										<span [style]="item['Color']">{{ item['FechaLiqui'] }}</span>
 									</div>
@@ -158,14 +156,11 @@
 								</ion-label>
 							</ion-item>
 						</ion-list>
-						<div class="ion-padding ion-text-center nohayresultado" *ngIf="!qPendientes.length && !searching">
+						<div class="ion-padding ion-text-center nohayresultado"
+							*ngIf="!qAprobados.length && !searching">
 							No tiene solicitud en el historico.
 						</div>
 					</div>
-					<ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
-						<ion-refresher-content></ion-refresher-content>
-					</ion-refresher>
-
 				</div>
 			</ion-list>
 		</ion-accordion>

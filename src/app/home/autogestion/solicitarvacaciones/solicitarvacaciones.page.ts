@@ -17,48 +17,48 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { InformacionSolicitud } from '../../../servicios/informacionsolicitud.service';
 
 @Component({
-  selector: 'app-solicitarvacaciones',
-  templateUrl: './solicitarvacaciones.page.html',
-  styleUrls: ['./solicitarvacaciones.page.scss'],
+	selector: 'app-solicitarvacaciones',
+	templateUrl: './solicitarvacaciones.page.html',
+	styleUrls: ['./solicitarvacaciones.page.scss'],
 })
 export class SolicitarvacacionesPage implements OnInit {
-  searching: boolean = true;
-  segmento: string = 'historicoFamilia';
-  segmentoDisfrutado : 'historicoDisfrutado';
+	searching: boolean = true;
+	segmento: string = 'historicoFamilia';
+	segmentoDisfrutado: 'historicoDisfrutado';
 
-  qPendientes : Array<object> = [];
-  qAprobados  : Array<object> = [];
+	qPendientes: Array<object> = [];
+	qAprobados: Array<object> = [];
 	buscarListaHistorico: string = '';
-  buscarDisfrutados: string = '';
-  datosSolicitud: { formulario: RxFormGroup, propiedades: Array<string> };
-  maximoFechanacimiento = moment().format('YYYY-MM-DD');
+	buscarDisfrutados: string = '';
+	datosSolicitud: { formulario: RxFormGroup, propiedades: Array<string> };
+	maximoFechanacimiento = moment().format('YYYY-MM-DD');
 	datosForm = {};
-  datosSeleccionados = {};
+	datosSeleccionados = {};
 	rutaGeneral: string = 'Autogestion/cSolicitarVacaciones/';
 	datosUsuario: Object = {};
-  subject = new Subject();
+	subject = new Subject();
 	subjectMenu = new Subject();
 	terceroId: string;
 
-  constructor(
-    private notificacionService: NotificacionesService,
+	constructor(
+		private notificacionService: NotificacionesService,
 		// private camera: Camera,
 		private loginService: LoginService,
 		private router: Router,
 		private datosBasicosService: DatosbasicosService,
-		private informacionSolicitud:InformacionSolicitud,
+		private informacionSolicitud: InformacionSolicitud,
 		private menu: CambioMenuService,
 		private storage: StorageService,
 		private domSanitizer: DomSanitizer
-  ) { }
+	) { }
 
 	ngOnInit() {
 		this.datosSolicitud = FuncionesGenerales.crearFormulario(this.informacionSolicitud);
 	}
 
-  ionViewDidEnter() {
+	ionViewDidEnter() {
 		this.searching = true;
-    this.obtenerUsuario();
+		this.obtenerUsuario();
 		this.obtenerDatosEmpleado();
 		this.menu.suscripcion().pipe(
 			takeUntil(this.subjectMenu)
@@ -76,8 +76,8 @@ export class SolicitarvacacionesPage implements OnInit {
 		);
 	}
 
-  submitDataFamiliaContacto() {
-    this.datosForm = Object.assign({}, this.datosSolicitud.formulario.value);
+	submitDataFamiliaContacto() {
+		this.datosForm = Object.assign({}, this.datosSolicitud.formulario.value);
 		Object.keys(this.datosSeleccionados).forEach(it => {
 			this.datosForm[it] = this.datosSeleccionados[it];
 		});
@@ -85,7 +85,7 @@ export class SolicitarvacacionesPage implements OnInit {
 	}
 
 
-  obtenerInformacion(metodo, funcion, datos = {}, event?) {
+	obtenerInformacion(metodo, funcion, datos = {}, event?) {
 		this.searching = true;
 		this.datosBasicosService.informacion(datos, this.rutaGeneral + metodo).then(resp => {
 			this.datosSolicitud.formulario.reset();
@@ -103,44 +103,45 @@ export class SolicitarvacacionesPage implements OnInit {
 		}).catch(error => console.log("Error ", error));
 	}
 
-  async datosGuardados({ mensaje, qPendientes,qAprobados }) {
+	async datosGuardados({ mensaje, qPendientes, qAprobados }) {
 		this.notificacionService.notificacion(mensaje);
 		this.subject.next(true);
 		this.datosSolicitud.formulario.reset();
 		this.qPendientes = qPendientes;
-    this.qAprobados  = qAprobados;
+		this.qAprobados = qAprobados;
 
 		this.datosSeleccionados = {};
 	}
 
-  obtenerDatosEmpleado() {
+	obtenerDatosEmpleado(event?) {
 		this.datosBasicosService.informacion({}, this.rutaGeneral + 'getData').then(
 			({
 				datos,
 				qPendientes,
-        qAprobados,
+				qAprobados,
 			}) => {
 				if (datos) {
-          this.qPendientes = qPendientes;
-          this.qAprobados  = qAprobados;
+					this.qPendientes = qPendientes;
+					this.qAprobados = qAprobados;
 					this.terceroId = datos.id_tercero;
 				}
 				this.searching = false;
+				if (event) event.target.complete();
 			}).catch(error => console.log("Error ", error));
 	}
 
-  buscarFiltro(variable, evento) {
+	buscarFiltro(variable, evento) {
 		this[variable] = evento.detail.value;
 	}
 
-  getColor(data) {
+	getColor(data) {
 		for (let i = 0; i < data.length; i++) {
 			data[i].Color = this.colorRGB();
 		}
 		return data;
 	};
 
-  colorRGB() {
+	colorRGB() {
 		var num = Math.round(0xffffff * Math.random());
 		var r = num >> 16;
 		var g = num >> 8 & 255;
@@ -148,6 +149,10 @@ export class SolicitarvacacionesPage implements OnInit {
 		var c = 1 >> 9;
 		var A = 0.5;
 		return '--border-color: rgba(' + r + ', ' + 47 + ', ' + b + ', ' + A + ')';
+	}
+
+	refresh(evento) {
+		this.obtenerDatosEmpleado(evento);
 	}
 
 }
