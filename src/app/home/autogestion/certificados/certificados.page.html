@@ -31,7 +31,7 @@
 							</ion-text>
 						</ion-item>
 						<ion-item-options side="end">
-							<ion-item-option slot="end" color="danger" (click)="download(item['ruta'])">
+							<ion-item-option slot="end" color="danger" (click)="download(item['base'])">
 								<fa-icon slot="icon-only" icon="file-pdf"></fa-icon>
 							</ion-item-option>
 						</ion-item-options>
@@ -60,7 +60,10 @@
 							</ion-text>
 						</ion-item>
 						<ion-item-options side="end">
-							<ion-item-option slot="end" color="danger" (click)="download(item['ruta'])">
+							<ion-item-option slot="end" color="danger" (click)="download(item['base'])">
+								<fa-icon slot="icon-only" icon="file-pdf"></fa-icon>
+							</ion-item-option>
+							<ion-item-option slot="end" color="warning" (click)="obtenerArchivo(item['base'])">
 								<fa-icon slot="icon-only" icon="file-pdf"></fa-icon>
 							</ion-item-option>
 						</ion-item-options>

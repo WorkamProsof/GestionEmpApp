@@ -10,6 +10,10 @@ import { DatosbasicosService } from 'src/app/servicios/datosbasicos.service';
 import { ModalController } from '@ionic/angular';
 import { FiltrosCertificadosComponent } from './filtros-certificados/filtros-certificados/filtros-certificados.component';
 import { VerPdfComponent } from './ver-pdf/ver-pdf.component';
+import { File } from '@awesome-cordova-plugins/file/ngx';
+import { FileOpener } from '@awesome-cordova-plugins/file-opener/ngx';
+import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
+import { Browser } from '@capacitor/browser';
 
 @Component({
 	selector: 'app-certificados',
@@ -39,7 +43,10 @@ export class CertificadosPage implements OnInit {
 		private storage: StorageService,
 		private menu: CambioMenuService,
 		private datosBasicosService: DatosbasicosService,
-		private modalController: ModalController
+		private modalController: ModalController,
+		private file: File,
+		private fileOpener: FileOpener,
+		private iab: InAppBrowser
 	) { }
 
 	ngOnInit() { }
@@ -163,6 +170,31 @@ export class CertificadosPage implements OnInit {
 				(elem as IonItemSliding).open("end");
 			}
 		});
+	}
+
+	obtenerArchivo(base) {
+
+		//Browser.open({ url: 'data:application/pdf; base64, ' + base });
+
+		Browser.open({ url: 'https://prosof.co:8011/dev/Gestion_Empresarial/uploads/111111111/AutoGestion/CIR_4585401_2022.pdf' });
+
+		/* let target = "_self"; // _system _self _blank
+		const browser = this.iab.create('data:application/pdf; base64, ' + base, target, this.options);
+		browser.show(); */
+
+		/* fetch('data:application/pdf; base64, ' + base, { method: 'GET' })
+			.then(file => file.blob())
+			.then(blob => {
+				this.file.createFile(this.file.dataDirectory, 'temp.pdf', true).then(res => {
+
+					this.file.writeFile(this.file.dataDirectory, 'temp.pdf', blob, {replace: true}).then(resp => {
+						this.fileOpener.open(resp.toInternalURL(), 'application/pdf').then(() => {
+
+						});
+					});
+					
+				});
+			}); */
 	}
 }
 

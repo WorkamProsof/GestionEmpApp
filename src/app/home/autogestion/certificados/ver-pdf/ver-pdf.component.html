@@ -8,10 +8,8 @@
   </ion-toolbar>
 </ion-header>
 
-{{ url }}
-
 <ion-content>
-  <pdf-viewer [src]="url" [show-borders]="true" [zoom]="" [render-text]="true"
+  <pdf-viewer [src]="'data:application/pdf; base64, ' + url" [show-borders]="true" [zoom]="" [render-text]="true"
     [original-size]="false" style="    width: 95vw;height: 90vh;">
   </pdf-viewer>
 </ion-content>
