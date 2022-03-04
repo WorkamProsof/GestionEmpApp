@@ -10,8 +10,6 @@ import { DatosbasicosService } from 'src/app/servicios/datosbasicos.service';
 import { ModalController } from '@ionic/angular';
 import { FiltrosCertificadosComponent } from './filtros-certificados/filtros-certificados/filtros-certificados.component';
 import { VerPdfComponent } from './ver-pdf/ver-pdf.component';
-import { File } from '@awesome-cordova-plugins/file/ngx';
-import { FileOpener } from '@awesome-cordova-plugins/file-opener/ngx';
 import { InAppBrowser } from '@awesome-cordova-plugins/in-app-browser/ngx';
 import { Browser } from '@capacitor/browser';
 
@@ -44,8 +42,6 @@ export class CertificadosPage implements OnInit {
 		private menu: CambioMenuService,
 		private datosBasicosService: DatosbasicosService,
 		private modalController: ModalController,
-		private file: File,
-		private fileOpener: FileOpener,
 		private iab: InAppBrowser
 	) { }
 
@@ -181,20 +177,6 @@ export class CertificadosPage implements OnInit {
 		/* let target = "_self"; // _system _self _blank
 		const browser = this.iab.create('data:application/pdf; base64, ' + base, target, this.options);
 		browser.show(); */
-
-		/* fetch('data:application/pdf; base64, ' + base, { method: 'GET' })
-			.then(file => file.blob())
-			.then(blob => {
-				this.file.createFile(this.file.dataDirectory, 'temp.pdf', true).then(res => {
-
-					this.file.writeFile(this.file.dataDirectory, 'temp.pdf', blob, {replace: true}).then(resp => {
-						this.fileOpener.open(resp.toInternalURL(), 'application/pdf').then(() => {
-
-						});
-					});
-					
-				});
-			}); */
 	}
 }
 
