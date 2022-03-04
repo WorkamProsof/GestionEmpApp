@@ -160,7 +160,6 @@ export class CertificadosPage implements OnInit {
 	}
 
 	obtenerArchivo(url) {
-		url = 'data:application/pdf; base64, ' + url;
 		Browser.open({ url });
 	}
 }
