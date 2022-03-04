@@ -86,7 +86,7 @@ export class CertificadosPage implements OnInit {
 			qCertificados,
 		}) => {
 			if (datos) {
-				//this.qCIR = qCertificados.CIR;
+				this.qCIR = qCertificados.CIR;
 				this.qExtractos = qCertificados.Extracto;
 				this.terceroId = datos.id_tercero;
 			}
