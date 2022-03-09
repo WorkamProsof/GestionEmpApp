@@ -111,9 +111,9 @@ export class LoginPage implements OnInit {
 				let data = { ...this.formLogin.formulario.value, permisos };
 				this.loginService.iniciarSesionUser(data).then(async respuesta => {
 					if (respuesta && respuesta.password) {
+						this.olvidoPass(1);
 						this.formLogin.formulario.reset();
 						this.formLogin.formulario.markAsUntouched();
-						this.olvidoPass(1);
 					}
 					if (respuesta && respuesta.valido) {
 						this.storageService.set('usuario', respuesta.usuario);
@@ -137,6 +137,7 @@ export class LoginPage implements OnInit {
 	}
 
 	olvidoPass(extra = 0) {
+		console.log(this.formLogin.formulario.value)
 		this.router.navigateByUrl(`forget-password/${this.formLogin.formulario.get('num_docu').value || '0'}/${extra}`);
 	}
 }
