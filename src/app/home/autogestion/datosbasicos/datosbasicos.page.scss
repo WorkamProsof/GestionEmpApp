@@ -56,16 +56,15 @@ ion-content {
 		}
 	}
 
-  ion-accordion {
-    .b-item {
-      --background: #f1f1f1;
-      --color: #140e0e;
-    }
-  }
+	ion-accordion {
+		.b-item {
+			--background: #f1f1f1;
+			--color: #140e0e;
+		}
+	}
 
-  ion-accordion.acoordion-expanding ion-item[slot="header"],
-  ion-accordion.acoordion-expanded ion-item[slot="header"]{
-    --color:red;
-  }
-
+	ion-accordion.acoordion-expanding ion-item[slot="header"],
+	ion-accordion.acoordion-expanded ion-item[slot="header"] {
+		--color: red;
+	}
 }

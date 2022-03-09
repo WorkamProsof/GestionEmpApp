@@ -19,8 +19,8 @@ export class PeticionService {
 	private storageService: StorageService;
 	private notificacionesService: NotificacionesService;
 	private httpClient: HttpClient;
-	public url       : string = environment.urlBack;
-  public urlGestion: string = environment.urlGestion;
+	public url: string = environment.urlBack;
+	public urlGestion: string = environment.urlGestion;
 	public categoria: string = '';
 
 	constructor() {
@@ -75,10 +75,10 @@ export class PeticionService {
 			Token: usuario.IngresoId,
 			Conexion,
 			NIT,
-			Usuario    : usuario.usuarioId,
-			Num_docu   : usuario.num_docu,
-			Tercero_id : usuario.tercero_id,
-      urlGestion : this.urlGestion
+			Usuario: usuario.usuarioId,
+			Num_docu: usuario.num_docu,
+			Tercero_id: usuario.tercero_id,
+			urlGestion: this.urlGestion
 		});
 		return await this.ejecutarPeticion('post', uri, data, headers).toPromise().then(async resp => {
 			const desencriptado = await this.desencriptar(resp);
@@ -105,7 +105,7 @@ export class PeticionService {
 		data = {
 			user: data.num_docu,
 			password: data.password,
-      permisos: data.permisos,
+			permisos: data.permisos,
 			userSeccion: 1
 		};
 		data = {
@@ -190,6 +190,31 @@ export class PeticionService {
 			this.notificacionesService.alerta(mensaje, encabezado, [], opciones);
 
 		}
+	}
+
+	async recuperarPassword(body: object, controlador: string) {
+		const data = {
+			encriptado: await this.encriptar(body),
+			conexion: await this.storageService.get('conexion').then(resp => resp),
+			nit: await this.storageService.get('nit').then(resp => resp)
+		}
+		const uri = this.construirUrl(controlador);
+		const NIT = await this.storageService.get('nit').then(resp => resp);
+		const headers = new HttpHeaders({ NIT, Token: '0' });
+		return await this.ejecutarPeticion('post', uri, data, headers).toPromise().then(async resp => {
+			let desencriptado = resp;
+			if (!resp.valido) {
+				desencriptado = await this.desencriptar(resp);
+			}
+			if (desencriptado.activoLogueo) {
+				// return Ejecutar cerrar sesion
+				this.storageService.limpiarTodo();
+			} else {
+				return desencriptado;
+			}
+		}).catch((request) => {
+			this.validarAlertaError(request);
+		});
 	}
 
 }

@@ -6,14 +6,12 @@ import * as moment from 'moment';
 import { Subject } from 'rxjs';
 
 import { NotificacionesService } from 'src/app/servicios/notificaciones.service';
-import { Router } from '@angular/router';
 import { CambioMenuService } from 'src/app/config/cambio-menu/cambio-menu.service';
 import { StorageService } from 'src/app/servicios/storage.service';
 import { FuncionesGenerales } from 'src/app/config/funciones/funciones';
-import { debounceTime, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { DatosbasicosService } from 'src/app/servicios/datosbasicos.service';
 import { LoginService } from 'src/app/servicios/login.service';
-import { DomSanitizer } from '@angular/platform-browser';
 import { InformacionSolicitud } from '../../../servicios/informacionsolicitud.service';
 
 @Component({
@@ -44,12 +42,10 @@ export class SolicitarvacacionesPage implements OnInit {
 		private notificacionService: NotificacionesService,
 		// private camera: Camera,
 		private loginService: LoginService,
-		private router: Router,
 		private datosBasicosService: DatosbasicosService,
 		private informacionSolicitud: InformacionSolicitud,
 		private menu: CambioMenuService,
-		private storage: StorageService,
-		private domSanitizer: DomSanitizer
+		private storage: StorageService
 	) { }
 
 	ngOnInit() {
@@ -107,6 +103,7 @@ export class SolicitarvacacionesPage implements OnInit {
 		this.notificacionService.notificacion(mensaje);
 		this.subject.next(true);
 		this.datosSolicitud.formulario.reset();
+		this.datosSolicitud.formulario.markAsUntouched();
 		this.qPendientes = qPendientes;
 		this.qAprobados = qAprobados;
 
@@ -144,9 +141,7 @@ export class SolicitarvacacionesPage implements OnInit {
 	colorRGB() {
 		var num = Math.round(0xffffff * Math.random());
 		var r = num >> 16;
-		var g = num >> 8 & 255;
 		var b = num & 255;
-		var c = 1 >> 9;
 		var A = 0.5;
 		return '--border-color: rgba(' + r + ', ' + 47 + ', ' + b + ', ' + A + ')';
 	}

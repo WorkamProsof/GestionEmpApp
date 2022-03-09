@@ -8,11 +8,11 @@
 					<ion-icon slot="icon-only" name='close'></ion-icon>
 				</ion-button>
 			</ion-buttons>
-			<ion-buttons slot="end">
+			<!-- <ion-buttons slot="end">
 				<ion-button (click)="mostrarConfiguracion('modulos/configuracion')">
 					<ion-icon name="settings-outline"></ion-icon>
 				</ion-button>
-			</ion-buttons>
+			</ion-buttons> -->
 		</ion-toolbar>
 		<ion-img (click)="irMiPerfil()" [src]="datosUsuario['validaFoto'] == '1' ? foto + datosUsuario['foto'] : datosUsuario['foto']"></ion-img>
 		<ion-text class="w-100" color="dark" (click)="irMiPerfil()">

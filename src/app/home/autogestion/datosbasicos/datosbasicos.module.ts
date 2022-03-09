@@ -24,7 +24,7 @@ import { SelectAutogestionModule } from '../select-autogestion/select-autogestio
 		DatosbasicosPageRoutingModule,
 		ComponentesModule,
 		PipesModule,
-    FormsModule,
+		FormsModule,
 		// IonicSelectableModule,
 		SelectAutogestionModule
 	],

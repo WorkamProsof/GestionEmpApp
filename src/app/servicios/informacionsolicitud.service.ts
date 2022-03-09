@@ -6,9 +6,9 @@ import { PeticionService } from '../config/peticiones/peticion.service';
 	providedIn: 'root'
 })
 export class InformacionSolicitud extends PeticionService {
+
 	private _DiaCompensado: number;
 	private _FechaInicio: string;
-
 
 	constructor() {
 		super();
@@ -23,10 +23,10 @@ export class InformacionSolicitud extends PeticionService {
 		this._FechaInicio = value;
 	}
 
-  @required({ message: 'Campo requerido.' })
+	@required({ message: 'Campo requerido.' })
 	@maxLength({ value: 3, message: 'Maximo 3 caracteres' })
-  @numeric({acceptValue:NumericValueType.PositiveNumber  ,allowDecimal:false, message:'Solo nùmeros positivos' })
-  @maxNumber({value:250,message:'Solo nùmeros hasta 250' })
+	@numeric({ acceptValue: NumericValueType.PositiveNumber, allowDecimal: false, message: 'Solo nùmeros positivos' })
+	@maxNumber({ value: 250, message: 'Solo nùmeros hasta 250' })
 	public get DiaCompensado(): number {
 		return this._DiaCompensado;
 	}

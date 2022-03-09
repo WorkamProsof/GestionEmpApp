@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { email, maxLength, prop, required } from '@rxweb/reactive-form-validators';
+import { email, maxLength, numeric, NumericValueType, prop, required } from '@rxweb/reactive-form-validators';
 import { PeticionService } from '../config/peticiones/peticion.service';
 
 @Injectable({
@@ -55,6 +55,7 @@ export class InformacionFamiliar extends PeticionService {
 		this._num_docu = value;
 	}
 
+	@numeric({ acceptValue: NumericValueType.PositiveNumber, allowDecimal: false, message: 'Solo valores númericos' })
 	@maxLength({ value: 50, message: 'Maximo 50 caracteres' })
 	public get tel_fijo(): string {
 		return this._tel_fijo;
@@ -63,6 +64,7 @@ export class InformacionFamiliar extends PeticionService {
 		this._tel_fijo = value;
 	}
 
+	@numeric({ acceptValue: NumericValueType.PositiveNumber, allowDecimal: false, message: 'Solo valores númericos' })
 	@maxLength({ value: 50, message: 'Maximo 50 caracteres' })
 	public get celular(): string {
 		return this._celular;

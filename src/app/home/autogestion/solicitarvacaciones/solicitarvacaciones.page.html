@@ -25,9 +25,10 @@
 				</ion-segment>
 
 				<div class="informacion-familiar" [ngSwitch]="segmento" color="gray">
-					<ion-searchbar *ngIf="segmento=='historicoFamilia'"
+					<ion-searchbar *ngSwitchCase="'historicoFamilia'"
 						(ionChange)="buscarFiltro('buscarListaHistorico', $event)" clearIcon="close-sharp"
 						placeholder="Buscar Estado" [debounce]="250"></ion-searchbar>
+
 					<div *ngSwitchCase="'historicoFamilia'">
 
 						<ion-list lines="full" class="ion-no-padding">
@@ -67,12 +68,11 @@
 					<div *ngSwitchCase="'pendientes'">
 						<ion-list lines="full" [formGroup]="datosSolicitud.formulario">
 
-
 							<ion-item class="ion-align-items-center">
 								<ion-label position="floating" color="dark">Fecha inicio</ion-label><br>
 								<ion-datetime style="margin-bottom: 0px;margin-top: 25px;" formControlName="FechaInicio"
 									display-format="DD-MM-YYYY" display-format="DD-MM-YYYY" cancelText="Cancelar"
-									doneText="Aceptar" [min]="maximoFechanacimiento" presentation='date'>
+									doneText="Aceptar" presentation='date'> <!-- [min]="maximoFechanacimiento" -->
 								</ion-datetime>
 
 								<ion-text class="animate__animated animate__bounceIn animate__faster"

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { email, maxLength, prop, required } from '@rxweb/reactive-form-validators';
+import { email, maxLength, numeric, NumericValueType, prop, required } from '@rxweb/reactive-form-validators';
 import { PeticionService } from '../config/peticiones/peticion.service';
 
 @Injectable({
@@ -18,6 +18,7 @@ export class InformacionAcademica extends PeticionService {
 		super();
 	}
 
+	@numeric({ acceptValue: NumericValueType.PositiveNumber, allowDecimal: false, message: 'Solo valores númericos' })
 	@maxLength({ value: 200, message: 'Maximo 30 caracteres' })
 	public set ultimocursado(value: string) {
 		this._ultimocursado = value;
