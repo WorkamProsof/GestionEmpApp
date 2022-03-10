@@ -17,18 +17,22 @@ import { SelectAutogestionModule } from '../select-autogestion/select-autogestio
 import { SolicitarvacacionesPageRoutingModule } from './solicitarvacaciones-routing.module';
 
 import { SolicitarvacacionesPage } from './solicitarvacaciones.page';
+import { AgregarSolicitudVacacionesComponent } from './agregar-solicitud-vacaciones/agregar-solicitud-vacaciones.component';
 
 @NgModule({
-  imports: [
+	imports: [
 		CommonModule,
 		IonicModule,
 		ReactiveFormsModule,
 		RxReactiveFormsModule,
 		ComponentesModule,
 		PipesModule,
-    FormsModule,
-    SolicitarvacacionesPageRoutingModule
-  ],
-  declarations: [SolicitarvacacionesPage]
+		FormsModule,
+		SolicitarvacacionesPageRoutingModule
+	],
+	declarations: [
+		SolicitarvacacionesPage,
+		AgregarSolicitudVacacionesComponent
+	]
 })
-export class SolicitarvacacionesPageModule {}
+export class SolicitarvacacionesPageModule { }

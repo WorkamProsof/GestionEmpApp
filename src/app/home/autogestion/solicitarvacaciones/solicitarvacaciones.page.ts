@@ -1,18 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { RxFormGroup } from '@rxweb/reactive-form-validators';
-import * as moment from 'moment';
-// import { Constantes } from 'src/app/config/constantes/constantes';
-// import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { Subject } from 'rxjs';
-
 import { NotificacionesService } from 'src/app/servicios/notificaciones.service';
 import { CambioMenuService } from 'src/app/config/cambio-menu/cambio-menu.service';
-import { StorageService } from 'src/app/servicios/storage.service';
-import { FuncionesGenerales } from 'src/app/config/funciones/funciones';
 import { takeUntil } from 'rxjs/operators';
 import { DatosbasicosService } from 'src/app/servicios/datosbasicos.service';
-import { LoginService } from 'src/app/servicios/login.service';
-import { InformacionSolicitud } from '../../../servicios/informacionsolicitud.service';
+import { AgregarSolicitudVacacionesComponent } from './agregar-solicitud-vacaciones/agregar-solicitud-vacaciones.component';
+import { ModalController } from '@ionic/angular';
 
 @Component({
 	selector: 'app-solicitarvacaciones',
@@ -20,41 +13,27 @@ import { InformacionSolicitud } from '../../../servicios/informacionsolicitud.se
 	styleUrls: ['./solicitarvacaciones.page.scss'],
 })
 export class SolicitarvacacionesPage implements OnInit {
-	searching: boolean = true;
-	segmento: string = 'historicoFamilia';
-	segmentoDisfrutado: 'historicoDisfrutado';
 
+	searching: boolean = true;
 	qPendientes: Array<object> = [];
 	qAprobados: Array<object> = [];
 	buscarListaHistorico: string = '';
 	buscarDisfrutados: string = '';
-	datosSolicitud: { formulario: RxFormGroup, propiedades: Array<string> };
-	maximoFechanacimiento = moment().format('YYYY-MM-DD');
-	datosForm = {};
-	datosSeleccionados = {};
 	rutaGeneral: string = 'Autogestion/cSolicitarVacaciones/';
-	datosUsuario: Object = {};
 	subject = new Subject();
 	subjectMenu = new Subject();
-	terceroId: string;
 
 	constructor(
 		private notificacionService: NotificacionesService,
-		// private camera: Camera,
-		private loginService: LoginService,
 		private datosBasicosService: DatosbasicosService,
-		private informacionSolicitud: InformacionSolicitud,
 		private menu: CambioMenuService,
-		private storage: StorageService
+		private modalController: ModalController
 	) { }
 
-	ngOnInit() {
-		this.datosSolicitud = FuncionesGenerales.crearFormulario(this.informacionSolicitud);
-	}
+	ngOnInit() { }
 
 	ionViewDidEnter() {
 		this.searching = true;
-		this.obtenerUsuario();
 		this.obtenerDatosEmpleado();
 		this.menu.suscripcion().pipe(
 			takeUntil(this.subjectMenu)
@@ -66,25 +45,9 @@ export class SolicitarvacacionesPage implements OnInit {
 		}, () => console.log("Completado Menú !!"));
 	}
 
-	async obtenerUsuario() {
-		this.datosUsuario = await this.loginService.desencriptar(
-			JSON.parse(await this.storage.get('usuario').then(resp => resp))
-		);
-	}
-
-	submitDataFamiliaContacto() {
-		this.datosForm = Object.assign({}, this.datosSolicitud.formulario.value);
-		Object.keys(this.datosSeleccionados).forEach(it => {
-			this.datosForm[it] = this.datosSeleccionados[it];
-		});
-		this.obtenerInformacion('guardarValores', 'datosGuardados', this.datosForm);
-	}
-
-
 	obtenerInformacion(metodo, funcion, datos = {}, event?) {
 		this.searching = true;
 		this.datosBasicosService.informacion(datos, this.rutaGeneral + metodo).then(resp => {
-			this.datosSolicitud.formulario.reset();
 			if (resp.success) {
 				this[funcion](resp);
 			} else {
@@ -102,52 +65,39 @@ export class SolicitarvacacionesPage implements OnInit {
 	async datosGuardados({ mensaje, qPendientes, qAprobados }) {
 		this.notificacionService.notificacion(mensaje);
 		this.subject.next(true);
-		this.datosSolicitud.formulario.reset();
-		this.datosSolicitud.formulario.markAsUntouched();
 		this.qPendientes = qPendientes;
 		this.qAprobados = qAprobados;
-
-		this.datosSeleccionados = {};
 	}
 
 	obtenerDatosEmpleado(event?) {
-		this.datosBasicosService.informacion({}, this.rutaGeneral + 'getData').then(
-			({
-				datos,
-				qPendientes,
-				qAprobados,
-			}) => {
-				if (datos) {
-					this.qPendientes = qPendientes;
-					this.qAprobados = qAprobados;
-					this.terceroId = datos.id_tercero;
-				}
-				this.searching = false;
-				if (event) event.target.complete();
-			}).catch(error => console.log("Error ", error));
+		this.datosBasicosService.informacion({}, this.rutaGeneral + 'getData').then(({
+			qPendientes,
+			qAprobados,
+		}) => {
+			this.qPendientes = (qPendientes || []);
+			this.qAprobados = (qAprobados || []);
+			this.searching = false;
+			if (event) event.target.complete();
+		}).catch(error => console.log("Error ", error));
 	}
 
 	buscarFiltro(variable, evento) {
 		this[variable] = evento.detail.value;
 	}
 
-	getColor(data) {
-		for (let i = 0; i < data.length; i++) {
-			data[i].Color = this.colorRGB();
-		}
-		return data;
-	};
-
-	colorRGB() {
-		var num = Math.round(0xffffff * Math.random());
-		var r = num >> 16;
-		var b = num & 255;
-		var A = 0.5;
-		return '--border-color: rgba(' + r + ', ' + 47 + ', ' + b + ', ' + A + ')';
-	}
-
 	refresh(evento) {
 		this.obtenerDatosEmpleado(evento);
+	}
+
+	async irModal() {
+		let datos = { component: AgregarSolicitudVacacionesComponent, componentProps: {} };
+		const modal = await this.modalController.create(datos);
+		await modal.present();
+		await modal.onWillDismiss().then(resp => {
+			if (resp.data && typeof resp.data == "object") {
+				this.obtenerInformacion('guardarValores', 'datosGuardados', resp.data);
+			}
+		});
 	}
 
 }

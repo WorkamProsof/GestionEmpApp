@@ -255,7 +255,7 @@ export class DatosbasicosPage implements OnInit {
 		}).catch(error => console.log("Error ", error));
 	}
 
-	obtenerDatosEmpleado() {
+	obtenerDatosEmpleado(event?) {
 		this.datosBasicosService.informacion({}, this.rutaGeneral + 'getData').then((resp) => {
 			Object.entries(resp).forEach((it) => {
 				if (it[0] != 'datos') {
@@ -272,6 +272,7 @@ export class DatosbasicosPage implements OnInit {
 			this.datosAdicionales.formulario.patchModelValue(datos);
 			this.suscripcionCambios();
 			this.searching = false;
+			if (event) event.target.complete();
 		}).catch(error => console.log("Error ", error));
 	}
 
@@ -351,6 +352,11 @@ export class DatosbasicosPage implements OnInit {
 		} else {
 			this.notificacionService.notificacion("No se ha definido componente");
 		}
+	}
+
+	refresh(evento) {
+		this.subject.next(true);
+		this.obtenerDatosEmpleado(evento);
 	}
 
 }
