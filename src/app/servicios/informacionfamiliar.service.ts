@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { email, maxLength, numeric, NumericValueType, prop, required } from '@rxweb/reactive-form-validators';
+import { maxLength, numeric, NumericValueType, required } from '@rxweb/reactive-form-validators';
 import { PeticionService } from '../config/peticiones/peticion.service';
 
 @Injectable({
@@ -17,7 +17,6 @@ export class InformacionFamiliar extends PeticionService {
 	private _tercero_id: string;
 	private _parentesco_id: string;
 
-
 	constructor() {
 		super();
 	}
@@ -31,7 +30,7 @@ export class InformacionFamiliar extends PeticionService {
 		this._nombre = value;
 	}
 
-	@maxLength({ value: 30, message: 'Maximo 30 caracteres' })
+	@required({message: 'Campo requerido'})
 	public get tipodoc_id(): string {
 		return this._tipodoc_id;
 	}
@@ -39,7 +38,7 @@ export class InformacionFamiliar extends PeticionService {
 		this._tipodoc_id = value;
 	}
 
-	@maxLength({ value: 30, message: 'Maximo 30 caracteres' })
+	@required({message: 'Campo requerido'})
 	public get fecha_nac(): string {
 		return this._fecha_nac;
 	}
@@ -47,6 +46,7 @@ export class InformacionFamiliar extends PeticionService {
 		this._fecha_nac = value;
 	}
 
+	@required({message: 'Campo requerido'})
 	@maxLength({ value: 30, message: 'Maximo 30 caracteres' })
 	public get num_docu(): string {
 		return this._num_docu;
@@ -86,15 +86,15 @@ export class InformacionFamiliar extends PeticionService {
 		return this._tercero_id;
 	}
 	public set tercero_id(value: string) {
-		this._direccion = value;
+		this._tercero_id = value;
 	}
 
-	@maxLength({ value: 30, message: 'Maximo 30 caracteres' })
+	@required({message: 'Campo requerido'})
 	public get parentesco_id(): string {
 		return this._parentesco_id;
 	}
 	public set parentesco_id(value: string) {
-		this._direccion = value;
+		this._parentesco_id = value;
 	}
 
 }

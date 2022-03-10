@@ -45,13 +45,11 @@ ion-content {
 		}
 	}
 	.informacion-familiar {
-		div {
-			ion-list {
-				.familiar {
-					box-shadow: rgb(8 8 8 / 19%) 0px 4px 10px;
-					border-radius: 15px;
-					--border-width: 0px 5px 0px 0px;
-				}
+		ion-list {
+			.familiar {
+				box-shadow: rgb(8 8 8 / 19%) 0px 4px 10px;
+				border-radius: 15px;
+				--border-width: 0px 5px 0px 0px;
 			}
 		}
 	}

@@ -1,0 +1,74 @@
+<ion-header class="ion-no-border">
+	<ion-toolbar color="ligth">
+		<ion-title color="dark" class="ion-text-center">Agregar Estudio</ion-title>
+		<ion-buttons slot="end" (click)="cerrarModal()">
+			<ion-icon color="dark" slot='icon-only' size='large' name='close-outline'>
+			</ion-icon>
+		</ion-buttons>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+	<form [formGroup]="datosAcademica.formulario">
+		<ion-list lines="full">
+
+			<app-select-autogestion
+				(valorSelect)="cambiosComponenteSelect($event, 'niveleducativo_id','EstudiosRealizados')"
+				[cambiovalor]="cambiovalor" [lista]="getNivelEducativo" [formulario]="datosAcademica.formulario"
+				valueField="niveleducativo_id" formControlSelect="niveleducativo_id" textField="nombre"
+				title="Nivel educativo">
+			</app-select-autogestion>
+
+			<ion-item>
+				<ion-label position="floating" color="dark">Institución</ion-label>
+				<ion-input formControlName="institucion" color="dark" type="text"></ion-input>
+				<ion-text class="animate__animated animate__bounceIn animate__faster"
+					*ngIf="datosAcademica.formulario.get('institucion').touched" color="danger">{{
+					datosAcademica.formulario.get('institucion')['errorMessage'] }}</ion-text>
+			</ion-item>
+
+			<ion-item>
+				<ion-label position="floating" color="dark">Último año/sem. Cursado</ion-label>
+				<ion-input formControlName="ultimocursado" color="dark" type="text"></ion-input>
+				<ion-text class="animate__animated animate__bounceIn animate__faster"
+					*ngIf="datosAcademica.formulario.get('ultimocursado').touched" color="danger">{{
+					datosAcademica.formulario.get('ultimocursado')['errorMessage'] }}</ion-text>
+			</ion-item>
+
+			<ion-item class="ion-align-items-center">
+				<ion-label position="floating" color="dark">Fecha finalización</ion-label><br>
+				<ion-datetime [ngStyle]="{'margin-bottom': '0px;','margin-top': '25px;'}"
+					formControlName="fecha_finalizacion" display-format="DD-MM-YYYY" display-format="DD-MM-YYYY"
+					cancelText="Cancelar" doneText="Aceptar" [max]="maximoFechanacimiento" presentation='date'>
+				</ion-datetime>
+
+				<ion-text class="animate__animated animate__bounceIn animate__faster"
+					*ngIf="datosAcademica.formulario.get('fecha_finalizacion').touched" color="danger">
+					{{
+					datosAcademica.formulario.get('fecha_finalizacion')['errorMessage'] }}</ion-text>
+			</ion-item>
+
+			<ion-item>
+				<ion-label position="floating" color="dark">Titulo</ion-label>
+				<ion-input formControlName="titulo" color="dark" type="text"></ion-input>
+				<ion-text class="animate__animated animate__bounceIn animate__faster"
+					*ngIf="datosAcademica.formulario.get('titulo').touched" color="danger">{{
+					datosAcademica.formulario.get('titulo')['errorMessage'] }}</ion-text>
+			</ion-item>
+		</ion-list>
+	</form>
+
+</ion-content>
+
+<ion-footer>
+	<ion-toolbar>
+		<ion-title>
+			<ion-button [disabled]="datosAcademica.formulario.invalid" type="submit" class="ion-no-margin" shape="round"
+				expand="full" (click)="submitDataFamiliaContacto('EstudiosRealizados')">
+				Agregar
+				<ion-icon slot="start" name="save-outline"></ion-icon>
+			</ion-button>
+		</ion-title>
+	</ion-toolbar>
+</ion-footer>

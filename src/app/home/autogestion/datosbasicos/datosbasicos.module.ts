@@ -14,6 +14,11 @@ import { PipesModule } from '../../../pipes/pipes.module';
 
 // import { IonicSelectableModule } from 'ionic-selectable';
 import { SelectAutogestionModule } from '../select-autogestion/select-autogestion.module';
+import { AgregarResidenciaComponent } from './agregar-residencia/agregar-residencia.component';
+import { AgregarTelefonoComponent } from './agregar-telefono/agregar-telefono.component';
+import { AgregarCorreoComponent } from './agregar-correo/agregar-correo.component';
+import { AgregarEstudioComponent } from './agregar-estudio/agregar-estudio.component';
+import { AgregarFamiliarComponent } from './agregar-familiar/agregar-familiar.component';
 
 @NgModule({
 	imports: [
@@ -25,10 +30,16 @@ import { SelectAutogestionModule } from '../select-autogestion/select-autogestio
 		ComponentesModule,
 		PipesModule,
 		FormsModule,
-		// IonicSelectableModule,
 		SelectAutogestionModule
 	],
-	declarations: [DatosbasicosPage],
+	declarations: [
+		DatosbasicosPage,
+		AgregarResidenciaComponent,
+		AgregarTelefonoComponent,
+		AgregarCorreoComponent,
+		AgregarEstudioComponent,
+		AgregarFamiliarComponent
+	],
 	// providers: [Camera]
 })
 

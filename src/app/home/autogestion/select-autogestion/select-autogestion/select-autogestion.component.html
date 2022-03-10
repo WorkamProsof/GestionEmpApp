@@ -1,8 +1,9 @@
 <ion-item [disabled]="formulario.get(formControlSelect).disabled">
 	<ion-label position="stacked" color="dark">{{ title }}</ion-label>
-	<ionic-selectable #selectConjuntos placeholder="Elija una opción" [itemValueField]="valueField"
-		[(ngModel)]="valorCampo" [itemTextField]="textField" [items]="lista" searchPlaceholder="Buscar"
-		[canSearch]="true" (onChange)="cambioConjunto($event)">
+	<ionic-selectable [disabled]="formulario.get(formControlSelect).disabled" #selectConjuntos
+		placeholder="Elija una opción" [itemValueField]="valueField" [(ngModel)]="valorCampo"
+		[itemTextField]="textField" [items]="lista" searchPlaceholder="Buscar" [canSearch]="true"
+		(onChange)="cambioConjunto($event)">
 		<ng-template ionicSelectableHeaderTemplate>
 			<ion-toolbar mode="md">
 				<ion-buttons slot="end">
