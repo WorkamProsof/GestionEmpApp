@@ -8,6 +8,7 @@ import { LoginService } from 'src/app/servicios/login.service';
 import { NotificacionesService } from 'src/app/servicios/notificaciones.service';
 import { StorageService } from 'src/app/servicios/storage.service';
 import { ThemeService } from 'src/app/servicios/theme.service';
+import { RxFormGroup } from '@rxweb/reactive-form-validators';
 
 @Component({
 	selector: 'app-menu',
@@ -15,7 +16,7 @@ import { ThemeService } from 'src/app/servicios/theme.service';
 	styleUrls: ['./menu.component.scss'],
 })
 export class MenuComponent implements OnInit {
-
+  formLogin: { formulario: RxFormGroup, propiedades: Array<string> };
 	appMenuSwipeGesture: boolean;
 	menus: Array<{ icon: string, title: string, path: string, badge?: boolean, hijos?: Array<any>, modulo?: string }> = [
 		{
@@ -63,6 +64,11 @@ export class MenuComponent implements OnInit {
 
 	ngOnInit() {
 		this.obtenerUsuario();
+    this.configForm();
+	}
+
+  configForm() {
+		this.formLogin = FuncionesGenerales.crearFormulario(this.loginService);
 	}
 
 	async obtenerUsuario() {
@@ -113,6 +119,15 @@ export class MenuComponent implements OnInit {
 						this.cargadorService.ocultar();
 					});
 				});
+			}
+		}, console.error);
+	}
+
+  confirmarCambioClave(extra = 0) {
+		this.notificacionesService.alerta('¿Esta seguro de cambiar la clave?').then(respuesta => {
+			if (respuesta.role === 'aceptar') {
+				console.log('respuesta.role',respuesta.role);
+        this.router.navigateByUrl(`forget-password/${this.formLogin.formulario.get('num_docu').value || '0'}/${extra}`);
 			}
 		}, console.error);
 	}

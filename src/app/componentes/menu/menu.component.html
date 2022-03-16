@@ -32,6 +32,15 @@
 		</ion-list>
 	</ion-content>
 	<ion-footer class="ion-no-border">
+    <ion-toolbar (click)="toggleMenu(true); confirmarCambioClave();">
+			<ion-buttons slot="start">
+				<ion-button>
+					<ion-icon slot="icon-only" name="lock-open-outline"></ion-icon>
+				</ion-button>
+			</ion-buttons>
+			<ion-title class="ion-no-padding" [ngClass]="size">Modificar Contraseña</ion-title>
+		</ion-toolbar>
+
 		<ion-toolbar (click)="toggleMenu(true); confirmarCerrarSesion();">
 			<ion-buttons slot="start">
 				<ion-button>
