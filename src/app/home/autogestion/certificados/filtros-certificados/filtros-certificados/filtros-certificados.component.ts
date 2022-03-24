@@ -39,9 +39,16 @@ export class FiltrosCertificadosComponent implements OnInit {
 		{ valor: 'C', titulo: 'Certificado' }
 	];
 
+  arraySalario: any = [
+		{ valor: 'S', titulo: 'SI' },
+		{ valor: 'N', titulo: 'NO' }
+	];
+
 	@Input() inputmeses: string;
 	@Input() inputquincena: string;
 	@Input() inputdocumento: string;
+  @Input() inputsalario: string;
+  @Input() inputdestino: string;
 	formFiltro: FormGroup;
 
 
@@ -52,10 +59,14 @@ export class FiltrosCertificadosComponent implements OnInit {
 
 	ngOnInit() {
 		this.formFiltro = new FormGroup({
-			meses: new FormControl(this.inputmeses),
-			quincena: new FormControl(this.inputquincena),
-			documento: new FormControl(this.inputdocumento),
+			meses     : new FormControl(this.inputmeses),
+			quincena  : new FormControl(this.inputquincena),
+			documento : new FormControl(this.inputdocumento),
+      salario   : new FormControl(this.inputsalario),
+      destino   : new FormControl(this.inputdestino),
 		});
+
+    console.log('this.formFiltro',this.formFiltro.value);
 	}
 
 	confirm() {
@@ -70,8 +81,6 @@ export class FiltrosCertificadosComponent implements OnInit {
 		return format(parseISO(value), 'MMM');
 	}
 
-
-
 	cambioFechaDesde($event) {
 		// this.minFechaHasta = $event;
 	}
@@ -81,13 +90,17 @@ export class FiltrosCertificadosComponent implements OnInit {
 	}
 
 	filtrar() {
-		let filtra = true;
 		let informacion = Object.assign({}, this.formFiltro.value);
-		if ((informacion['meses'] == null || informacion['meses'].length == 0) && (informacion['quincena'] == null || informacion['quincena'].length == 0) && informacion['documento'] == null) {
-			this.notificaciones.notificacion("Ingrese algún filtro.");
-		} else {
-			this.cerrarModal(informacion);
+		if (this.inputsalario == null && (informacion['meses'] == null || informacion['meses'].length == 0) && (informacion['quincena'] == null || informacion['quincena'].length == 0) && informacion['documento'] == null ){
+        this.notificaciones.notificacion("Ingrese algún filtro.");
+        return;
 		}
+
+    if (this.inputsalario != null && !informacion['destino']){
+        this.notificaciones.notificacion("El campo expide destino no puede estar vacio.");
+        return;
+		}
+		this.cerrarModal(informacion);
 	}
 
 	cerrarModal(datos?) {

@@ -11,7 +11,7 @@
 <ion-content color="gray">
 	<form [formGroup]="formFiltro" (ngSubmit)="filtrar()">
 		<ion-list lines="full">
-      <ion-item>
+      <ion-item *ngIf="this.inputsalario == null">
         <ion-label position="floating" color="dark">Docuemento </ion-label>
         <ion-select  formControlName="documento" okText="Aceptar" cancelText="Cancelar"
           [interfaceOptions]="{cssClass: 'modal-color'}" placeholder="Seleccione documento" >
@@ -21,7 +21,7 @@
         </ion-select>
       </ion-item>
 
-      <ion-item>
+      <ion-item *ngIf="this.inputsalario == null">
         <ion-label position="floating" color="dark">Mes</ion-label>
         <ion-select  multiple="true" formControlName="meses" okText="Aceptar" cancelText="Cancelar"
           [interfaceOptions]="{cssClass: 'modal-color'}" placeholder="Seleccione mes" >
@@ -31,7 +31,7 @@
         </ion-select>
       </ion-item>
 
-      <ion-item>
+      <ion-item *ngIf="this.inputsalario == null">
         <ion-label position="floating" color="dark">Quincena</ion-label>
         <ion-select  multiple="true" formControlName="quincena" okText="Aceptar" cancelText="Cancelar"
           [interfaceOptions]="{cssClass: 'modal-color'}" placeholder="Seleccione una quincena" >
@@ -40,6 +40,21 @@
           </ion-select-option>
         </ion-select>
       </ion-item>
+
+      <ion-item *ngIf="this.inputsalario != null">
+        <ion-label position="floating" color="dark">Con Salario</ion-label>
+        <ion-select  multiple="false" formControlName="salario" okText="Aceptar" cancelText="Cancelar"
+          [interfaceOptions]="{cssClass: 'modal-color'}" placeholder="Seleccione una opción" >
+          <ion-select-option color="dark" *ngFor="let item of arraySalario;" [value]="item.valor">{{
+            item.titulo }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item *ngIf="this.inputsalario != null">
+				<ion-label position="floating" color="dark">Expide destino:</ion-label>
+				<ion-input formControlName="destino" color="dark" type="text" placeholder="Expide destino"></ion-input>
+			</ion-item>
 
 		</ion-list>
 		<ion-button class="ion-margin-top" mode="md" expand="full" type="submit" shape="round">

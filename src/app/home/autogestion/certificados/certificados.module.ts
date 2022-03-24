@@ -12,6 +12,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FiltrosCertificadosComponent } from './filtros-certificados/filtros-certificados/filtros-certificados.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { VerPdfComponent } from './ver-pdf/ver-pdf.component';
+import { File } from '@awesome-cordova-plugins/file/ngx';
+import { FileOpener } from '@awesome-cordova-plugins/file-opener/ngx';
 
 @NgModule({
 	imports: [
@@ -24,9 +26,10 @@ import { VerPdfComponent } from './ver-pdf/ver-pdf.component';
 		ComponentesModule,
 		FontAwesomeModule,
 		PipesModule,
-		PdfViewerModule
+		PdfViewerModule,
+
 	],
-	providers: [InAppBrowser],
+	providers: [InAppBrowser,File,FileOpener],
 	declarations: [CertificadosPage, FiltrosCertificadosComponent, VerPdfComponent]
 })
 export class CertificadosPageModule { }
