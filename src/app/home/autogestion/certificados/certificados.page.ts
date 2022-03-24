@@ -1,5 +1,5 @@
-import { Component, OnInit,ViewChild } from '@angular/core';
-import { ModalController,IonAccordionGroup,Platform } from '@ionic/angular';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ModalController, IonAccordionGroup, Platform } from '@ionic/angular';
 import { IonItemSliding } from '@ionic/angular';
 import { StorageService } from 'src/app/servicios/storage.service';
 import { FuncionesGenerales } from 'src/app/config/funciones/funciones';
@@ -11,8 +11,6 @@ import { DatosbasicosService } from 'src/app/servicios/datosbasicos.service';
 import { FiltrosCertificadosComponent } from './filtros-certificados/filtros-certificados/filtros-certificados.component';
 import { VerPdfComponent } from './ver-pdf/ver-pdf.component';
 import { Browser } from '@capacitor/browser';
-import { File } from '@awesome-cordova-plugins/file/ngx';
-import { FileOpener } from '@awesome-cordova-plugins/file-opener/ngx';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
@@ -22,10 +20,10 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class CertificadosPage implements OnInit {
 	@ViewChild(IonAccordionGroup, { static: true }) accordionGroup: IonAccordionGroup;
-  src : any;
-  viwPDF = false;
-  base64Img :any;
-  carataLaboral = '';
+	src: any;
+	viwPDF = false;
+	base64Img: any;
+	carataLaboral = '';
 	buscarListaHistorico: string = '';
 	segmento = 'historicoFamilia';
 	searching: boolean = false;
@@ -42,30 +40,28 @@ export class CertificadosPage implements OnInit {
 	rutaGeneral: string = 'Autogestion/cCertificadoslaborales/';
 	filtro: any = false;
 	formFiltro = {};
-  qCartaLaboral = [];
-  accordions = ["CL", "EX", "CI"];
+	qCartaLaboral = [];
+	accordions = ["CL", "EX", "CI"];
 	constructor(
 		private loginService: LoginService,
 		private storage: StorageService,
 		private menu: CambioMenuService,
 		private datosBasicosService: DatosbasicosService,
 		private modalController: ModalController,
-    private file:File,
-    public platform: Platform,
-    private opener : FileOpener,
-    private sanitizer : DomSanitizer
+		public platform: Platform,
+		private sanitizer: DomSanitizer
 
 	) { }
 
 	ngOnInit() {
-    if (this.accordionGroup) {
+		if (this.accordionGroup) {
 			this.accordionGroup.ionChange.subscribe(({ detail }) => {
 				if (this.accordions.includes(detail.value)) {
 					this.accordionGroup.value = detail.value;
 				}
 			});
 		}
-  }
+	}
 
 	fechaActual() {
 		var hoy = new Date();
@@ -76,8 +72,8 @@ export class CertificadosPage implements OnInit {
 			meses: [Month],
 			quincena: ['01', '02'],
 			documento: 'T',
-      salario: null,
-      destino: null
+			salario: null,
+			destino: null
 		};
 		this.obtenerDatosEmpleado();
 	}
@@ -110,7 +106,7 @@ export class CertificadosPage implements OnInit {
 			qCertificados,
 		}) => {
 			if (datos) {
-        this.qCartaLaboral = [datos];
+				this.qCartaLaboral = [datos];
 				this.qCIR = qCertificados.CIR;
 				this.qExtractos = qCertificados.Extracto;
 				this.terceroId = datos.id_tercero;
@@ -135,14 +131,15 @@ export class CertificadosPage implements OnInit {
 	}
 
 	async filtros(param = null) {
-    this.formFiltro['salario']  = param == null ? null : 'S';
-    this.formFiltro['destino']  = '';
-		let componentProps = {  inputmeses    : this.formFiltro['meses'],
-                            inputquincena : this.formFiltro['quincena'],
-                            inputdocumento: this.formFiltro['documento'],
-                            inputsalario  : this.formFiltro['salario'],
-                            inputdestino  : this.formFiltro['destino']
-                          };
+		this.formFiltro['salario'] = param == null ? null : 'S';
+		this.formFiltro['destino'] = '';
+		let componentProps = {
+			inputmeses: this.formFiltro['meses'],
+			inputquincena: this.formFiltro['quincena'],
+			inputdocumento: this.formFiltro['documento'],
+			inputsalario: this.formFiltro['salario'],
+			inputdestino: this.formFiltro['destino']
+		};
 		const modal = await this.modalController.create({
 			component: FiltrosCertificadosComponent,
 			backdropDismiss: true,
@@ -156,16 +153,16 @@ export class CertificadosPage implements OnInit {
 				if (data.limpiar) {
 					this.fechaActual();
 				} else {
-					this.formFiltro['meses']     = data.meses;
-					this.formFiltro['quincena']  = data.quincena;
+					this.formFiltro['meses'] = data.meses;
+					this.formFiltro['quincena'] = data.quincena;
 					this.formFiltro['documento'] = data.documento;
-          this.formFiltro['destino']   = data.destino;
-          this.formFiltro['salario']   = data.salario;
-          if(param == null){
-            this.obtenerDatosEmpleado();
-          }else{
-            this.CartaLaboral(param);
-          }
+					this.formFiltro['destino'] = data.destino;
+					this.formFiltro['salario'] = data.salario;
+					if (param == null) {
+						this.obtenerDatosEmpleado();
+					} else {
+						this.CartaLaboral(param);
+					}
 				}
 			}
 		}).catch((error) => {
@@ -197,26 +194,26 @@ export class CertificadosPage implements OnInit {
 	}
 
 
-  async CartaLaboral(event){
+	async CartaLaboral(event) {
 		this.datosBasicosService.informacion(this.formFiltro, this.rutaGeneral + 'imprimirFactura').then(({
 			base64Img,
-      file_aux
+			file_aux
 		}) => {
-        if(event == 1){
-          this.base64Img ='data:application/pdf;base64,'+base64Img +'#toolbar=0&navpanes=0' ;
-          // this.download(base64Img);
-          this.src = this.sanitizer.bypassSecurityTrustResourceUrl(this.base64Img);
-        }else{
-          let pdfWindow = window.open();
-          var pdf = pdfWindow.document.write("<iframe width='100%' height='100%' src='data:application/pdf;base64, " + base64Img + "'></iframe>");
-          // this.obtenerArchivo(file_aux);
-        }
+			if (event == 1) {
+				this.base64Img = 'data:application/pdf;base64,' + base64Img + '#toolbar=0&navpanes=0';
+				// this.download(base64Img);
+				this.src = this.sanitizer.bypassSecurityTrustResourceUrl(file_aux);
+			} else {
+				let pdfWindow = window.open();
+				var pdf = pdfWindow.document.write("<iframe width='100%' height='100%' src='data:application/pdf;base64, " + base64Img + "'></iframe>");
+				// this.obtenerArchivo(file_aux);
+			}
 		}).catch(error => console.log("Error ", error))
-  }
+	}
 
-  cerrarIframe(){
-    this.src = '';
-  }
+	cerrarIframe() {
+		this.src = '';
+	}
 
 }
 
