@@ -19,8 +19,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 	styleUrls: ['./certificados.page.scss'],
 })
 export class CertificadosPage implements OnInit {
+  src: any;
 	@ViewChild(IonAccordionGroup, { static: true }) accordionGroup: IonAccordionGroup;
-	src: any;
 	viwPDF = false;
 	base64Img: any;
 	carataLaboral = '';
@@ -199,15 +199,16 @@ export class CertificadosPage implements OnInit {
 			base64Img,
 			file_aux
 		}) => {
-			if (event == 1) {
-				this.base64Img = 'data:application/pdf;base64,' + base64Img + '#toolbar=0&navpanes=0';
-				// this.download(base64Img);
-				this.src = this.sanitizer.bypassSecurityTrustResourceUrl(file_aux);
-			} else {
-				let pdfWindow = window.open();
-				var pdf = pdfWindow.document.write("<iframe width='100%' height='100%' src='data:application/pdf;base64, " + base64Img + "'></iframe>");
-				// this.obtenerArchivo(file_aux);
-			}
+      this.download(file_aux);
+			// if (event == 1) {
+			// 	this.base64Img = 'data:application/pdf;base64,' + base64Img + '#toolbar=0&navpanes=0';
+			// 	// this.download(base64Img);
+			// 	this.src = this.sanitizer.bypassSecurityTrustResourceUrl(file_aux);
+			// } else {
+			// 	let pdfWindow = window.open();
+			// 	var pdf = pdfWindow.document.write("<iframe width='100%' height='100%' src='data:application/pdf;base64, " + base64Img + "'></iframe>");
+			// 	// this.obtenerArchivo(file_aux);
+			// }
 		}).catch(error => console.log("Error ", error))
 	}
 

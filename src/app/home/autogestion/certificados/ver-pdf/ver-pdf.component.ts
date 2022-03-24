@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
 	selector: 'app-ver-pdf',
@@ -8,12 +9,14 @@ import { ModalController } from '@ionic/angular';
 })
 export class VerPdfComponent implements OnInit {
 
-	@Input() url: string;
+	@Input() url: any;
 	valorZoom: number = 1;
 
-	constructor(private modalController: ModalController) { }
+	constructor(private modalController: ModalController,	private sanitizer: DomSanitizer) { }
 
-	ngOnInit() { }
+	ngOnInit() {
+    this.url = this.sanitizer.bypassSecurityTrustResourceUrl(this.url);
+  }
 
 	cerrarModal(datos?) {
 		this.modalController.dismiss(datos);

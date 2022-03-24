@@ -11,10 +11,11 @@
         </ion-icon>
       </ion-buttons>
     </ion-toolbar>
-    <!-- <iframe [src]="src" frameborder=0 style="width: 100%; height: 100vh;"></iframe> -->
+    <iframe [src]="src" frameborder=0 style="width: 100%; height: 100vh;"></iframe>
   </ion-header>
 
-  <div *ngIf="!src">
+
+  <div>
     <ion-refresher slot="fixed" (ionRefresh)="obtenerDatosEmpleado($event)">
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
@@ -44,7 +45,7 @@
               </ion-text>
             </ion-item>
             <ion-item-options side="end">
-              <ion-item-option slot="end" color="danger" (click)="download(item['base'])">
+              <ion-item-option slot="end" color="danger" (click)="download(item['file_aux'])">
                 <fa-icon slot="icon-only" icon="file-pdf"></fa-icon>
               </ion-item-option>
               <ion-item-option slot="end" color="warning" (click)="obtenerArchivo(item['file_aux'])">
@@ -78,7 +79,7 @@
               </ion-text>
             </ion-item>
             <ion-item-options side="end">
-              <ion-item-option slot="end" color="danger" (click)="download(item['base'])">
+              <ion-item-option slot="end" color="danger" (click)="download(item['file_aux'])">
                 <fa-icon slot="icon-only" icon="file-pdf"></fa-icon>
               </ion-item-option>
               <ion-item-option slot="end" color="warning" (click)="obtenerArchivo(item['file_aux'])">
@@ -127,11 +128,11 @@
       </ion-accordion>
     </ion-accordion-group>
 
+    <ion-fab *ngIf="accordionGroup && (accordionGroup.value != 'CL')" horizontal="end" vertical="bottom" slot="fixed">
+      <ion-fab-button [disabled]="searching" color="secondary" (click)="filtros(null)">
+        <ion-icon name="funnel"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
   </div>
 
-  <ion-fab *ngIf="accordionGroup && (accordionGroup.value != 'CL')" horizontal="end" vertical="bottom" slot="fixed">
-    <ion-fab-button [disabled]="searching" color="secondary" (click)="filtros(null)">
-      <ion-icon name="funnel"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
 </ion-content>
