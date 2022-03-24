@@ -12,11 +12,11 @@ export class VerPdfComponent implements OnInit {
 	@Input() url: any;
 	valorZoom: number = 1;
 
-	constructor(private modalController: ModalController,	private sanitizer: DomSanitizer) { }
+	constructor(private modalController: ModalController, private sanitizer: DomSanitizer) { }
 
 	ngOnInit() {
-    // this.url = this.sanitizer.bypassSecurityTrustResourceUrl(this.url);
-  }
+		// this.url = this.sanitizer.bypassSecurityTrustResourceUrl(this.url);
+	}
 
 	cerrarModal(datos?) {
 		this.modalController.dismiss(datos);

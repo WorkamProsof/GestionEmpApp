@@ -119,7 +119,7 @@ export class CertificadosPage implements OnInit {
 	}
 
 	async download(url) {
-		url = this.sanitizer.bypassSecurityTrustResourceUrl(url);
+		//url = this.sanitizer.bypassSecurityTrustResourceUrl(url);
 		const modal = await this.modalController.create({
 			component: VerPdfComponent,
 			backdropDismiss: true,
@@ -200,7 +200,7 @@ export class CertificadosPage implements OnInit {
 			base64Img,
 			file_aux
 		}) => {
-			this.download(file_aux);
+			this.download(base64Img);
 			// if (event == 1) {
 			// 	this.base64Img = 'data:application/pdf;base64,' + base64Img + '#toolbar=0&navpanes=0';
 			// 	// this.download(base64Img);
