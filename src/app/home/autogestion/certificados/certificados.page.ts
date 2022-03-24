@@ -214,6 +214,10 @@ export class CertificadosPage implements OnInit {
 		}).catch(error => console.log("Error ", error))
   }
 
+  cerrarIframe(){
+    this.src = '';
+  }
+
 }
 
 
