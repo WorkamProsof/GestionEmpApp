@@ -15,6 +15,7 @@ export class VerPdfComponent implements OnInit {
 	constructor(private modalController: ModalController, private sanitizer: DomSanitizer) { }
 
 	ngOnInit() {
+    console.log(this.url);
 		// this.url = this.sanitizer.bypassSecurityTrustResourceUrl(this.url);
 	}
 
