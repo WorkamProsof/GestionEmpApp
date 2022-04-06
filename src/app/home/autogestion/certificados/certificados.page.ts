@@ -200,16 +200,16 @@ export class CertificadosPage implements OnInit {
 			base64Img,
 			file_aux
 		}) => {
-			this.download(base64Img);
-			// if (event == 1) {
-			// 	this.base64Img = 'data:application/pdf;base64,' + base64Img + '#toolbar=0&navpanes=0';
-			// 	// this.download(base64Img);
-			// 	this.src = this.sanitizer.bypassSecurityTrustResourceUrl(file_aux);
-			// } else {
-			// 	let pdfWindow = window.open();
-			// 	var pdf = pdfWindow.document.write("<iframe width='100%' height='100%' src='data:application/pdf;base64, " + base64Img + "'></iframe>");
-			// 	// this.obtenerArchivo(file_aux);
-			// }
+			// this.download(base64Img);
+			if (event == 1) {
+				// this.base64Img = 'data:application/pdf;base64,' + base64Img + '#toolbar=0&navpanes=0';
+				this.download(base64Img);
+				// this.src = this.sanitizer.bypassSecurityTrustResourceUrl(file_aux);
+			} else {
+				// let pdfWindow = window.open();
+				// var pdf = pdfWindow.document.write("<iframe width='100%' height='100%' src='data:application/pdf;base64, " + base64Img + "'></iframe>");
+				this.obtenerArchivo(file_aux);
+			}
 		}).catch(error => console.log("Error ", error))
 	}
 
