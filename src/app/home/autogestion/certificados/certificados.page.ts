@@ -19,6 +19,10 @@ import { DomSanitizer } from '@angular/platform-browser';
 	styleUrls: ['./certificados.page.scss'],
 })
 export class CertificadosPage implements OnInit {
+  hoy = new Date();
+  Month = ("0" + (this.hoy.getMonth() + 1)).slice(-2);
+  anio = this.hoy.getFullYear();
+
 	src: any;
 	@ViewChild(IonAccordionGroup, { static: true }) accordionGroup: IonAccordionGroup;
 	viwPDF = false;
@@ -64,12 +68,10 @@ export class CertificadosPage implements OnInit {
 	}
 
 	fechaActual() {
-		var hoy = new Date();
-		var Month = ("0" + (hoy.getMonth() + 1)).slice(-2);
-		var year = hoy.getFullYear();
+
 		this.formFiltro = {
-			anio: year,
-			meses: [Month],
+			anio: this.anio,
+			meses: [this.Month],
 			quincena: ['01', '02'],
 			documento: 'T',
 			salario: null,
@@ -135,6 +137,7 @@ export class CertificadosPage implements OnInit {
 		this.formFiltro['salario'] = param == null ? null : 'S';
 		this.formFiltro['destino'] = '';
 		let componentProps = {
+      inputanio: this.formFiltro['anio'],
 			inputmeses: this.formFiltro['meses'],
 			inputquincena: this.formFiltro['quincena'],
 			inputdocumento: this.formFiltro['documento'],
@@ -154,7 +157,8 @@ export class CertificadosPage implements OnInit {
 				if (data.limpiar) {
 					this.fechaActual();
 				} else {
-					this.formFiltro['meses'] = data.meses;
+          this.formFiltro['anio'] = data.anio;
+					this.formFiltro['meses']    = data.meses;
 					this.formFiltro['quincena'] = data.quincena;
 					this.formFiltro['documento'] = data.documento;
 					this.formFiltro['destino'] = data.destino;

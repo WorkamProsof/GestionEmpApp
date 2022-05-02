@@ -44,6 +44,7 @@ export class FiltrosCertificadosComponent implements OnInit {
 		{ valor: 'N', titulo: 'NO' }
 	];
 
+  @Input() inputanio: string;
 	@Input() inputmeses: string;
 	@Input() inputquincena: string;
 	@Input() inputdocumento: string;
@@ -59,14 +60,13 @@ export class FiltrosCertificadosComponent implements OnInit {
 
 	ngOnInit() {
 		this.formFiltro = new FormGroup({
+      anio      : new FormControl(this.inputanio),
 			meses     : new FormControl(this.inputmeses),
 			quincena  : new FormControl(this.inputquincena),
 			documento : new FormControl(this.inputdocumento),
       salario   : new FormControl(this.inputsalario),
       destino   : new FormControl(this.inputdestino),
 		});
-
-    console.log('this.formFiltro',this.formFiltro.value);
 	}
 
 	confirm() {
@@ -91,7 +91,11 @@ export class FiltrosCertificadosComponent implements OnInit {
 
 	filtrar() {
 		let informacion = Object.assign({}, this.formFiltro.value);
-		if (this.inputsalario == null && (informacion['meses'] == null || informacion['meses'].length == 0) && (informacion['quincena'] == null || informacion['quincena'].length == 0) && informacion['documento'] == null ){
+		if (this.inputsalario == null &&
+        (informacion['meses'] == null || informacion['meses'].length== 0) &&
+        (informacion['anio'] == null  || informacion['anio'].length == 0) &&
+        (informacion['quincena'] == null || informacion['quincena'].length == 0) &&
+        informacion['documento'] == null){
         this.notificaciones.notificacion("Ingrese algún filtro.");
         return;
 		}
