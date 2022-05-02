@@ -107,7 +107,16 @@ export class FuncionesGenerales {
 			{ id: 60010045, tipo: "DR", campo: "direccion" },
 
 			{ id: 60010049, tipo: "CC", campo: "correo" },
-			{ id: 60010050, tipo: "CC", campo: "principal" }
+			{ id: 60010050, tipo: "CC", campo: "principal" },
+      { id: 6001005, tipo: "RP", campo: "Reportes" },
+      { id: 6001007, tipo: "CL", campo: "Certificados Laborales" },
+      { id: 60010071, tipo: "CL", campo: "Carta Laboral" },
+      { id: 60010072, tipo: "CL", campo: "Extratos" },
+      { id: 60010073, tipo: "CL", campo: "Certificados" },
+      { id: 6001008, tipo: "CL", campo: "Solicitar Vacaciones" },
+      { id: 60010081, tipo: "CL", campo: "Periodos vacacionales pendientes" },
+      { id: 60010082, tipo: "CL", campo: "Periodos vacacionales disfrutados o pagados" },
+      { id: 60010083, tipo: "CL", campo: "Crear" }
 		];
 
 		if (tipo == '') {

@@ -8,8 +8,7 @@
 	</ion-refresher>
 
 	<ion-accordion-group value="SV">
-
-		<ion-accordion value="SV" toggle-icon="arrow-down-circle">
+		<ion-accordion value="SV" *ngIf="permisoPendientes" toggle-icon="arrow-down-circle">
 
 			<ion-item class="b-item" slot="header">
 				<ion-label>Periodos vacacionales pendientes </ion-label>
@@ -55,7 +54,7 @@
 			</ion-list>
 		</ion-accordion>
 
-		<ion-accordion value="VD" toggle-icon="arrow-down-circle">
+		<ion-accordion value="VD" *ngIf="permisoDisfrutados" toggle-icon="arrow-down-circle">
 			<ion-item class="b-item" slot="header">
 				<ion-label>Periodos vacacionales disfrutados o pagados</ion-label>
 			</ion-item>
@@ -115,7 +114,7 @@
 
 	</ion-accordion-group>
 
-	<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+	<ion-fab vertical="bottom" *ngIf="permisoCrear" horizontal="end" slot="fixed">
 		<ion-fab-button (click)="irModal()">
 			<ion-icon name="add"></ion-icon>
 		</ion-fab-button>

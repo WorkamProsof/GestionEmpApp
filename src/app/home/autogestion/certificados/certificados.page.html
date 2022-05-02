@@ -23,14 +23,14 @@
     <ion-searchbar (ionChange)="buscarFiltro('buscarListaHistorico', $event)" clearIcon="close-sharp"
       placeholder="Buscar mes" [debounce]="250"></ion-searchbar>
     <ion-accordion-group value="EX">
-      <ion-accordion value="EX" toggle-icon="chevron-down-outline">
+      <ion-accordion value="EX" *ngIf="this.permisoExtrato" toggle-icon="chevron-down-outline">
         <ion-item class="b-item" slot="header">
           <ion-label>Extractos</ion-label>
         </ion-item>
 
         <ion-list lines="full" slot="content" class="ion-no-padding">
           <ion-item-sliding (click)="sliding('slidingExtractos' + i)"
-            *ngFor="let item of qExtractos  | filtro: 'mes': buscarListaHistorico; let i = index;"
+            *ngFor="let item of qExtractos | filtro: 'mes': buscarListaHistorico; let i = index;"
             [id]="'slidingExtractos' + i">
             <ion-item>
               <ion-label>
@@ -59,7 +59,7 @@
         </ion-list>
       </ion-accordion>
 
-      <ion-accordion value="CI" toggle-icon="chevron-down-outline">
+      <ion-accordion value="CI" *ngIf="this.permisoCertificado" toggle-icon="chevron-down-outline">
         <ion-item class="b-item" slot="header">
           <ion-label>Certificados</ion-label>
         </ion-item>
@@ -93,7 +93,7 @@
         </ion-list>
       </ion-accordion>
 
-      <ion-accordion value="CL" toggle-icon="chevron-down-outline">
+      <ion-accordion *ngIf="this.permisoCartaLaboral" value="CL" toggle-icon="chevron-down-outline">
         <ion-item class="b-item" slot="header">
           <ion-label>Carta Laboral</ion-label>
         </ion-item>

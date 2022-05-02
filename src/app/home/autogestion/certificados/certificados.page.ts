@@ -19,9 +19,13 @@ import { DomSanitizer } from '@angular/platform-browser';
 	styleUrls: ['./certificados.page.scss'],
 })
 export class CertificadosPage implements OnInit {
+  permisoExtrato      = false;
+  permisoCertificado  = false;
+  permisoCartaLaboral = false;
   hoy = new Date();
   Month = ("0" + (this.hoy.getMonth() + 1)).slice(-2);
   anio = this.hoy.getFullYear();
+  SEGUR: Array<object> = [];
 
 	src: any;
 	@ViewChild(IonAccordionGroup, { static: true }) accordionGroup: IonAccordionGroup;
@@ -80,10 +84,22 @@ export class CertificadosPage implements OnInit {
 		this.obtenerDatosEmpleado();
 	}
 
-	async obtenerUsuario() {
+  async obtenerUsuario() {
 		this.datosUsuario = await this.loginService.desencriptar(
 			JSON.parse(await this.storage.get('usuario').then(resp => resp))
 		);
+		this.SEGUR = this.datosUsuario['SEGUR'] || [];
+    this.permisoExtrato      = this.validarPermiso(60010072);
+    this.permisoCertificado  = this.validarPermiso(60010073);
+    this.permisoCartaLaboral = this.validarPermiso(60010071);
+	}
+
+  validarPermiso(permiso) {
+		if (this.SEGUR.length > 0 && this.SEGUR.includes(permiso)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	ionViewDidEnter() {
