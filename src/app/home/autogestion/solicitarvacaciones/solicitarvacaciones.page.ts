@@ -15,13 +15,13 @@ import { StorageService } from 'src/app/servicios/storage.service';
 	styleUrls: ['./solicitarvacaciones.page.scss'],
 })
 export class SolicitarvacacionesPage implements OnInit {
-  permisoCrear      = false;
-  permisoDisfrutados= false;
-  permisoPendientes = false;
-	searching: boolean = true;
-  datosUsuario: Object = {};
-  SEGUR: Array<object> = [];
 
+	permisoCrear = false;
+	permisoDisfrutados = false;
+	permisoPendientes = false;
+	searching: boolean = true;
+	datosUsuario: Object = {};
+	SEGUR: Array<object> = [];
 	qPendientes: Array<object> = [];
 	qAprobados: Array<object> = [];
 	buscarListaHistorico: string = '';
@@ -31,8 +31,8 @@ export class SolicitarvacacionesPage implements OnInit {
 	subjectMenu = new Subject();
 
 	constructor(
-    private loginService: LoginService,
-    private storage: StorageService,
+		private loginService: LoginService,
+		private storage: StorageService,
 		private notificacionService: NotificacionesService,
 		private datosBasicosService: DatosbasicosService,
 		private menu: CambioMenuService,
@@ -44,7 +44,7 @@ export class SolicitarvacacionesPage implements OnInit {
 	ionViewDidEnter() {
 		this.searching = true;
 		this.obtenerDatosEmpleado();
-    this.obtenerUsuario();
+		this.obtenerUsuario();
 		this.menu.suscripcion().pipe(
 			takeUntil(this.subjectMenu)
 		).subscribe(() => {
@@ -55,24 +55,23 @@ export class SolicitarvacacionesPage implements OnInit {
 		}, () => console.log("Completado Menú !!"));
 	}
 
-  async obtenerUsuario() {
+	async obtenerUsuario() {
 		this.datosUsuario = await this.loginService.desencriptar(
 			JSON.parse(await this.storage.get('usuario').then(resp => resp))
 		);
 		this.SEGUR = this.datosUsuario['SEGUR'] || [];
-    this.permisoCrear       = this.validarPermiso(60010083);
-    this.permisoDisfrutados = this.validarPermiso(60010082);
-    this.permisoPendientes  = this.validarPermiso(60010081);
+		this.permisoCrear = this.validarPermiso(60010083);
+		this.permisoDisfrutados = this.validarPermiso(60010082);
+		this.permisoPendientes = this.validarPermiso(60010081);
 	}
 
-  validarPermiso(permiso) {
+	validarPermiso(permiso) {
 		if (this.SEGUR.length > 0 && this.SEGUR.includes(permiso)) {
 			return true;
 		} else {
 			return false;
 		}
 	}
-
 
 	obtenerInformacion(metodo, funcion, datos = {}, event?) {
 		this.searching = true;

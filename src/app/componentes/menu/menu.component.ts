@@ -16,7 +16,7 @@ import { RxFormGroup } from '@rxweb/reactive-form-validators';
 	styleUrls: ['./menu.component.scss'],
 })
 export class MenuComponent implements OnInit {
-  formLogin: { formulario: RxFormGroup, propiedades: Array<string> };
+	formLogin: { formulario: RxFormGroup, propiedades: Array<string> };
 	appMenuSwipeGesture: boolean;
 	menus: Array<{ icon: string, title: string, path: string, badge?: boolean, hijos?: Array<any>, modulo?: string }> = [
 		{
@@ -29,12 +29,14 @@ export class MenuComponent implements OnInit {
 				icon: 'person-add-outline', title: 'Datos básicos', path: '/modulos/datosbasicos'
 			},
 			{
-				icon: 'newspaper-outline', title: 'Solicitar vacaciones', path: '/modulos/solicitarvacaciones'
+				icon: 'newspaper-outline', title: 'Solicitar Vacaciones', path: '/modulos/solicitarvacaciones'
+			},
+			{
+				icon: 'chatbox-ellipses-outline', title: 'Solicitar Permiso', path: '/modulos/solicitarpermisos'
 			},
 			{
 				icon: 'documents-outline', title: 'Certificados Laborales', path: '/modulos/certificados'
-			},
-			]
+			}]
 		}
 	];
 	datosUsuario: Object = {};
@@ -54,20 +56,14 @@ export class MenuComponent implements OnInit {
 		private cargadorService: CargadorService,
 	) {
 		this.menus = this.menus.sort((a, b) => FuncionesGenerales.ordenar(a, 'title', 1, b));
-		/* this.menus.unshift({
-		  icon: '', title: '', path: '', hijos: [{
-			icon: 'home-outline', title: 'Inicio', path: '/modulos/inicio'
-		  },
-		  ]
-		}) */
 	}
 
 	ngOnInit() {
 		this.obtenerUsuario();
-    this.configForm();
+		this.configForm();
 	}
 
-  configForm() {
+	configForm() {
 		this.formLogin = FuncionesGenerales.crearFormulario(this.loginService);
 	}
 
@@ -123,11 +119,11 @@ export class MenuComponent implements OnInit {
 		}, console.error);
 	}
 
-  confirmarCambioClave(extra = 0) {
+	confirmarCambioClave(extra = 0) {
 		this.notificacionesService.alerta('¿Esta seguro de cambiar la clave?').then(respuesta => {
 			if (respuesta.role === 'aceptar') {
-				console.log('respuesta.role',respuesta.role);
-        this.router.navigateByUrl(`forget-password/${this.formLogin.formulario.get('num_docu').value || '0'}/${extra}`);
+				console.log('respuesta.role', respuesta.role);
+				this.router.navigateByUrl(`forget-password/${this.formLogin.formulario.get('num_docu').value || '0'}/${extra}`);
 			}
 		}, console.error);
 	}
