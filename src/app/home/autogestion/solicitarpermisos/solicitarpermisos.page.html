@@ -19,13 +19,25 @@
 
 					<ion-label>
 						<h2 class="ion-text-center">{{ item['nombre'] }}</h2>
+
 						<div class="item d-flex justify-content-between">
 							<span><b>Fecha Inicio</b></span>
 							<span>{{ item['FechaInicio'] }}</span>
 						</div>
+
+            <div class="item d-flex justify-content-between">
+							<span><b>Fecha Fin</b></span>
+							<span>{{ item['FechaFin'] }}</span>
+						</div>
+
 						<div class="item d-flex justify-content-between">
-							<span><b>Días compensados</b></span>
+							<span><b>Días Ausentismo</b></span>
 							<span>{{ item['DiaCompensado'] }}</span>
+						</div>
+
+            <div class="item d-flex justify-content-between">
+							<span><b>Horas Ausentismo</b></span>
+							<span>{{ item['horas'] }}</span>
 						</div>
 
 						<div class="item d-flex justify-content-between">
