@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  urlGestion : 'http://192.168.0.224:8016/dev/GestionEmp/',
-  urlBack: 'http://192.168.0.224:8016/dev/GestionGastosAPP/Back_Nuevo/'
+  urlBack    : 'http://192.168.0.224:8016/dev/GestionEmp_Hurtatis/'
+  // urlBack    : 'https://prosof.co:8011/dev/Gestion_Empresarial/'
 };

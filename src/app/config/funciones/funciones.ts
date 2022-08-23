@@ -21,7 +21,7 @@ export class FuncionesGenerales {
 	}
 
 	static urlGestion() {
-		return environment.urlGestion;
+		return environment.urlBack;
 	}
 
 	static crearFormulario(service: any, group?: boolean) {

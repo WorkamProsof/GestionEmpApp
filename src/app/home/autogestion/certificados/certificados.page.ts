@@ -37,7 +37,6 @@ export class CertificadosPage implements OnInit {
 	searching: boolean = false;
 	pdfObj: any;
 	datosUsuario: Object = {};
-	foto: string = FuncionesGenerales.urlGestion();
 	base64 = '';
 	subject = new Subject();
 	subjectMenu = new Subject();
@@ -216,7 +215,7 @@ export class CertificadosPage implements OnInit {
 
 
 	async CartaLaboral(event) {
-		this.datosBasicosService.informacion(this.formFiltro, this.rutaGeneral + 'imprimirFactura').then(({
+		this.datosBasicosService.informacion(this.formFiltro, this.rutaGeneral + 'ImprimirCartaLaboral').then(({
 			base64Img,
 			file_aux
 		}) => {
