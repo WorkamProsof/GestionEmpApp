@@ -125,8 +125,6 @@ export class registroausentismoPage implements OnInit {
 			this.enfermedades = resp.enfermedades;
 			if (resp.success) {
 				this[funcion](resp);
-			} else {
-				this.notificacionService.notificacion(resp.mensaje);
 			}
 			this.searching = false;
 			if (event) {

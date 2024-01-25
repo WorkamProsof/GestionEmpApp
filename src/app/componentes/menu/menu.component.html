@@ -1,3 +1,4 @@
+<!-- eslint-disable @angular-eslint/template/eqeqeq -->
 <ion-menu (ionWillOpen)="obtenerUsuario()" side="start" type='overlay' [swipeGesture]="appMenuSwipeGesture"
 	menuId="first" contentId="main-cont" (ionDidOpen)="appMenuSwipeGesture = false"
 	(ionDidClose)="appMenuSwipeGesture = true">
@@ -27,7 +28,7 @@
 			</ion-item-divider>
 			<ion-item (click)="toggleMenu(); irPagina(hijo.path)" lines="full" *ngFor="let hijo of men['hijos'];">
 				<ion-icon slot="start" [name]="hijo.icon" color="dark"></ion-icon>
-				<ion-label [ngClass]="size" color="dark">{{ hijo.title }}</ion-label>
+				<ion-label [ngClass]="size" color="dark" style="cursor: pointer;">{{ hijo.title }}</ion-label>
 			</ion-item>
 		</ion-list>
 	</ion-content>
@@ -38,7 +39,7 @@
 					<ion-icon slot="icon-only" name="lock-open-outline"></ion-icon>
 				</ion-button>
 			</ion-buttons>
-			<ion-title class="ion-no-padding" [ngClass]="size">Modificar Contraseña</ion-title>
+			<ion-title class="ion-no-padding" [ngClass]="size" style="cursor: pointer;">Modificar Contraseña</ion-title>
 		</ion-toolbar>
 
 		<ion-toolbar (click)="toggleMenu(true); confirmarCerrarSesion();">
@@ -47,7 +48,7 @@
 					<ion-icon slot="icon-only" name="power"></ion-icon>
 				</ion-button>
 			</ion-buttons>
-			<ion-title class="ion-no-padding" [ngClass]="size">Cerrar sesión</ion-title>
+			<ion-title class="ion-no-padding" [ngClass]="size" style="cursor: pointer;">Cerrar sesión</ion-title>
 		</ion-toolbar>
 	</ion-footer>
 </ion-menu>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/member-ordering */
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
@@ -85,6 +86,7 @@ export class MenuComponent implements OnInit {
 		this.menuController.close('first');
 	}
 
+	// eslint-disable-next-line @angular-eslint/use-lifecycle-interface
 	ngOnDestroy() {
 		this.menuController.enable(false);
 	}
@@ -107,11 +109,11 @@ export class MenuComponent implements OnInit {
 		this.notificacionesService.alerta('¿Esta seguro de Cerrar Sesión?').then(respuesta => {
 			if (respuesta.role === 'aceptar') {
 				this.cargadorService.presentar().then(resp => {
-					this.loginService.cerrarSesionUser().then(resp => {
-						if (resp.valido === 1) {
+					this.loginService.cerrarSesionUser().then(respc => {
+						if (respc.valido === 1) {
 							this.storageService.limpiarTodo(true);
 						} else {
-							this.notificacionesService.notificacion(resp.mensaje);
+							this.notificacionesService.notificacion(respc.mensaje);
 						}
 						this.cargadorService.ocultar();
 					}).catch(error => {

@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/member-delimiter-style */
+/* eslint-disable quote-props */
+/* eslint-disable @typescript-eslint/member-ordering */
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -18,11 +21,11 @@ import { timer } from 'rxjs';
 export class LoginPage implements OnInit {
 
 	formLogin: { formulario: RxFormGroup, propiedades: Array<string> };
-	ingresoDocumento: Boolean = true;
-	claseDocumento: string = '';
-	claseUsuario: string = '';
-	verPassword: Boolean = false;
-	urlFondoImagen: string = "/assets/images/fondoLogin.jpg";
+	ingresoDocumento = true;
+	claseDocumento = '';
+	claseUsuario = '';
+	verPassword = false;
+	urlFondoImagen = '/assets/images/fondoLogin.jpg';
 
 	constructor(
 		private sanitizer: DomSanitizer,
@@ -43,7 +46,7 @@ export class LoginPage implements OnInit {
 	}
 
 	async validarAccion() {
-		let nit = await this.storageService.get('nit').then(resp => resp);
+		const nit = await this.storageService.get('nit').then(resp => resp);
 		if (nit) {
 			this.formLogin.formulario.get('nit').setValue(nit);
 			this.irFormulario();
@@ -75,14 +78,15 @@ export class LoginPage implements OnInit {
 						this.storageService.set('modulos', respuesta.modulos);
 						this.storageService.set('conexion', respuesta.db);
 						this.claseDocumento = 'animate__fadeOutLeft';
-						this.ejecutarTimer('claseUsuario', 'animate__fadeInRight').then(item => this.ingresoDocumento = !this.ingresoDocumento);
+						this.ejecutarTimer('claseUsuario', 'animate__fadeInRight')
+						.then(item => this.ingresoDocumento = !this.ingresoDocumento);
 					} else {
 						this.notificaciones.notificacion(respuesta.mensaje);
 					}
 					this.cargadorService.ocultar();
 				}).catch(error => {
 					console.log(error);
-					this.notificaciones.notificacion("Error de conexión.");
+					this.notificaciones.notificacion('Error de conexión.');
 					this.cargadorService.ocultar();
 				});
 			}
@@ -107,8 +111,8 @@ export class LoginPage implements OnInit {
 	login() {
 		if (this.formLogin.formulario.valid) {
 			this.cargadorService.presentar().then(resp => {
-				let permisos = FuncionesGenerales.permisos();
-				let data = { ...this.formLogin.formulario.value, permisos };
+				const permisos = FuncionesGenerales.permisos();
+				const data = { ...this.formLogin.formulario.value, permisos };
 				this.loginService.iniciarSesionUser(data).then(async respuesta => {
 					if (respuesta && respuesta.password) {
 						this.olvidoPass(1);
@@ -127,7 +131,7 @@ export class LoginPage implements OnInit {
 					}
 					this.cargadorService.ocultar();
 				}).catch(error => {
-					console.error("Error ", error);
+					console.error('Error ', error);
 					this.cargadorService.ocultar();
 				});
 			});
@@ -137,7 +141,7 @@ export class LoginPage implements OnInit {
 	}
 
 	olvidoPass(extra = 0) {
-		console.log(this.formLogin.formulario.value)
+		console.log(this.formLogin.formulario.value);
 		this.router.navigateByUrl(`forget-password/${this.formLogin.formulario.get('num_docu').value || '0'}/${extra}`);
 	}
 }
