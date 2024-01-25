@@ -1,6 +1,7 @@
 import { Injector, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
@@ -13,9 +14,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { Drivers } from '@ionic/storage';
 import { IonicSelectableModule } from 'ionic-selectable';
 import { FontAwesomeModule, FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { fas } from '@fortawesome/free-solid-svg-icons'
-import { far } from '@fortawesome/free-regular-svg-icons'
-import { fab } from '@fortawesome/free-brands-svg-icons'
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { far } from '@fortawesome/free-regular-svg-icons';
+import { fab } from '@fortawesome/free-brands-svg-icons';
+import { registroausentismoPageModule } from './home/autogestion/registroausentismo/registroausentismo.module';
 
 @NgModule({
 	declarations: [
@@ -27,8 +29,11 @@ import { fab } from '@fortawesome/free-brands-svg-icons'
 		, IonicModule.forRoot()
 		, AppRoutingModule
 		, HttpClientModule
-    , IonicSelectableModule
-    , FontAwesomeModule
+		, ReactiveFormsModule
+		, FormsModule
+		, registroausentismoPageModule
+    	, IonicSelectableModule
+    	, FontAwesomeModule
 		, IonicStorageModule.forRoot({
 			driverOrder: [Drivers.IndexedDB, Drivers.LocalStorage],
 			name: '__GestionEmpresarialDB',

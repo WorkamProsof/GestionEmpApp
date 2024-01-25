@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/member-delimiter-style */
+/* eslint-disable @typescript-eslint/dot-notation */
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { RxFormGroup } from '@rxweb/reactive-form-validators';
 import * as moment from 'moment';
@@ -12,7 +14,7 @@ import { debounceTime, takeUntil } from 'rxjs/operators';
 import { DatosbasicosService } from 'src/app/servicios/datosbasicos.service';
 import { InformacionEmpleado } from 'src/app/servicios/informacionempleado.service';
 import { LoginService } from 'src/app/servicios/login.service';
-import { IonAccordionGroup, ModalController } from '@ionic/angular';
+import { IonAccordionGroup, IonModal, ModalController } from '@ionic/angular';
 import { AgregarResidenciaComponent } from './agregar-residencia/agregar-residencia.component';
 import { AgregarTelefonoComponent } from './agregar-telefono/agregar-telefono.component';
 import { AgregarCorreoComponent } from './agregar-correo/agregar-correo.component';
@@ -27,26 +29,29 @@ import { AgregarFamiliarComponent } from './agregar-familiar/agregar-familiar.co
 export class DatosbasicosPage implements OnInit {
 
 	@ViewChild(IonAccordionGroup, { static: true }) accordionGroup: IonAccordionGroup;
+	@ViewChild('modalFecha') fechaNac: IonModal;
+	@ViewChild('#updateFechaModal') fechaModal: IonModal;
 	qFamiliar: Array<object> = [];
 	qTelefono: Array<object> = [];
 	qResidencia: Array<object> = [];
 	qCorreo: Array<object> = [];
 	qAcademica: Array<object> = [];
-	SEGUR: Array<object> = [];
-	buscarLista: string = '';
-	buscarListaHistorico: string = '';
-	buscarListaAcademia: string = '';
-	buscarListaTelefono: string = '';
-	buscarListaRe: string = '';
-	buscarListaCorreo: string = '';
-	accordions = ["DP", "DR", "DC", "CC", "IE", "IC", "FI"]
-	datosUsuario: Object = {};
+	segur: Array<object> = [];
+	buscarLista = '';
+	buscarListaHistorico = '';
+	buscarListaAcademia = '';
+	buscarListaTelefono = '';
+	buscarListaRe = '';
+	buscarListaCorreo = '';
+	accordions = ['DP', 'DR', 'DC', 'CC', 'IE', 'IC', 'FI'];
+	datosUsuario = {};
 	foto: string = FuncionesGenerales.urlGestion();
-	rutaGeneral: string = 'Autogestion/cDatosBasicos/';
+	rutaGeneral = 'Autogestion/cDatosBasicos/';
 	datosFormulario: { formulario: RxFormGroup, propiedades: Array<string> };
 	datosAdicionales: { formulario: RxFormGroup, propiedades: Array<string> };
 
 	generos = Constantes.generos;
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	grupo_sanguineo = Constantes.grupo_sanguineo;
 	maximoFechanacimiento = moment().format('YYYY-MM-DD');
 	// Opciones de la camara
@@ -70,8 +75,8 @@ export class DatosbasicosPage implements OnInit {
 	subject = new Subject();
 	subjectMenu = new Subject();
 	terceroId: string;
-	searching: boolean = true;
-	extBase64: string = 'data:image/jpg;base64,';
+	searching = true;
+	extBase64 = 'data:image/jpg;base64,';
 	datosForm = {};
 	estadoCivil: any = [];
 	paisnacido: any = [];
@@ -114,7 +119,7 @@ export class DatosbasicosPage implements OnInit {
 		this.datosUsuario = await this.loginService.desencriptar(
 			JSON.parse(await this.storage.get('usuario').then(resp => resp))
 		);
-		this.SEGUR = this.datosUsuario['SEGUR'] || [];
+		this.segur = this.datosUsuario['SEGUR'] || [];
 		this.irPermisos('datosFormulario', 'DP');
 	}
 
@@ -128,7 +133,7 @@ export class DatosbasicosPage implements OnInit {
 			this.subject.next(true);
 			this.subjectMenu.next(true);
 		}, error => {
-			console.log("Error ", error);
+			console.log('Error ', error);
 		}, () => console.log());
 	}
 
@@ -143,7 +148,7 @@ export class DatosbasicosPage implements OnInit {
 				FuncionesGenerales.formularioTocado(this.datosFormulario.formulario);
 			}
 		}, error => {
-			console.log("Error ", error);
+			console.log('Error ', error);
 		}, () => console.log());
 
 		this.datosAdicionales.formulario.valueChanges.pipe(
@@ -156,22 +161,26 @@ export class DatosbasicosPage implements OnInit {
 				//FuncionesGenerales.formularioTocado(this.datosAdicionales.formulario);
 			}
 		}, error => {
-			console.log("Error ", error);
+			console.log('Error ', error);
 		}, () => console.log());
 	}
 
 	guardarInformacion(tabla) {
-		if (tabla == 'Empleados') {
+		if (tabla === 'Empleados') {
 			this.datosForm = Object.assign({}, this.datosAdicionales.formulario.value);
 		} else {
 			this.datosForm = Object.assign({}, this.datosFormulario.formulario.value);
 			this.datosForm['fecha_nac'] = this.datosForm['fecha_nac'] && moment(this.datosForm['fecha_nac']).format('YYYY-MM-DD');
-			this.datosForm['nombre'] = this.datosFormulario.formulario.get('nombruno').value + ' ' + this.datosFormulario.formulario.get('nombrdos').value + ' ' + this.datosFormulario.formulario.get('apelluno').value + ' ' + this.datosFormulario.formulario.get('apelldos').value;
+			this.datosForm['nombre'] = this.datosFormulario.formulario.get('nombruno').value + ' ' +
+				this.datosFormulario.formulario.get('nombrdos').value + ' ' +
+				this.datosFormulario.formulario.get('apelluno').value + ' ' +
+				this.datosFormulario.formulario.get('apelldos').value;
 		}
 		Object.keys(this.datosSeleccionados).forEach(it => {
 			this.datosForm[it] = this.datosSeleccionados[it];
 		});
 		this.datosForm['tabla'] = tabla;
+		this.cerrarModalFecha();
 		this.obtenerInformacion('actualizarInformacion', 'datosGuardados', this.datosForm);
 	}
 
@@ -208,12 +217,16 @@ export class DatosbasicosPage implements OnInit {
 				this.notificacionService.notificacion(resp.mensaje);
 			}
 			this.searching = false;
-			if (event) event.target.complete();
+			if (event) {
+				event.target.complete();
+			}
 		}, console.error).catch(err => {
-			console.log("Error ", err);
+			console.log('Error ', err);
 			this.searching = false;
-			if (event) event.target.complete();
-		}).catch(error => console.log("Error ", error));
+			if (event) {
+				event.target.complete();
+			}
+		}).catch(error => console.log('Error ', error));
 	}
 
 	obtenerFotoPerfil() {
@@ -227,8 +240,8 @@ export class DatosbasicosPage implements OnInit {
 			text: 'Cancelar',
 			role: 'cancelar'
 		}];
-		this.notificacionService.alerta("Seleccionemos tu foto empleado", null, [], botones).then(({ role }) => {
-			if (role == 'camara' || role == 'galeria') {
+		this.notificacionService.alerta('Seleccionemos tu foto empleado', null, [], botones).then(({ role }) => {
+			if (role === 'camara' || role === 'galeria') {
 				// this.camera.getPicture(this['opciones' + role]).then((imageData) => {
 				// 	this.actualizarFotoPerfil(imageData);
 				// }, (err) => {
@@ -238,7 +251,7 @@ export class DatosbasicosPage implements OnInit {
 				// 	}
 				// });
 			}
-		}, error => console.log("Error ", error));
+		}, error => console.log('Error ', error));
 	}
 
 	async actualizarFotoPerfil(foto) {
@@ -252,37 +265,40 @@ export class DatosbasicosPage implements OnInit {
 				user.foto = foto;
 				this.storage.set('usuario', JSON.stringify(user));
 			}
-		}).catch(error => console.log("Error ", error));
+		}).catch(error => console.log('Error ', error));
 	}
 
 	obtenerDatosEmpleado(event?) {
 		this.datosBasicosService.informacion({}, this.rutaGeneral + 'getData').then((resp) => {
 			Object.entries(resp).forEach((it) => {
-				if (it[0] != 'datos') {
-					if (it[0] == 'qFamiliar' || it[0] == 'qAcademica' || it[0] == 'qTelefono' || it[0] == 'qResidencia' || it[0] == 'qCorreo') {
-						this[it[0]] = this.getColor(it[1])
+				if (it[0] !== 'datos') {
+					if (it[0] === 'qFamiliar' || it[0] === 'qAcademica'
+					|| it[0] === 'qTelefono' || it[0] === 'qResidencia' || it[0] === 'qCorreo') {
+						this[it[0]] = this.getColor(it[1]);
 					} else {
-						this[it[0]] = it[1]
+						this[it[0]] = it[1];
 					}
 				}
 			});
-			let { datos } = resp;
+			const { datos } = resp;
 			this.terceroId = datos.id_tercero;
 			this.datosFormulario.formulario.patchModelValue(datos);
 			this.datosAdicionales.formulario.patchModelValue(datos);
 			this.suscripcionCambios();
 			this.searching = false;
-			if (event) event.target.complete();
-		}).catch(error => console.log("Error ", error));
+			if (event) {
+				event.target.complete();
+			};
+		}).catch(error => console.log('Error ', error));
 	}
 
 	cambiosComponenteSelect(evento, tabs, tabla) {
 		this.datosSeleccionados[evento.control] = evento.valor[evento.key];
-		if (tabs == 'informacionempleado') {
-			if (evento.key == 'paisid') {
+		if (tabs === 'informacionempleado') {
+			if (evento.key === 'paisid') {
 				this.datosAdicionales.formulario.get('dptoid').setValue(null);
 			}
-			if (evento.key == 'dptoid' || evento.key == 'paisid') {
+			if (evento.key === 'dptoid' || evento.key === 'paisid') {
 				this.datosAdicionales.formulario.get('ciudadid').setValue(null);
 			}
 			this.datosAdicionales.formulario.get(evento.key).setValue(evento.valor[evento.key]);
@@ -296,12 +312,12 @@ export class DatosbasicosPage implements OnInit {
 	}
 
 	irPermisos(form, tipo) {
-		let permisos = FuncionesGenerales.permisos(tipo);
+		const permisos = FuncionesGenerales.permisos(tipo);
 		permisos.forEach(({ id, campo }: any) => this.validarPermiso(id, form, campo));
 	}
 
 	validarPermiso(permiso, formulario, control) {
-		if (this.SEGUR.length > 0 && this.SEGUR.includes(permiso)) {
+		if (this.segur.length > 0 && this.segur.includes(permiso)) {
 			this[formulario].formulario.get(control).enable();
 		} else {
 			this.cambiovalor = !this.cambiovalor;
@@ -310,10 +326,10 @@ export class DatosbasicosPage implements OnInit {
 	}
 
 	async irModal() {
-		let valor = this.accordionGroup.value;
-		let datos = { component: null, componentProps: {} };
+		const valor = this.accordionGroup.value;
+		const datos = { component: null, componentProps: {} };
 
-		if (valor == "DR") {
+		if (valor === 'DR') {
 			datos.component = AgregarResidenciaComponent;
 			datos.componentProps = {
 				paisnacido: this.paisnacido,
@@ -321,19 +337,19 @@ export class DatosbasicosPage implements OnInit {
 				ciudadResidencia: this.ciudadResidencia
 			};
 		}
-		if (valor == "DC") {
+		if (valor === 'DC') {
 			datos.component = AgregarTelefonoComponent;
 		}
-		if (valor == "CC") {
+		if (valor === 'CC') {
 			datos.component = AgregarCorreoComponent;
 		}
-		if (valor == "IC") {
+		if (valor === 'IC') {
 			datos.component = AgregarEstudioComponent;
 			datos.componentProps = {
 				getNivelEducativo: this.getNivelEducativo
 			};
 		}
-		if (valor == "FI") {
+		if (valor === 'FI') {
 			datos.component = AgregarFamiliarComponent;
 			datos.componentProps = {
 				getTipoDocumento: this.getTipoDocumento,
@@ -341,16 +357,16 @@ export class DatosbasicosPage implements OnInit {
 			};
 		}
 		if (datos.component) {
-			datos.componentProps['permisos'] = this.SEGUR;
+			datos.componentProps['permisos'] = this.segur;
 			const modal = await this.modalController.create(datos);
 			await modal.present();
 			await modal.onWillDismiss().then(resp => {
-				if (resp.data && typeof resp.data == "object") {
+				if (resp.data && typeof resp.data == 'object') {
 					this.obtenerInformacion('guardarValores', 'datosGuardados', resp.data);
 				}
 			});
 		} else {
-			this.notificacionService.notificacion("No se ha definido componente");
+			this.notificacionService.notificacion('No se ha definido componente');
 		}
 	}
 
@@ -359,4 +375,7 @@ export class DatosbasicosPage implements OnInit {
 		this.obtenerDatosEmpleado(evento);
 	}
 
+	cerrarModalFecha(){
+		this.fechaNac.dismiss();
+	}
 }

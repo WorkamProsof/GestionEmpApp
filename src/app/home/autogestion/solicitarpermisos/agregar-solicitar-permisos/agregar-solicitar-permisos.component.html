@@ -14,9 +14,9 @@
 		<ion-list lines="full">
 
 			<ion-item>
-				<ion-label position="floating" color="dark">Tipo Ausentismo</ion-label>
+				<ion-label position="floating" color="dark">* Tipo Ausentismo</ion-label>
 				<ion-select formControlName="TipoAusentismoId" okText="Aceptar" cancelText="Cancelar"
-					[interfaceOptions]="{cssClass: 'modal-color'}" placeholder="Selecciona el Genero">
+					[interfaceOptions]="{cssClass: 'modal-color'}" placeholder="Selecciona el Tipo de Ausentismo">
 					<ion-select-option color="dark" *ngFor="let item of ausentimos;" [value]="item['id']">{{
 						item['nombre'] }}
 					</ion-select-option>
@@ -25,48 +25,135 @@
 					*ngIf="datosSolicitud.formulario.get('TipoAusentismoId').touched" color="danger">{{
 					datosSolicitud.formulario.get('TipoAusentismoId')['errorMessage'] }}</ion-text>
 			</ion-item>
-
-			<ion-item class="ion-align-items-center">
-				<ion-label position="floating" color="dark">Fecha Inicio</ion-label><br>
-				<ion-datetime style="margin-bottom: 0px;margin-top: 25px;" formControlName="FechaInicio"
-					display-format="DD-MM-YYYY" display-format="DD-MM-YYYY" cancelText="Cancelar" doneText="Aceptar"
-					presentation='date'>
-				</ion-datetime>
-
+			
+			<ion-item id="open-model-inicio">
+				<ion-label position="floating" color="dark">* Fecha Inicio</ion-label><br>
+				<ion-input formControlName="FechaInicio" id="selectFechaInicio" expand="block"  display-format="DD-MM-YYYY"  
+				presentation='date'></ion-input>
+				<div>
+					<ion-modal #modalFechaSolicitudesInicio  trigger="open-model-inicio">
+						<ng-template>
+							<ion-header>
+								<ion-toolbar>
+									<ion-button color="dark" slot="start" (click)="confirmarInicio($event)">
+										Confirmar
+									</ion-button>
+									<ion-title>Fecha Inicio</ion-title>
+									<ion-buttons slot="end">
+										<ion-button (click)="cerrarModalFecha()">
+											<ion-icon slot="icon-only" name="close"></ion-icon>
+										</ion-button>
+									</ion-buttons>
+								</ion-toolbar>
+							</ion-header>
+							<ion-content>
+								<ion-datetime #updateFechaModal formControlName="FechaInicio" display-format="DD-MM-YYYY"  
+								presentation='date' id="Fechainicio"></ion-datetime>
+							</ion-content>
+						</ng-template>
+					</ion-modal>
+				</div>
 				<ion-text class="animate__animated animate__bounceIn animate__faster"
 					*ngIf="datosSolicitud.formulario.get('FechaInicio').touched" color="danger">{{
-					datosSolicitud.formulario.get('FechaInicio')['errorMessage'] }}</ion-text>
+						datosSolicitud.formulario.get('FechaInicio')['errorMessage'] }}</ion-text>
 			</ion-item>
-
-      <ion-item class="ion-align-items-center">
-				<ion-label position="floating" color="dark">Fecha Fin</ion-label><br>
-				<ion-datetime style="margin-bottom: 0px;margin-top: 25px;" formControlName="FechaFin"
-					display-format="DD-MM-YYYY" display-format="DD-MM-YYYY" cancelText="Cancelar" doneText="Aceptar"
-					presentation='date'>
-				</ion-datetime>
-
+			
+			<ion-item id="open-model-fin">
+				<ion-label position="floating" color="dark">* Fecha Fin</ion-label><br>
+				<ion-input formControlName="FechaFin" id="selectFechaFin" expand="block"  display-format="DD-MM-YYYY"  
+				presentation='date'></ion-input>
+				<div>
+					<ion-modal #modalFechaSolicitudesFin  trigger="open-model-fin">
+						<ng-template>
+							<ion-header>
+								<ion-toolbar>
+									<ion-button color="dark" slot="start" (click)="confirmarFin($event)">
+										Confirmar
+									</ion-button>
+									<ion-title>Fecha Fin</ion-title>
+									<ion-buttons slot="end">
+										<ion-button (click)="cerrarModalFecha()">
+											<ion-icon slot="icon-only" name="close"></ion-icon>
+										</ion-button>
+									</ion-buttons>
+								</ion-toolbar>
+							</ion-header>
+							<ion-content>
+								<ion-datetime #updateFechaModal formControlName="FechaFin" display-format="DD-MM-YYYY"  
+								 presentation='date' id="FechaFin"></ion-datetime>
+							</ion-content>
+						</ng-template>
+					</ion-modal>
+				</div>
 				<ion-text class="animate__animated animate__bounceIn animate__faster"
 					*ngIf="datosSolicitud.formulario.get('FechaFin').touched" color="danger">{{
-					datosSolicitud.formulario.get('FechaFin')['errorMessage'] }}</ion-text>
+						datosSolicitud.formulario.get('FechaFin')['errorMessage'] }}</ion-text>
+			</ion-item>
+			
+			<ion-item>
+				<ion-label position="floating" color="dark">* Tipo Calculo</ion-label>
+				<ion-select formControlName="TipoCalculo" [(ngModel)]="selectedOption" (ionChange)="onSelectChange()" okText="Aceptar" cancelText="Cancelar" 
+					[interfaceOptions]="{cssClass: 'modal-color'}" placeholder="Selecciona el tipo de calculo">
+					<ion-select-option color="dark" *ngFor="let item of tipoCalculo;" [value]="item.valor">{{
+						item['titulo'] }}
+					</ion-select-option>
+				</ion-select>
+				<ion-text class="animate__animated animate__bounceIn animate__faster"
+					*ngIf="datosSolicitud.formulario.get('TipoCalculo').touched" color="danger">{{
+					datosSolicitud.formulario.get('TipoCalculo')['errorMessage'] }}</ion-text>
 			</ion-item>
 
 			<ion-item>
 				<ion-label position="floating" color="dark">Dias Ausentismo</ion-label>
-				<ion-input formControlName="Dias" color="dark" type="text"></ion-input>
+				<ion-input formControlName="Dias" color="dark" type="text" id="diasAusentismo" disabled></ion-input>
 				<ion-text class="animate__animated animate__bounceIn animate__faster"
 					*ngIf="datosSolicitud.formulario.get('Dias').touched" color="danger">{{
 					datosSolicitud.formulario.get('Dias')['errorMessage'] }}</ion-text>
 			</ion-item>
 
-
 			<ion-item>
 				<ion-label position="floating" color="dark">Horas Ausentismo</ion-label>
-				<ion-input formControlName="horas" color="dark" type="text"></ion-input>
+				<ion-input formControlName="horas" color="dark" type="text" id="horasAusentismo" disabled></ion-input>
 				<ion-text class="animate__animated animate__bounceIn animate__faster"
 					*ngIf="datosSolicitud.formulario.get('horas').touched" color="danger">{{
 					datosSolicitud.formulario.get('horas')['errorMessage'] }}</ion-text>
 			</ion-item>
 
+			<ion-item>
+				<ion-label position="floating" color="dark">CIE 10</ion-label>
+				<ion-select style="width: 100% !important;" [multiple]="true" formControlName="cie10" okText="Aceptar" cancelText="Cancelar"
+					[interfaceOptions]="{cssClass: 'modal-color'}" placeholder="Selecciona una o varias opciones" >
+					<ion-select-option color="dark" *ngFor="let item of enfermedades;" [value]="item['id']">{{
+						item['nombre'] }}
+					</ion-select-option>
+				</ion-select>
+			</ion-item>
+
+			<!-- <ion-item>
+				<ion-content color="light" class="ion-padding">
+					<ion-list id="modal-list" [inset]="true">
+						<ion-item [button]="true" [detail]="false" id="select-fruits">
+							<ion-label>CIE 10</ion-label>
+							<div slot="end" id="select-fruits">{{selectedFruitsText}}</div>
+						</ion-item>
+					</ion-list>
+				</ion-content>2
+				
+				<ion-modal trigger="select-fruits" #modal>
+					<ng-template>
+						<app-typeahead class="ion-page" title="favorite fruits" [items]="fruits" [selectedItems]="selectedFruits" (selectionChange)="fruitSelectChanged($evenet)" (selectionCancel)="modal.dissmiss()"></app-typeahead>
+					</ng-template>
+				</ion-modal>
+			</ion-item> -->
+
+			<ion-item>
+				<ion-label position="floating" color="dark">Observaciones</ion-label>
+				<ion-input formControlName="Observacion" color="dark" type="text"></ion-input>
+				<!-- <ion-text class="animate__animated animate__bounceIn animate__faster"
+					*ngIf="datosAdicionales.formulario.get('observacion').touched" color="danger">
+					{{ datosSolicitud.formulario.get('observacion')['errorMessage'] }}
+				</ion-text> -->
+			</ion-item>
 		</ion-list>
 	</form>
 

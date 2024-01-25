@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable @typescript-eslint/member-ordering */
 import { Injectable } from '@angular/core';
 import { email, maxLength, prop, required } from '@rxweb/reactive-form-validators';
 import { PeticionService } from '../config/peticiones/peticion.service';
@@ -7,14 +10,14 @@ import { PeticionService } from '../config/peticiones/peticion.service';
 })
 export class DatosbasicosService extends PeticionService {
 
-  private _nombre: string;
+  	private _nombre: string;
 	private _nombruno: string;
 	private _nombrdos: string;
 	private _apelluno: string;
 	private _apelldos: string;
 	private _fecha_nac: string;
 	private _sexo: string;
-  private _grupo_sanguineo: string;
+  	private _grupo_sanguineo: string;
 	private _estadocivil_id: string;
 
 	constructor() {

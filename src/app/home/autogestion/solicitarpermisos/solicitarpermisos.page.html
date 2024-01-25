@@ -1,4 +1,4 @@
-<app-header titulo="Permisos Pendientes"></app-header>
+<app-header titulo="Permisos Solicitados"></app-header>
 <ion-progress-bar *ngIf="searching" type="indeterminate"></ion-progress-bar>
 
 <ion-content class="ion-padding-top">
@@ -25,7 +25,7 @@
 							<span>{{ item['FechaInicio'] }}</span>
 						</div>
 
-            <div class="item d-flex justify-content-between">
+           			 	<div class="item d-flex justify-content-between">
 							<span><b>Fecha Fin</b></span>
 							<span>{{ item['FechaFin'] }}</span>
 						</div>
@@ -35,7 +35,7 @@
 							<span>{{ item['DiaCompensado'] }}</span>
 						</div>
 
-            <div class="item d-flex justify-content-between">
+            			<div class="item d-flex justify-content-between">
 							<span><b>Horas Ausentismo</b></span>
 							<span>{{ item['horas'] }}</span>
 						</div>
@@ -54,7 +54,7 @@
 							<span>{{ item['NombreAusentismo'] }}</span>
 						</div>
 
-						<p *ngIf="item['Observacion']">Observación: {{ item['Observacion'] }}</p>
+						<span *ngIf="item['Observacion']"><b>Observación:</b> {{ item['Observacion'] }}</span>
 
 					</ion-label>
 				</ion-item>

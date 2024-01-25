@@ -110,7 +110,7 @@ export class ForgetPasswordPage implements OnInit {
 		if (this.formLogin.formulario.valid) {
 			this.cargadorService.presentar().then(resp => {
 				let data = { ...this.formLogin.formulario.value };
-				console.log(data);
+				// console.log(data);
 				this.forgetPassSvc.recuperarPassword(data, 'Login/modificarPassword').then(({ success, msj }) => {
 					this.cargadorService.ocultar();
 					if (success) {
@@ -122,6 +122,7 @@ export class ForgetPasswordPage implements OnInit {
 									this.storageService.set('usuario', respuesta.usuario);
 									//this.router.navigateByUrl('/modulos/inicio');
 									this.router.navigateByUrl('/modulos/datosbasicos');
+									this.notificaciones.presentToastConfirm('Contraseña modificada Exitosamente','bottom');
 									this.formLogin.formulario.reset();
 									this.retornar();
 								} else {

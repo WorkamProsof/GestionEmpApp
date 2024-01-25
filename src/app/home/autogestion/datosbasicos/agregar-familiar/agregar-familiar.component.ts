@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit,ViewChild } from '@angular/core';
 import { RxFormGroup } from '@rxweb/reactive-form-validators';
-import { ModalController } from '@ionic/angular';
+import { ModalController,IonModal } from '@ionic/angular';
 import * as moment from 'moment';
 import { InformacionFamiliar } from '../../../../servicios/informacionfamiliar.service';
 import { FuncionesGenerales } from 'src/app/config/funciones/funciones';
@@ -11,6 +11,8 @@ import { FuncionesGenerales } from 'src/app/config/funciones/funciones';
 	styleUrls: ['./agregar-familiar.component.scss'],
 })
 export class AgregarFamiliarComponent implements OnInit {
+	@ViewChild('modalFechaFamiliar') fechaNac: IonModal;
+	@ViewChild('#updateFechaModal') fechaModal: IonModal;
 
 	@Input() getTipoDocumento: Array<any> = [];
 	@Input() getParentesco: Array<any> = [];
@@ -67,4 +69,15 @@ export class AgregarFamiliarComponent implements OnInit {
 		});
 	}
 
+	cerrarModalFecha(){
+		this.fechaNac.dismiss();
+	}
+
+	confirmar(){
+		const inputElement = document.getElementById('selectFecha') as HTMLInputElement;
+		const fechanacselect = document.getElementById('selectFecha2') as HTMLInputElement;
+		const inputSelect = inputElement.value;
+		fechanacselect.value = inputSelect.split('T')[0];
+		this.fechaNac.dismiss();
+	}
 }

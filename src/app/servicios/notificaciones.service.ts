@@ -43,4 +43,14 @@ export class NotificacionesService {
 		});
 		toast.present();
 	}
+
+  async presentToastConfirm(message: any, position: any = 'top') {
+		const toast = await this.toastController.create({
+			message: message,
+			duration: 2000,
+			position: position,
+			color: 'success'
+		});
+		toast.present();
+	}
 }

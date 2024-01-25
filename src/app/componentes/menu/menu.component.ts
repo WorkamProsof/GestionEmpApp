@@ -16,8 +16,10 @@ import { RxFormGroup } from '@rxweb/reactive-form-validators';
 	styleUrls: ['./menu.component.scss'],
 })
 export class MenuComponent implements OnInit {
+	// eslint-disable-next-line @typescript-eslint/member-delimiter-style
 	formLogin: { formulario: RxFormGroup, propiedades: Array<string> };
 	appMenuSwipeGesture: boolean;
+	// eslint-disable-next-line @typescript-eslint/member-delimiter-style
 	menus: Array<{ icon: string, title: string, path: string, badge?: boolean, hijos?: Array<any>, modulo?: string }> = [
 		{
 			modulo: 'GASTOSAPP', icon: '', title: 'Gastos', path: '', hijos: [{
@@ -36,11 +38,14 @@ export class MenuComponent implements OnInit {
 			},
 			{
 				icon: 'documents-outline', title: 'Certificados Laborales', path: '/modulos/certificados'
+			},
+			{
+				icon: 'list-outline', title: 'Registro Ausentismos', path: '/modulos/registroausentismo'
 			}]
 		}
 	];
-	datosUsuario: Object = {};
-	public logo: string = 'assets/images/nofoto.png';
+	datosUsuario = {};
+	public logo = 'assets/images/nofoto.png';
 	modulos: Array<object> = [];
 
 	foto: string = FuncionesGenerales.urlGestion();
@@ -74,7 +79,6 @@ export class MenuComponent implements OnInit {
 		this.modulos = await this.loginService.desencriptar(
 			JSON.parse(await this.storageService.get('modulos').then(resp => resp))
 		);
-		console.log(this.modulos);
 	}
 
 	toggleMenu(sesion?: boolean) {
@@ -104,14 +108,14 @@ export class MenuComponent implements OnInit {
 			if (respuesta.role === 'aceptar') {
 				this.cargadorService.presentar().then(resp => {
 					this.loginService.cerrarSesionUser().then(resp => {
-						if (resp.valido == 1) {
+						if (resp.valido === 1) {
 							this.storageService.limpiarTodo(true);
 						} else {
 							this.notificacionesService.notificacion(resp.mensaje);
 						}
 						this.cargadorService.ocultar();
 					}).catch(error => {
-						this.notificacionesService.notificacion("ha ocurrido un error");
+						this.notificacionesService.notificacion('ha ocurrido un error');
 						this.cargadorService.ocultar();
 					});
 				});

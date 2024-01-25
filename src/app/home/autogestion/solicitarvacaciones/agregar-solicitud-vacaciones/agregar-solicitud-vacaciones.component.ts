@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ModalController,IonModal } from '@ionic/angular';
 import { RxFormGroup } from '@rxweb/reactive-form-validators';
 import { FuncionesGenerales } from 'src/app/config/funciones/funciones';
 import { InformacionSolicitud } from 'src/app/servicios/informacionsolicitud.service';
@@ -11,7 +11,10 @@ import { InformacionSolicitud } from 'src/app/servicios/informacionsolicitud.ser
 })
 export class AgregarSolicitudVacacionesComponent implements OnInit {
 
+	// eslint-disable-next-line @typescript-eslint/member-delimiter-style
 	datosSolicitud: { formulario: RxFormGroup, propiedades: Array<string> };
+	@ViewChild('modalFechaSolicitudesInicio') modalFechaSolicitudesInicio: IonModal;
+
 	datosForm = {};
 	datosSeleccionados = {};
 
@@ -36,6 +39,19 @@ export class AgregarSolicitudVacacionesComponent implements OnInit {
 		this.cerrarModal(this.datosForm);
 		this.datosSolicitud.formulario.reset();
 		this.datosSolicitud.formulario.markAsUntouched();
+	}
+
+	confirmarInicio(event: Event){
+		event.stopPropagation();
+		const inputElement = document.getElementById('Fechainicio') as HTMLInputElement;
+		const fechanacselect = document.getElementById('selectFechaInicio') as HTMLInputElement;
+		const inputSelect = inputElement.value;
+		fechanacselect.value = inputSelect.split('T')[0];
+		this.modalFechaSolicitudesInicio.dismiss();
+	}
+
+	cerrarModalFecha(){
+		this.modalFechaSolicitudesInicio.dismiss();
 	}
 
 }

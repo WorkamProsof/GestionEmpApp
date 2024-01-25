@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import * as CryptoJS from 'Crypto-js'
+import * as CryptoJS from 'Crypto-js';
 import { Observable } from 'rxjs';
 import { StorageService } from '../../servicios/storage.service';
 import { FuncionesGenerales } from '../funciones/funciones';
@@ -65,8 +65,9 @@ export class PeticionService {
 	async informacion(body: object, controlador: string) {
 		const data = {
 			encriptado: await this.encriptar(body)
-		}
+		};
 		const uri = this.construirUrl(controlador);
+		// eslint-disable-next-line @typescript-eslint/naming-convention
 		const Conexion = await this.storageService.get('conexion').then(resp => resp);
 		let NIT = await this.storageService.get('nit').then(resp => resp);
 		let usuario = await this.desencriptar(JSON.parse(await this.storageService.get('usuario').then(resp => resp)));
@@ -141,18 +142,19 @@ export class PeticionService {
 	}
 
 	private validarAlertaError(request) {
-		if (request.error != '' && request.error != undefined) {
-			let encabezado = "Se ha producido un problema";
+		if (request.error !== '' && request.error !== undefined) {
+			let encabezado = 'Se ha producido un problema';
 			let encabezado2 = 'Error';
 			let opciones = [];
-			let mensaje = `Para obtener más información de este problema y posibles correcciones, pulse el botón "Ver Detalle" y comuniquese a la línea de servicio al cliente.`;
-			if (request.error.text != '' && request.error.text != undefined) {
-				mensaje = `Para obtener más información de este problema y posibles correcciones, pulse el botón "Ver Detalle" y comuniquese a la línea de servicio al cliente.`;
-
+			let mensaje = `Para obtener más información de este problema y posibles correcciones, 
+				pulse el botón "Ver Detalle" y comuniquese a la línea de servicio al cliente.`;
+			if (request.error.text !== '' && request.error.text !== undefined) {
+				mensaje = `Para obtener más información de este problema y posibles correcciones, 
+					pulse el botón "Ver Detalle" y comuniquese a la línea de servicio al cliente.`;
 				opciones = [{
 					text: 'Ver Detalle',
 					handler: () => {
-						this.notificacionesService.alerta(request.error.text, "Error", ['alerta-error'],
+						this.notificacionesService.alerta(request.error.text, 'Error', ['alerta-error'],
 							[{
 								text: 'Cerrar',
 								role: 'aceptar',

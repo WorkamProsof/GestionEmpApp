@@ -32,7 +32,7 @@ export class FuncionesGenerales {
 			formulario = <RxFormGroup>new RxFormBuilder().formGroup(service);
 		}
 		const propiedades: Array<string> = Object.keys(formulario.controls);
-		return { formulario, propiedades }
+		return { formulario, propiedades };
 	}
 
 	static formularioTocado(formulario: RxFormGroup) {

@@ -67,7 +67,20 @@ export class Constantes {
 		valor: 'F', titulo: 'Femenino'
 	}];
 
+	static tipoCalculo = [
+		{valor: 'D', titulo: 'Dias'},
+		{valor: 'H', titulo: 'Horas'}
+	];
 
+	static escalaAusentismo = [
+		{valor: 'D', titulo: 'Leve'},
+		{valor: 'H', titulo: 'Moderado'},
+		{valor: 'H', titulo: 'Severo'},
+		{valor: 'H', titulo: 'Grave'},
+		{valor: 'H', titulo: 'Mortal'},
+	];
+
+	// eslint-disable-next-line @typescript-eslint/naming-convention
 	static grupo_sanguineo = [
 		{ valor: 'O-', titulo: 'O-' },
 		{ valor: 'O+', titulo: 'O+' },

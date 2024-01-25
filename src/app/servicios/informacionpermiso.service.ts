@@ -8,10 +8,13 @@ import { PeticionService } from '../config/peticiones/peticion.service';
 export class InformacionPermiso extends PeticionService {
 
 	private _Dias: number;
-  private _horas: number;
+  	private _horas: number;
 	private _FechaInicio: string;
-  private _FechaFin: string;
+  	private _FechaFin: string;
 	private _TipoAusentismoId: string;
+	private _TipoCalculo: string;
+	private _Observacion: string;
+	private _cie10: string;
 
 	constructor() {
 		super();
@@ -24,6 +27,13 @@ export class InformacionPermiso extends PeticionService {
 	public set TipoAusentismoId(value: string) {
 		this._TipoAusentismoId = value;
 	}
+	@required({ message: 'Campo requerido.' })
+	public get TipoCalculo(): string {
+		return this._TipoCalculo;
+	}
+	public set TipoCalculo(value: string) {
+		this._TipoCalculo = value;
+	}
 
 	@required({ message: 'Campo requerido.' })
 	@maxLength({ value: 30, message: 'Maximo 30 caracteres' })
@@ -32,6 +42,21 @@ export class InformacionPermiso extends PeticionService {
 	}
 	public set FechaInicio(value: string) {
 		this._FechaInicio = value;
+	}
+
+	@maxLength({ value: 30, message: 'Maximo 30 caracteres' })
+	public get Observacion(): string {
+		return this._Observacion;
+	}
+	public set Observacion(value: string) {
+		this._Observacion = value;
+	}
+	@maxLength({ value: 30, message: 'Maximo 30 caracteres' })
+	public get cie10(): string {
+		return this._cie10;
+	}
+	public set cie10(value: string) {
+		this._cie10 = value;
 	}
 
   @required({ message: 'Campo requerido.' })

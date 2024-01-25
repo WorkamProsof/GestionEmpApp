@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/dot-notation */
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Subject } from 'rxjs';
@@ -15,18 +16,19 @@ import { AgregarSolicitarPermisosComponent } from './agregar-solicitar-permisos/
 })
 export class SolicitarpermisosPage implements OnInit {
 
-	searching: boolean = false;
-	permisoPendientes: boolean = false;
-	permisoDisfrutados: boolean = false;
-	buscarPendientes: string = '';
-	permisoCrear: boolean = false;
-	rutaGeneral: string = 'Autogestion/cSolicitudPermiso/';
+	searching= false;
+	permisoPendientes= false;
+	permisoDisfrutados = false;
+	buscarPendientes = '';
+	permisoCrear = false;
+	rutaGeneral = 'Autogestion/cSolicitudPermiso/';
 	qPendientes: Array<object> = [];
 	tiposAusentismosArray: Array<object> = [];
+	enfermedadesArray: Array<object> = [];
 	subject = new Subject();
 	subjectMenu = new Subject();
-	SEGUR: Array<any> = [];
-	datosUsuario: Object = {};
+	segur: Array<any> = [];
+	datosUsuario = {};
 
 	constructor(
 		private datosBasicosService: DatosbasicosService,
@@ -48,22 +50,23 @@ export class SolicitarpermisosPage implements OnInit {
 			this.subject.next(true);
 			this.subjectMenu.next(true);
 		}, error => {
-			console.log("Error ", error);
-		}, () => console.log("Completado Menú !!"));
+			console.log('Error ', error);
+		}, () => console.log('Completado Menú !!'));
 		this.obtenerInformacion('tiposAusentismo', 'tiposDeAusentismo');
+		this.obtenerInformacion('enfermedades', 'enfermedadesfunction');
 	}
 
 	async obtenerUsuario() {
 		this.datosUsuario = await this.datosBasicosService.desencriptar(
 			JSON.parse(await this.storage.get('usuario').then(resp => resp))
 		);
-		this.SEGUR = this.datosUsuario['SEGUR'] || [];
+		this.segur = this.datosUsuario['SEGUR'] || [];
 		this.permisoCrear = this.validarPermiso(60010083);
 		this.permisoDisfrutados = this.validarPermiso(60010082);
 		this.permisoPendientes = this.validarPermiso(60010081);
 	}
 
-	validarPermiso = (permiso) => this.SEGUR.length > 0 && this.SEGUR.includes(permiso);
+	validarPermiso = (permiso) => this.segur.length > 0 && this.segur.includes(permiso);
 
 	buscarFiltro(variable, evento) {
 		this[variable] = evento.detail.value;
@@ -75,18 +78,22 @@ export class SolicitarpermisosPage implements OnInit {
 
 	obtenerDatosEmpleado({ qPendientes }) {
 		this.qPendientes = qPendientes;
-		console.log(this.qPendientes)
 	}
 
 	async irModal() {
-		let datos = {
+		// console.log(this.enfermedadesArray);
+		const datos = {
 			component: AgregarSolicitarPermisosComponent
-			, componentProps: { ausentimos: this.tiposAusentismosArray }
+			, componentProps: {
+				ausentimos: this.tiposAusentismosArray,
+				enfermedades: this.enfermedadesArray
+			}
 		};
+		// console.log(this.enfermedadesArray);
 		const modal = await this.modalController.create(datos);
 		await modal.present();
 		await modal.onWillDismiss().then(resp => {
-			if (resp.data && typeof resp.data == "object") {
+			if (resp.data && typeof resp.data === 'object') {
 				this.obtenerInformacion('crearSolicitud', 'datosGuardados', resp.data);
 			}
 		});
@@ -101,12 +108,17 @@ export class SolicitarpermisosPage implements OnInit {
 				this.notificacionService.notificacion(resp.mensaje);
 			}
 			this.searching = false;
-			if (event) event.target.complete();
+			if (event) {
+				event.target.complete();
+			};
+			// console.log(resp);
 		}, console.error).catch(err => {
-			console.log("Error ", err);
+			console.log('Error ',err);
 			this.searching = false;
-			if (event) event.target.complete();
-		}).catch(error => console.log("Error ", error));
+			if (event) {
+				event.target.complete();
+			};
+		}).catch(error => console.log('Error ', error));
 	}
 
 	async datosGuardados({ mensaje, qPendientes }) {
@@ -117,6 +129,10 @@ export class SolicitarpermisosPage implements OnInit {
 
 	tiposDeAusentismo(resp) {
 		this.tiposAusentismosArray = resp.datos;
+	}
+
+	enfermedadesfunction(resp) {
+		this.enfermedadesArray = resp.datos;
 	}
 
 }
