@@ -7,7 +7,7 @@ import { DatosEmpleadosService } from 'src/app/servicios/datosEmpleados.service'
 import { Constantes } from 'src/app/config/constantes/constantes';
 import { IonAccordionGroup, IonModal ,Platform} from '@ionic/angular';
 import { NotificacionesService } from 'src/app/servicios/notificaciones.service';
-import { RxFormGroup, stripLow } from '@rxweb/reactive-form-validators';
+import { RxFormGroup, disable, stripLow } from '@rxweb/reactive-form-validators';
 import { Subject } from 'rxjs';
 import { FuncionesGenerales } from 'src/app/config/funciones/funciones';
 import { LoginService } from 'src/app/servicios/login.service';
@@ -79,6 +79,8 @@ export class registroausentismoPage implements OnInit {
 		costo_hora: new FormControl(),
 		costo_total: new FormControl(),
 	});
+	cambiovalor: boolean;
+	guardarAusentismo = false;
 
 	datosFormulario: { formulario: RxFormGroup, propiedades: Array<string> };
 	datosFormularioEnvio: { formulario: RxFormGroup, propiedades: Array<string> };
@@ -115,6 +117,25 @@ export class registroausentismoPage implements OnInit {
 		this.datosEmpleadosService.informacion({documento: event}, `${this.rutaGeneral}cargarEmpleado`).then((resp) => {
 			this.empleado= resp[0];
 		}).catch(error => console.log('Error ', error));
+		this.segur = this.datosUsuario['SEGUR'] || [];
+		this.irPermisos('ausentismoForm', 'RC');
+
+	}
+
+	irPermisos(form, tipo) {
+		const permisos = FuncionesGenerales.permisos(tipo);
+		permisos.forEach(({ id, campo }: any) => this.validarPermiso(id, form, campo));
+	}
+
+	validarPermiso(permiso, formulario, control) {
+		if (this.segur.length > 0 && this.segur.includes(permiso)) {
+			this[formulario].enable();
+			this.guardarAusentismo = false;
+		} else {
+			this.cambiovalor = !this.cambiovalor;
+			this[formulario].disable();
+			this.guardarAusentismo = true;
+		}
 	}
 
 	obtenerInformacion(metodo, funcion, datos = {}, event?) {

@@ -1,3 +1,9 @@
+/* eslint-disable @typescript-eslint/no-inferrable-types */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/member-ordering */
+/* eslint-disable @typescript-eslint/prefer-for-of */
+/* eslint-disable prefer-arrow/prefer-arrow-functions */
+/* eslint-disable max-len */
 import { Component, OnInit } from '@angular/core';
 import { MenuController } from '@ionic/angular';
 import { NotificacionesService } from 'src/app/servicios/notificaciones.service';
@@ -66,10 +72,10 @@ export class GastosPage implements OnInit {
 		await this.storageService.get('solicitudSeleccionada').then(
 			(data: any) => {
 				if (data != null) {
-					if (this.Solicitudes != null && this.Solicitudes != undefined) {
-						let arrTemp = [];
-						for (var i = 0; i < this.Solicitudes.length; i++) {
-							if (this.Solicitudes[i].SolicitudGastoId != data.SolicitudGastoId) {
+					if (this.Solicitudes != null && this.Solicitudes !== undefined) {
+						const arrTemp = [];
+						for (let i = 0; i < this.Solicitudes.length; i++) {
+							if (this.Solicitudes[i].SolicitudGastoId !== data.SolicitudGastoId) {
 								arrTemp.push(this.Solicitudes[i]);
 							}
 						}
@@ -82,8 +88,8 @@ export class GastosPage implements OnInit {
 		);
 
 		document.getElementById('lista').innerHTML = '';
-		var self = this;
-		setTimeout(function () {
+		const self = this;
+		setTimeout(function() {
 			self.actualizarInformacion();
 		}, 2000);
 
@@ -91,7 +97,7 @@ export class GastosPage implements OnInit {
 	}
 
 	doRefresh(event) {
-		var self = this;
+		const self = this;
 		setTimeout(() => {
 			event.target.complete();
 			self.actualizarInformacion();
@@ -147,7 +153,7 @@ export class GastosPage implements OnInit {
 	}
 
 	async guardarMovimientos() {
-		var nit = 0;
+		let nit = 0;
 		await this.storageService.get('tokenNIT').then(
 			(data: any) => {
 				if (data != null) {
@@ -185,6 +191,7 @@ export class GastosPage implements OnInit {
 	async cargarInformacion() {
 		this.loader(true);
 		this.gastosService.informacion({}, 'gastos/cGastos/cargarInformacion').then(async respuesta => {
+			console.log(respuesta);
 			this.listaSolicitudes = respuesta.Solicitudes;
 			this.Solicitudes = this.listaSolicitudes;
 			this.storageService.set('Solicitudes', this.listaSolicitudes);
@@ -195,16 +202,16 @@ export class GastosPage implements OnInit {
 			}
 			this.loader(false);
 		}).catch(error => {
-			console.log("Error ", error);
+			console.log('Error ', error);
 			this.loader(false);
 		});
 
 	}
 
 	async search(key, nameKey, myArray) {
-		var arr = [];
-		for (var i = 0; i < myArray.length; i++) {
-			if (myArray[i][key] == nameKey.toUpperCase()) {
+		const arr = [];
+		for (let i = 0; i < myArray.length; i++) {
+			if (myArray[i][key] === nameKey.toUpperCase()) {
 				arr.push(myArray[i]);
 			}
 		}
@@ -214,7 +221,7 @@ export class GastosPage implements OnInit {
 
 	length = 0;
 	loadData(event) {
-		var self = this;
+		const self = this;
 		self.infiniteScroll = event;
 		setTimeout(() => {
 			event.target.complete();
@@ -223,11 +230,11 @@ export class GastosPage implements OnInit {
 	}
 
 	appendItems(number) {
-		var originalLengh = this.length;
-		var list = document.getElementById('lista');
-		var self = this;
-		for (var i = 0; i < number; i++) {
-			if (this.listaSolicitudes[i + originalLengh] != undefined) {
+		const originalLengh = this.length;
+		const list = document.getElementById('lista');
+		const self = this;
+		for (let i = 0; i < number; i++) {
+			if (this.listaSolicitudes[i + originalLengh] !== undefined) {
 				const el = document.createElement('ion-item');
 				el.innerHTML = '<ion-label>' +
 					`<h6><b>${self.listaSolicitudes[i + originalLengh].fase}</b> <span class="listFecha" style="float: right;font-size: 12px;">${self.listaSolicitudes[i + originalLengh].fecha}</span></h6>` +
@@ -236,8 +243,8 @@ export class GastosPage implements OnInit {
 				this.apend(list, el, i, originalLengh);
 				this.length++;
 			}
-			if (this.length <= this.listaSolicitudes.length && this.length == this.listaSolicitudes.length) {
-				if (self.infiniteScroll != undefined) {
+			if (this.length <= this.listaSolicitudes.length && this.length === this.listaSolicitudes.length) {
+				if (self.infiniteScroll !== undefined) {
 					self.infiniteScroll.disabled = true;
 				}
 				break;
@@ -247,9 +254,9 @@ export class GastosPage implements OnInit {
 
 	async apend(list, el, i, originalLengh) {
 		list.appendChild(el);
-		var self = this;
+		const self = this;
 		el.disabled = self.listaSolicitudes[i + originalLengh].disabled;
-		el.onclick = function (event) {
+		el.onclick = function(event) {
 			self.gestionarSolicitud(self.listaSolicitudes[i + originalLengh]);
 		};
 		return;

@@ -120,7 +120,7 @@ export class FuncionesGenerales {
 			{ id: 60010081, tipo: 'CL', campo: 'Periodos vacacionales pendientes' },
 			{ id: 60010082, tipo: 'CL', campo: 'Periodos vacacionales disfrutados o pagados' },
 			{ id: 60010083, tipo: 'CL', campo: 'Crear' },
-			// { id: 6001009, 	tipo: 'RC', campo: 'Ausentismo' }
+			{ id: 6001009, 	tipo: 'RC', campo: 'Ausentismo' }
 		];
 
 		if (tipo === '') {

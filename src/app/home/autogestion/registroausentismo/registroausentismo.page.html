@@ -180,7 +180,7 @@
 					<ion-label>Anexar Archivos</ion-label>
 				</ion-item>
 				<div class="ion-padding" slot="content" >
-					<ion-input  name="anexo" color="dark" type="file" id="inputAnexos" (change)="onFileSelected($event)" multiple accept=".jpg, .jpeg, .png, .pdf, .doc, .docx, .xls, .xlsx"></ion-input>	
+					<ion-input [disabled]="guardarAusentismo" name="anexo" color="dark" type="file" id="inputAnexos" (change)="onFileSelected($event)" multiple accept=".jpg, .jpeg, .png, .pdf, .doc, .docx, .xls, .xlsx"></ion-input>	
 					<ion-list>
 						<ion-item *ngFor="let file of selectedFiles">
 							<ion-button fill="clear" (click)="eliminarArchivo(file)"><ion-icon  slot="start" name="close-circle"></ion-icon></ion-button>
@@ -192,7 +192,7 @@
 					</ion-list>
 				</div>
 			</ion-accordion>
-			<ion-button  type="submit" class="ion-no-margin" shape="round"
+			<ion-button  type="submit" class="ion-no-margin" [disabled]="guardarAusentismo" shape="round"
 				expand="full">
 				Guardar
 				<ion-icon slot="start" name="save-outline"></ion-icon>
