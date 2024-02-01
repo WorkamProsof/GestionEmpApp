@@ -50,64 +50,30 @@
 									item['titulo'] }}
 								</ion-select-option>
 							</ion-select>
-						</ion-item>				
-						
-						<ion-item id="open-model-inicio-ausentismo">
+						</ion-item>					
+
+						<ion-item>
 							<ion-label position="floating" color="dark">* Fecha Inicio</ion-label><br>
 							<ion-input formControlName="fechainicio" name="fechainicio" id="selectFechaInicio" expand="block"  display-format="DD-MM-YYYY"  
 							presentation='date' required></ion-input>
-							<div>
-								<ion-modal #modalFechaSolicitudesInicio  trigger="open-model-inicio-ausentismo">
+								<ion-popover trigger="selectFechaInicio" size="cover" class="">
 									<ng-template>
-										<ion-header>
-											<ion-toolbar>
-												<ion-button color="dark" slot="start" (click)="confirmarInicio()">
-													Confirmar
-												</ion-button>
-												<ion-title>Fecha Inicio</ion-title>
-												<ion-buttons slot="end">
-													<ion-button (click)="cerrarModalFecha()">
-														<ion-icon slot="icon-only" name="close"></ion-icon>
-													</ion-button>
-												</ion-buttons>
-											</ion-toolbar>
-										</ion-header>
-										<ion-content>
-											<ion-datetime #updateFechaModal display-format="DD-MM-YYYY"  
-											presentation='date' id="Fechainicio"></ion-datetime>
-										</ion-content>
+										<ion-datetime display-format="DD-MM-YYYY"  
+											presentation='date' id="Fechainicio" [showDefaultButtons]="true" doneText="Confirmar" cancelText="Cancelar" (ionChange)="confirmarInicio()"></ion-datetime>
 									</ng-template>
-								</ion-modal>
-							</div>
+								</ion-popover>
 						</ion-item>
-						
-						<ion-item id="open-model-fin-ausentismo">
+
+						<ion-item>
 							<ion-label position="floating" color="dark">* Fecha Fin</ion-label><br>
 							<ion-input formControlName="fechafin" name="fechafin" id="selectFechaFin" expand="block"  display-format="DD-MM-YYYY"  
 							presentation='date' required></ion-input>
-							<div>
-								<ion-modal #modalFechaSolicitudesFin  trigger="open-model-fin-ausentismo">
+								<ion-popover trigger="selectFechaFin" size="cover" alignment="end">
 									<ng-template>
-										<ion-header>
-											<ion-toolbar>
-												<ion-button color="dark" slot="start" (click)="confirmarFin()">
-													Confirmar
-												</ion-button>
-												<ion-title>Fecha Fin</ion-title>
-												<ion-buttons slot="end">
-													<ion-button (click)="cerrarModalFecha()">
-														<ion-icon slot="icon-only" name="close"></ion-icon>
-													</ion-button>
-												</ion-buttons>
-											</ion-toolbar>
-										</ion-header>
-										<ion-content>
-											<ion-datetime #updateFechaModal display-format="DD-MM-YYYY"  
-											 presentation='date' id="FechaFin"></ion-datetime>
-										</ion-content>
+										<ion-datetime display-format="DD-MM-YYYY"  
+											presentation='date' id="FechaFin" [showDefaultButtons]="true" doneText="Confirmar" cancelText="Cancelar" (ionChange)="confirmarFin()"></ion-datetime>
 									</ng-template>
-								</ion-modal>
-							</div>
+								</ion-popover>
 						</ion-item>
 	
 						<ion-item>
@@ -148,7 +114,7 @@
 		
 						<ion-item>
 							<ion-label position="floating" color="dark">Horas Laborales Diarias</ion-label>
-							<ion-input formControlName="horas_dia_laboradas" name="horas_dia_laboradas" [(ngModel)]="selectedOptionHoras"  (ionBlur)="onSelectChangeHoras()" color="dark" type="text" id="HorasLaborales"  disabled></ion-input>
+							<ion-input formControlName="horas_dia_laboradas" name="horas_dia_laboradas" [(ngModel)]="selectedOptionHoras"  (ionChange)="onSelectChangeHoras()" color="dark" type="text" id="HorasLaborales"  disabled></ion-input>
 						</ion-item>	
 						<ion-item>
 							<ion-label position="floating" color="dark">Dias Ausentismo</ion-label>
@@ -156,7 +122,7 @@
 						</ion-item>	
 						<ion-item>
 							<ion-label position="floating" color="dark">Horas Ausentismo</ion-label>
-							<ion-input formControlName="horas" name="horas" color="dark" type="text" [(ngModel)]="horasAusentismo" (ionBlur)="onSelectChangeHorasAusentismo()" id="horasAusentismo"  disabled></ion-input>
+							<ion-input formControlName="horas" name="horas" color="dark" type="text" [(ngModel)]="horasAusentismo" (ionChange)="onSelectChangeHorasAusentismo()" id="horasAusentismo"  disabled></ion-input>
 						</ion-item>	
 						<ion-item>
 							<ion-label position="floating" color="dark"> Total Horas Ausente</ion-label>

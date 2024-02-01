@@ -7,12 +7,12 @@ import { DatosEmpleadosService } from 'src/app/servicios/datosEmpleados.service'
 import { Constantes } from 'src/app/config/constantes/constantes';
 import { IonAccordionGroup, IonModal ,Platform} from '@ionic/angular';
 import { NotificacionesService } from 'src/app/servicios/notificaciones.service';
-import { RxFormGroup, disable, stripLow } from '@rxweb/reactive-form-validators';
+import { RxFormGroup } from '@rxweb/reactive-form-validators';
 import { Subject } from 'rxjs';
 import { FuncionesGenerales } from 'src/app/config/funciones/funciones';
 import { LoginService } from 'src/app/servicios/login.service';
 import { StorageService } from 'src/app/servicios/storage.service';
-import { FormGroup, FormControl, FormBuilder,Validators } from '@angular/forms';
+import { FormGroup, FormControl} from '@angular/forms';
 import { DatosAusentismosService } from 'src/app/servicios/datosAusentismo';
 
 @Component({
@@ -38,7 +38,6 @@ export class registroausentismoPage implements OnInit {
 	datosUsuario = {};
 	base64 = '';
 	rutaGeneral = 'Autogestion/cAusentismoAutoGestion/';
-	// rutaGeneral = 'Autogestion/cDatosBasicos/';
 	selectedOption: string;
 	selectedOptionHoras: any;
 	diasAusentismo: any;
@@ -128,10 +127,7 @@ export class registroausentismoPage implements OnInit {
 	}
 
 	validarPermiso(permiso, formulario, control) {
-		if (this.segur.length > 0 && this.segur.includes(permiso)) {
-			this[formulario].enable();
-			this.guardarAusentismo = false;
-		} else {
+		if (this.segur.length > 0 && !this.segur.includes(permiso)) {
 			this.cambiovalor = !this.cambiovalor;
 			this[formulario].disable();
 			this.guardarAusentismo = true;
@@ -165,7 +161,6 @@ export class registroausentismoPage implements OnInit {
 		const fechanacselect = document.getElementById('selectFechaInicio') as HTMLInputElement;
 		const inputSelect = inputElement.value;
 		fechanacselect.value = inputSelect.split('T')[0];
-		this.modalFechaSolicitudesInicio.dismiss();
 	}
 
 	confirmarFin(){
@@ -173,12 +168,6 @@ export class registroausentismoPage implements OnInit {
 		const fechanacselect = document.getElementById('selectFechaFin') as HTMLInputElement;
 		const inputSelect = inputElement.value;
 		fechanacselect.value = inputSelect.split('T')[0];
-		this.modalFechaSolicitudesFin.dismiss();
-	}
-
-	cerrarModalFecha(){
-		this.modalFechaSolicitudesFin.dismiss();
-		this.modalFechaSolicitudesInicio.dismiss();
 	}
 
 	onSelectChange(){
@@ -306,12 +295,12 @@ export class registroausentismoPage implements OnInit {
 		const anexos: any = document.getElementById('inputAnexos') as HTMLInputElement;
 		this.ausentismoForm.reset();
 		this.selectedFiles = [];
+		anexos.value='';
 		this.obtenerUsuario();
 		this.obtenerDatosEmpleado(this.terceroId);
 		this.obtenerInformacion('obtenerDatosSelects', 'obtenerSelect');
 
 		this.notificacionService.notificacion(resp.mensaje);
-		anexos.value='No se han seleccionado archivos';
 	}
 
 	getBase64(file: File): Promise<string> {

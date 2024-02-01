@@ -60,7 +60,6 @@ export class SolicitarvacacionesPage implements OnInit {
 			JSON.parse(await this.storage.get('usuario').then(resp => resp))
 		);
 		this.SEGUR = this.datosUsuario['SEGUR'] || [];
-		console.log(this.SEGUR);
 		this.permisoCrear = this.validarPermiso(60010083);
 		this.permisoDisfrutados = this.validarPermiso(60010082);
 		this.permisoPendientes = this.validarPermiso(60010081);

@@ -1,6 +1,8 @@
-import { Component, Input, OnInit,ViewChild } from '@angular/core';
+/* eslint-disable @typescript-eslint/dot-notation */
+/* eslint-disable @typescript-eslint/member-delimiter-style */
+import { Component, Input, OnInit } from '@angular/core';
 import { RxFormGroup } from '@rxweb/reactive-form-validators';
-import { ModalController,IonModal } from '@ionic/angular';
+import { ModalController, } from '@ionic/angular';
 import * as moment from 'moment';
 import { InformacionFamiliar } from '../../../../servicios/informacionfamiliar.service';
 import { FuncionesGenerales } from 'src/app/config/funciones/funciones';
@@ -11,9 +13,6 @@ import { FuncionesGenerales } from 'src/app/config/funciones/funciones';
 	styleUrls: ['./agregar-familiar.component.scss'],
 })
 export class AgregarFamiliarComponent implements OnInit {
-	@ViewChild('modalFechaFamiliar') fechaNac: IonModal;
-	@ViewChild('#updateFechaModal') fechaModal: IonModal;
-
 	@Input() getTipoDocumento: Array<any> = [];
 	@Input() getParentesco: Array<any> = [];
 	@Input() permisos: Array<any> = [];
@@ -43,7 +42,7 @@ export class AgregarFamiliarComponent implements OnInit {
 	}
 
 	submitDataFamiliaContacto(tabla) {
-		let form = Object.assign({}, this.datosFamiliar.formulario.value);
+		const form = Object.assign({}, this.datosFamiliar.formulario.value);
 		Object.keys(this.datosSeleccionados).forEach(it => {
 			form[it] = this.datosSeleccionados[it];
 		});
@@ -58,7 +57,7 @@ export class AgregarFamiliarComponent implements OnInit {
 	}
 
 	validarPermiso() {
-		let permView = FuncionesGenerales.permisos('FI');
+		const permView = FuncionesGenerales.permisos('FI');
 		permView.forEach(({ id, campo }: any) => {
 			if (this.permisos.includes(id)) {
 				this.datosFamiliar.formulario.get(campo).enable();
@@ -69,15 +68,10 @@ export class AgregarFamiliarComponent implements OnInit {
 		});
 	}
 
-	cerrarModalFecha(){
-		this.fechaNac.dismiss();
-	}
-
 	confirmar(){
 		const inputElement = document.getElementById('selectFecha') as HTMLInputElement;
 		const fechanacselect = document.getElementById('selectFecha2') as HTMLInputElement;
 		const inputSelect = inputElement.value;
 		fechanacselect.value = inputSelect.split('T')[0];
-		this.fechaNac.dismiss();
 	}
 }

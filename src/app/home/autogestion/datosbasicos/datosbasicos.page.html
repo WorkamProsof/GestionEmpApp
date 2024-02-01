@@ -105,19 +105,19 @@
 					<div>
 						<ion-modal #modalFecha trigger="open-model"  >
 							<ng-template>
-								<ion-header>
-									<ion-toolbar>
-										<ion-title>Fecha Nacimiento</ion-title>
-										<ion-buttons slot="end">
-											<ion-button (click)="cerrarModalFecha()">
-												<ion-icon slot="icon-only" name="close"></ion-icon>
-											</ion-button>
-										</ion-buttons>
-									</ion-toolbar>
-								</ion-header>
 								<ion-content>
+									<ion-header>
+										<ion-toolbar>
+											<ion-title slot="start">Fecha Nacimiento</ion-title>
+											<ion-buttons slot="end">
+												<ion-button (click)="cerrarModalFecha()">
+													<ion-icon slot="icon-only" name="close"></ion-icon>
+												</ion-button>
+											</ion-buttons>
+										</ion-toolbar>
+									</ion-header>
 									<ion-datetime #updateFechaModal formControlName="fecha_nac" display-format="DD-MM-YYYY"  
-									[max]="maximoFechanacimiento" presentation='date' ></ion-datetime>
+									[max]="maximoFechanacimiento" presentation='date'></ion-datetime>
 								</ion-content>
 							</ng-template>
 						</ion-modal>

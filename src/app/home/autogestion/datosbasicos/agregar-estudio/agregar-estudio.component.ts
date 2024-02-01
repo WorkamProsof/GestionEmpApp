@@ -1,5 +1,5 @@
-import { Component, Input, OnInit,ViewChild } from '@angular/core';
-import { ModalController, IonModal } from '@ionic/angular';
+import { Component, Input, OnInit } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 import { RxFormGroup } from '@rxweb/reactive-form-validators';
 import * as moment from 'moment';
 import { FuncionesGenerales } from 'src/app/config/funciones/funciones';
@@ -11,8 +11,6 @@ import { InformacionAcademica } from 'src/app/servicios/informacionacademica.ser
 	styleUrls: ['./agregar-estudio.component.scss'],
 })
 export class AgregarEstudioComponent implements OnInit {
-	@ViewChild('modalFechaFamiliar') fechaNac: IonModal;
-	@ViewChild('#updateFechaModal') fechaModal: IonModal;
 
 	@Input() getNivelEducativo: Array<any> = [];
 	@Input() permisos: Array<any> = [];
@@ -20,7 +18,6 @@ export class AgregarEstudioComponent implements OnInit {
 	cambiovalor: boolean;
 	maximoFechanacimiento = moment().format('YYYY-MM-DD');
 	datosSeleccionados = {};
-	llaveActual: string = '';
 
 	constructor(
 		private modalController: ModalController,
@@ -68,16 +65,11 @@ export class AgregarEstudioComponent implements OnInit {
 		});
 	}
 
-	cerrarModalFecha(){
-		this.fechaNac.dismiss();
-	}
-
 	confirmar(){
 		const inputElement = document.getElementById('selectFecha') as HTMLInputElement;
 		const fechanacselect = document.getElementById('selectFecha2') as HTMLInputElement;
 		const inputSelect = inputElement.value;
 		fechanacselect.value = inputSelect.split('T')[0];
-		this.fechaNac.dismiss();
 	}
 
 }
