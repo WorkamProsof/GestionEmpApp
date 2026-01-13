@@ -65,7 +65,9 @@ export class UrlConfigService {
    */
   getActiveUrl(): string {
     if (localStorage.getItem(this.CONTINGENCIA_KEY) === 'true') {
-      return environment.urlContingencia;
+      // Obtener la URL de contingencia del localStorage o del environment
+      const config = this.getConfig();
+      return config.urlContingencia || environment.urlContingencia;
     }
     return environment.urlBack;
   }
