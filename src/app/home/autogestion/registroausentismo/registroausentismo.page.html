@@ -35,7 +35,7 @@
 						</ion-item>				
 						<ion-item>
 							<ion-label position="floating" color="dark">* Tipo de Ausentismo</ion-label>
-							<ion-select formControlName="tiposausentismoid" name="tiposausentismoid" okText="Aceptar" cancelText="Cancelar" 
+							<ion-select formControlName="tiposausentismoid" name="tiposausentismoid" (ionChange)="onTipoAusentismoChange($event)" okText="Aceptar" cancelText="Cancelar" 
 								[interfaceOptions]="selectTipoAusentismoOptions" placeholder="Selecciona el tipo de ausentismo" required>
 								<ion-select-option color="dark" *ngFor="let item of ausentismo;" [value]="item.id">{{
 									item['nombre'] }}
@@ -56,7 +56,7 @@
 							<ion-label position="floating" for="selectfechainicio" color="dark">* Fecha Inicio</ion-label>
 							<ion-input [class.invalid]="ausentismoForm.get('fechainicio')?.touched && ausentismoForm.get('fechainicio')?.invalid" formControlName="fechainicio" name="fechainicio" id="selectfechainicio" expand="block"  display-format="DD-MM-YYYY"  
 							presentation='date' required readonly></ion-input>
-								<ion-popover trigger="selectfechainicio" size="cover" class="">
+								<ion-popover trigger="selectfechainicio" size="cover" class="custom-popover">
 									<ng-template>
 										<ion-datetime display-format="DD-MM-YYYY"  
 											presentation='date' id="fechainicio" [showDefaultButtons]="true" doneText="Confirmar" cancelText="Cancelar" (ionChange)="confirmarInicio()"></ion-datetime>
@@ -71,7 +71,7 @@
 							<ion-label position="floating" for="selectfechafin" color="dark">* Fecha Fin</ion-label>
 							<ion-input [class.invalid]="ausentismoForm.get('fechafin')?.touched && ausentismoForm.get('fechafin')?.invalid" formControlName="fechafin" name="fechafin" id="selectfechafin" expand="block"  display-format="DD-MM-YYYY"  
 							presentation='date' required readonly></ion-input>
-								<ion-popover trigger="selectfechafin" size="cover" alignment="end">
+								<ion-popover trigger="selectfechafin" size="cover" alignment="end" class="custom-popover">
 									<ng-template>
 										<ion-datetime display-format="DD-MM-YYYY"  
 											presentation='date' id="fechafin" [showDefaultButtons]="true" doneText="Confirmar" cancelText="Cancelar" (ionChange)="confirmarFin()"></ion-datetime>
@@ -146,6 +146,9 @@
 					</ion-list>
 				</div>
 			</ion-accordion>
+			<div id="DocumentoRequerido" hidden style="margin: 12px; padding: 12px; border: 1px solid #fcf8e3; border-radius: 4px; background-color: #fff3cd;">
+				<span style="color: #8a6d3b;"> {{ DocumentoRequerido }}</span>
+			</div>
 	
 			<ion-accordion value="third" toggle-icon="chevron-down-outline">
 				<ion-item class="b-item" slot="header">

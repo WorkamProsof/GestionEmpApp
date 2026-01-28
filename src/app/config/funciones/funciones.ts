@@ -121,6 +121,9 @@ export class FuncionesGenerales {
 			{ id: 60010082, tipo: 'SV', campo: 'Periodos vacacionales disfrutados o pagados' },
 			{ id: 60010083, tipo: 'SV', campo: 'Crear' },
 			{ id: 6001009, 	tipo: 'RC', campo: 'Ausentismo' },
+			{ id: 6001100, 	tipo: 'VEE', campo: 'Ver ejecuciones de evaluaciones' },
+			{ id: 6001200, 	tipo: 'PC', campo: 'Perfil de Cargo' },
+
 			// Gastos
 			{ id: 500100, tipo: 'GASTOS', campo: 'modulo_gastos' },
 

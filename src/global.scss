@@ -138,3 +138,56 @@ ion-select-option {
 	font-size: 16px !important;
 }
 
+/**
+ * FIX: Centrado de radio buttons en ion-select (Tablets)
+ * Validaciones agregadas para que los radios se vean centrados solo en tablets
+ */
+
+// Para tablets - Aplicar estilos de centrado
+@media (max-width: 767px) and (min-width: 481px) {
+	.alert-radio-icon .sc-ion-alert-md {
+		right: 3px !important;
+	}
+	
+	.alert-radio-icon .sc-ion-alert-md .alert-radio-label .sc-ion-alert-md {
+		padding: 20px !important;
+	}
+	
+	// Asegurar que el contenedor del radio se centre
+	.alert-radio-inner {
+		display: flex !important;
+		align-items: center !important;
+		justify-content: center !important;
+	}
+}
+
+// // Para móviles - Mantener estilos por defecto
+// @media (max-width: 767px) {
+// 	.alert-radio-icon {
+// 		display: flex !important;
+// 		align-items: center !important;
+// 		justify-content: center !important;
+// 	}
+	
+// 	.alert-radio-label {
+// 		display: flex !important;
+// 		align-items: center !important;
+// 	}
+// }
+
+// Estilos personalizados para popovers en tablets
+ion-popover.custom-popover {
+  --background: transparent !important;
+  --box-shadow: none !important;
+  
+  .popover-content {
+    background: white !important;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  // Media query para tablets
+  @media (min-width: 768px) {
+    --width: 90%;
+    --max-width: 600px;
+  }
+}

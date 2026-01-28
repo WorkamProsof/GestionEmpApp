@@ -89,7 +89,20 @@ export class MenuComponent implements OnInit, OnDestroy {
 				icon: 'list', 
 				title: 'Elementos de Protección', 
 				path: '/modulos/elementosproteccion',
-			}]
+			},
+			{
+				icon: 'checkmark-done-outline', 
+				title: 'Ver ejecuciones de evaluación', 
+				path: '/modulos/ejecucionesevaluacion',
+				permisoId: 6001100
+			},
+			{
+				icon: 'briefcase-outline', 
+				title: 'Perfil de Cargo', 
+				path: '/modulos/perfilcargo',
+				permisoId: 6001200
+			},
+		]
 		}
 	];
 

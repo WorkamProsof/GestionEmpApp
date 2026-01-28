@@ -1,0 +1,359 @@
+<app-header titulo="Perfil de Cargo"></app-header>
+
+<ion-content class="ion-padding-top">
+  <!-- Estado de Carga -->
+  <div *ngIf="cargando">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Cargando...</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-spinner name="dots"></ion-spinner>
+        <p style="text-align: center; margin-top: 16px;">Por favor espere mientras se cargan los datos del cargo</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="error && !cargando">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Error</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p><strong>{{ error }}</strong></p>
+        <ion-button expand="block" (click)="recargar()">
+          <ion-icon name="refresh" slot="start"></ion-icon>
+          Reintentar
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Contenido Cargado -->
+  <div *ngIf="!cargando && mostrandoDetalles && !error" class="ion-padding">
+
+    <!-- TABS -->
+    <ion-segment [(ngModel)]="tabActiva" (ionChange)="cambiarTab(tabActiva)" class="ion-margin-bottom" scrollable>
+      <ion-segment-button value="basicos">
+        <ion-label>Datos básicos </ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="requisitos">
+        <ion-label>Requisitos Indispensables</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="funciones">
+        <ion-label>Funciones</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="objetivos">
+        <ion-label>Metas del Cargo</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="responsabilidades">
+        <ion-label>Responsabilidades</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="competencias">
+        <ion-label>Competencias</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="riesgos">
+        <ion-label>Riesgos</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
+    <!-- TAB: DATOS BÁSICOS -->
+    <div *ngIf="tabActiva === 'basicos'">
+      <ion-card *ngIf="info && info.length > 0">
+        <ion-card-content>
+          <ng-container *ngFor="let infoItem of info">
+            <ion-list>
+              <ion-item lines="full">
+                <ion-label position="stacked"><strong>Código cargo</strong></ion-label>
+                <ion-text style="text-align: justify;">{{ infoItem.codigo }}</ion-text>
+              </ion-item>
+              <ion-item lines="full">
+                <ion-label position="stacked"><strong>Nombre cargo</strong></ion-label>
+                <ion-text style="text-align: justify;">{{ infoItem.nombre }}</ion-text>
+              </ion-item>              
+              <ion-item lines="full">
+                <ion-label position="stacked"><strong>Jefe inmediato</strong></ion-label>
+                <ion-text style="text-align: justify;">{{ infoItem.jefe }}</ion-text>
+              </ion-item>
+              <ion-item lines="full">
+                <ion-label position="stacked"><strong>Jefe operativo</strong></ion-label>
+                <div class="multi-value-list">
+                  <span *ngFor="let jefe of infoItem.jefeOperativo" class="value-badge">
+                    {{ jefe.nombre }}
+                  </span>
+                </div>
+              </ion-item>
+              <ion-item lines="full">
+                <ion-label position="stacked"><strong>Nivel jerarquico</strong></ion-label>
+                <ion-text style="text-align: justify;">{{ infoItem.nivelJerarquico }}</ion-text>
+              </ion-item>
+              <ion-item lines="full">
+                <ion-label position="stacked"><strong>Supervisa</strong></ion-label>
+                <ion-text style="text-align: justify;">{{ infoItem.supervisa }}</ion-text>
+              </ion-item>
+              <ion-item lines="full">
+                <ion-label position="stacked"><strong>Misión</strong></ion-label>
+                <ion-text style="text-align: justify;">{{ infoItem.mision }}</ion-text>
+              </ion-item>
+              <ion-item lines="full">
+                <ion-label position="stacked"><strong>Procesos en los que interviene</strong></ion-label>
+                <div class="multi-value-list">
+                  <span *ngFor="let proceso of infoItem.procesos" class="value-badge">
+                    {{ proceso.nombre }}
+                  </span>
+                </div>
+              </ion-item>
+              <ion-item lines="full">
+                <ion-label position="stacked"><strong>Sistemas de gestion</strong></ion-label>
+                <div class="multi-value-list">
+                  <span *ngFor="let sistema of infoItem.sistemasGestion" class="value-badge">
+                    {{ sistema.nombre }}
+                  </span>
+                </div>
+              </ion-item>
+              <ion-item lines="full">
+                <ion-label position="stacked"><strong>Centro de costo</strong></ion-label>
+                <div class="multi-value-list">
+                  <span *ngFor="let centro of infoItem.centrosCostos" class="value-badge">
+                    {{ centro.nombre }}
+                  </span>
+                </div>
+              </ion-item>
+              <ion-item lines="full">
+                <ion-label position="stacked"><strong>Procesos al que pertenece</strong></ion-label>
+                <div class="multi-value-list">
+                  <span *ngFor="let proceso of infoItem.procesosPertenece" class="value-badge">
+                    {{ proceso.nombre }}
+                  </span>
+                </div>
+              </ion-item>
+              <ion-item lines="full">
+                <ion-label position="stacked"><strong>Sucursal</strong></ion-label>
+                <div class="multi-value-list">
+                  <span *ngFor="let sucursal of infoItem.sucursales" class="value-badge">
+                    {{ sucursal.nombre }}
+                  </span>
+                </div>
+              </ion-item>
+              <ion-item lines="full">
+                <ion-label position="stacked"><strong>Estado</strong></ion-label>
+                <ion-text style="text-align: justify;">{{ infoItem.estado }}</ion-text>
+              </ion-item>
+            </ion-list>
+          </ng-container>
+        </ion-card-content>
+      </ion-card>
+
+      <div *ngIf="!info || info.length === 0">
+        <ion-card>
+          <ion-card-content>
+            <p style="text-align: center; color: var(--ion-color-medium);">No hay datos disponibles</p>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </div>
+
+    <!-- TAB: REQUISITOS -->
+    <div *ngIf="tabActiva === 'requisitos'">
+      <ion-card>
+        <ion-card-content style="padding-bottom: 0;padding-bottom: 0px !important;">
+          <h2 style="margin: 0 0 16px 0; color: var(--ion-color-dark);">
+            <strong>Tipo de respuesta: {{ nombreTipoRequisito }}</strong>
+          </h2>
+        </ion-card-content>
+        
+        <div *ngIf="requisitos.length > 0">
+          <!-- Tabla de requisitos -->
+          <table class="requisitos-table">
+            <thead>
+              <tr>
+                <th>Tipo Requisito</th>
+                <th>Requisito</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let req of requisitos; let i = index" [class.alternate]="i % 2 !== 0">
+                <td>{{ req.nombre }}</td>
+                <td>{{ sanitizeHtml(req.descripcion) }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <div *ngIf="requisitos.length === 0" style="padding: 16px;">
+          <p style="text-align: center; color: var(--ion-color-medium); margin: 0;">No hay requisitos disponibles</p>
+        </div>
+      </ion-card>
+    </div>
+
+    <!-- TAB: FUNCIONES -->
+    <div *ngIf="tabActiva === 'funciones'">
+      <ion-card>
+        <ion-card-content style="padding-bottom: 0; padding-bottom: 0px !important;">
+          <h2 style="margin: 0 0 16px 0; color: var(--ion-color-dark);">
+            <strong>Tipo de respuesta: {{ nombreTipoFuncion }}</strong>
+          </h2>
+        </ion-card-content>
+        
+        <div *ngIf="funciones.length > 0">
+          <!-- Tabla de funciones -->
+          <table class="funciones-table">
+            <thead>
+              <tr>
+                <th>Función</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let func of funciones; let i = index" [class.alternate]="i % 2 !== 0">
+                <td>
+                  <strong>{{ i + 1 }}.</strong> {{ func.funcion || func.nombre || func.titulo }}
+                  <p *ngIf="func.criterio" class="ion-text-wrap" style="margin-top: 8px; color: var(--ion-color-dark); margin-bottom: 0;">
+                    <small><strong>Criterio:</strong> {{ sanitizeHtml(func.criterio) }}</small>
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <div *ngIf="funciones.length === 0" style="padding: 16px;">
+          <p style="text-align: center; color: var(--ion-color-dark); margin: 0;">No hay funciones disponibles</p>
+        </div>
+      </ion-card>
+    </div>
+
+    <!-- TAB: OBJETIVOS -->
+    <div *ngIf="tabActiva === 'objetivos'">
+      <ion-card>
+        <ion-card-content style="padding-bottom: 0;  padding-bottom: 0px !important;">
+          <h2 style="margin: 0 0 16px 0; color: var(--ion-color-dark);">
+            <strong>Tipo de respuesta: {{ nombreTipoObjetivo }}</strong>
+          </h2>
+        </ion-card-content>
+        
+        <div *ngIf="objetivos.length > 0">
+          <!-- Tabla de objetivos -->
+          <table class="objetivos-table">
+            <thead>
+              <tr>
+                <th>Objetivo</th>
+                <th>Indicador</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let obj of objetivos; let i = index" [class.alternate]="i % 2 !== 0">
+                <td>{{ obj.objetivo || obj.nombre || obj.titulo }}</td>
+                <td>{{ sanitizeHtml(obj.criterio) }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <div *ngIf="objetivos.length === 0" style="padding: 16px;">
+          <p style="text-align: center; color: var(--ion-color-medium); margin: 0;">No hay objetivos disponibles</p>
+        </div>
+      </ion-card>
+    </div>
+
+    <!-- TAB: RESPONSABILIDADES -->
+    <div *ngIf="tabActiva === 'responsabilidades'">
+      <ion-card>
+        <ion-card-content style="padding-bottom: 0; padding-bottom: 0px !important;">
+          <h2 style="margin: 0 0 16px 0; color: var(--ion-color-dark);">
+            <strong>Tipo de respuesta: Responsabilidades</strong>
+          </h2>
+        </ion-card-content>
+        
+        <div *ngIf="responsabilidades.length > 0">
+          <!-- Tabla de responsabilidades -->
+          <table class="responsabilidades-table">
+            <thead>
+              <tr>
+                <th>Responsabilidad</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let resp of responsabilidades; let i = index" [class.alternate]="i % 2 !== 0">
+                <td>
+                  <strong>{{ i + 1 }}.</strong> {{ sanitizeHtml(resp.Responsabilidad || resp.nombre || resp.descripcion) }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <div *ngIf="responsabilidades.length === 0" style="padding: 16px;">
+          <p style="text-align: center; color: var(--ion-color-medium); margin: 0;">No hay responsabilidades disponibles</p>
+        </div>
+      </ion-card>
+    </div>
+
+    <!-- TAB: COMPETENCIAS -->
+    <div *ngIf="tabActiva === 'competencias'">
+      <ion-card>
+        <ion-card-content style="padding-bottom: 0; padding-bottom: 0px !important;">
+          <h2 style="margin: 0 0 16px 0; color: var(--ion-color-dark);">
+            <strong>Tipo de respuesta: {{ nombreTipoCompetencia }}</strong>
+          </h2>
+        </ion-card-content>
+        
+        <div *ngIf="competencias.length > 0">
+          <!-- Tabla de competencias -->
+          <table class="competencias-table">
+            <thead>
+              <tr>
+                <th>Habilidad</th>
+                <th>Nivel</th>
+                <th>Descripción</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let comp of competencias; let i = index" [class.alternate]="i % 2 !== 0">
+                <td>{{ comp.nombre }}</td>
+                <td>{{ comp.nombreNivel }}</td>
+                <td>{{ comp.descripcionNivel || 'Sin descripción' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <div *ngIf="competencias.length === 0" style="padding: 16px;">
+          <p style="text-align: center; color: var(--ion-color-dark); margin: 0;">No hay competencias disponibles</p>
+        </div>
+      </ion-card>
+    </div>
+
+    <!-- TAB: RIESGOS -->
+    <div *ngIf="tabActiva === 'riesgos'">
+      <ion-card>
+        <div *ngIf="riesgos.length > 0">
+          <!-- Tabla de riesgos -->
+          <table class="riesgos-table">
+            <thead>
+              <tr>
+                <th>Riesgo</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let riesgo of riesgos; let i = index" [class.alternate]="i % 2 !== 0">
+                <td>
+                  <strong style="color: var(--ion-color-dark);">{{ i + 1 }}.</strong> {{ riesgo.nombre }}
+                  <span *ngIf="riesgo.descripcion"> {{ sanitizeHtml(riesgo.descripcion) }}</span>
+                  <span *ngIf="riesgo.clasificacion"> / Clasificación: {{ riesgo.clasificacion }}</span>
+                  <span *ngIf="riesgo.tipoPeligro"> / Peligro: {{ riesgo.tipoPeligro }}</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <div *ngIf="riesgos.length === 0" style="padding: 16px;">
+          <p style="text-align: center; color: var(--ion-color-dark); margin: 0;">No hay riesgos registrados</p>
+        </div>
+      </ion-card>
+    </div>
+  </div>
+</ion-content> 
+
+

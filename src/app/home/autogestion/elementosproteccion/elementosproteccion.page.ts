@@ -70,6 +70,7 @@ export class ElementosproteccionPage implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.obtenerUsuario();
+    this.cdRef.detectChanges();
   }
 
   ngOnDestroy() {
@@ -117,6 +118,22 @@ export class ElementosproteccionPage implements OnInit, OnDestroy {
 
   openModal() {
     this.isModalOpen = true;
+    // Reiniciar fechas cuando se abre el modal
+    this.fechaInicial = '';
+    this.fechaFinal = '';
+    this.filtroForm.reset();
+    
+    // Limpiar inputs del DOM
+    const fechaInicioInput = document.getElementById('selectFechaInicio') as HTMLInputElement;
+    const fechaFinInput = document.getElementById('selectFechaFin') as HTMLInputElement;
+    if (fechaInicioInput) fechaInicioInput.value = '';
+    if (fechaFinInput) fechaFinInput.value = '';
+    
+    this.cdRef.detectChanges();
+  }
+
+  onModalDidPresent() {
+    this.cdRef.detectChanges();
   }
 
   closeModal() {
@@ -137,20 +154,84 @@ export class ElementosproteccionPage implements OnInit, OnDestroy {
     this.closeModal();
   }
 
+  // Método auxiliar para obtener y limpiar elemento por ID
+  private getInputElement(id: string): HTMLInputElement | null {
+    return document.getElementById(id) as HTMLInputElement;
+  }
+
+  // Método auxiliar para extraer fecha en formato YYYY-MM-DD
+  private extractDate(dateString: string): string {
+    return dateString.split('T')[0];
+  }
+
+  // Método auxiliar para validar rango de fechas
+  private validateDateRange(fechaNueva: string, fechaComparacion: string, esInicio: boolean): boolean {
+    if (!fechaComparacion) return true;
+    
+    const esValida = esInicio ? fechaNueva <= fechaComparacion : fechaNueva >= fechaComparacion;
+    
+    if (!esValida) {
+      const mensaje = esInicio 
+        ? 'La fecha inicial no puede ser mayor a la fecha final'
+        : 'La fecha final no puede ser menor a la fecha inicial';
+      this.notificacionService.notificacion(mensaje);
+    }
+    
+    return esValida;
+  }
+
+  // Método auxiliar para actualizar inputs de fecha
+  private updateDateInput(inputId: string, fechaValue: string, esInicio: boolean) {
+    const inputElement = this.getInputElement(inputId);
+    if (inputElement) {
+      inputElement.value = fechaValue;
+    }
+    
+    if (esInicio) {
+      this.fechaInicial = fechaValue;
+      this.filtroForm.patchValue({ fechainicio: fechaValue });
+    } else {
+      this.fechaFinal = fechaValue;
+      this.filtroForm.patchValue({ fechafinal: fechaValue });
+    }
+  }
+
   confirmarInicio() {
-    const inputElement = document.getElementById('Fechainicio') as HTMLInputElement;
-    const fechanacselect = document.getElementById('selectFechaInicio') as HTMLInputElement;
-    const inputSelect = inputElement.value;
-    fechanacselect.value = inputSelect.split('T')[0];
-    this.fechaInicial = fechanacselect.value;
+    const inputElement = this.getInputElement('Fechainicio');
+    if (!inputElement) return;
+    
+    const fechaFormato = this.extractDate(inputElement.value);
+    
+    // Validar que no sea mayor a la final
+    if (!this.validateDateRange(fechaFormato, this.fechaFinal, true)) {
+      this.updateDateInput('selectFechaInicio', '', true);
+      return;
+    }
+    
+    this.updateDateInput('selectFechaInicio', fechaFormato, true);
+    
+    // Copiar a final solo si no existe
+    if (!this.fechaFinal) {
+      this.updateDateInput('selectFechaFin', fechaFormato, false);
+    }
+    
+    this.filtroForm.get('fechainicio')?.markAsTouched();
   }
 
   confirmarFin() {
-    const inputElement = document.getElementById('FechaFin') as HTMLInputElement;
-    const fechanacselect = document.getElementById('selectFechaFin') as HTMLInputElement;
-    const inputSelect = inputElement.value;
-    fechanacselect.value = inputSelect.split('T')[0];
-    this.fechaFinal = fechanacselect.value;
+    const inputElement = this.getInputElement('FechaFin');
+    if (!inputElement) return;
+    
+    const fechaFormato = this.extractDate(inputElement.value);
+    
+    // Validar que no sea menor a la inicial
+    if (!this.validateDateRange(fechaFormato, this.fechaInicial, false)) {
+      this.updateDateInput('selectFechaFin', '', false);
+      return;
+    }
+    
+    this.updateDateInput('selectFechaFin', fechaFormato, false);
+    this.filtroForm.get('fechafinal')?.markAsTouched();
   }
 
   openFirmaModal(item: any) {

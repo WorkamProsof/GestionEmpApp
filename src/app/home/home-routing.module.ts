@@ -39,6 +39,14 @@ const routes: Routes = [
   {
     path: 'gastos',
     loadChildren: () => import('./gastos/gastos.module').then( m => m.GastosPageModule)
+  },
+  {
+    path: 'perfilcargo',
+    loadChildren: () => import('./autogestion/perfilCargo/perfil-cargo.module').then( m => m.PerfilCargoModule)
+  },
+  {
+    path: 'ejecucionesevaluacion',
+    loadChildren: () => import('./autogestion/ejecucionesEvaluacion/ejecuciones-evaluacion.module').then( m => m.EjecucionesEvaluacionModule)
   }
 ];
 

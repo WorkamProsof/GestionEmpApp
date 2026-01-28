@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -36,6 +36,7 @@ interface Area {
 interface Ausentismo {
   id: string; // o number
   nombre: string;
+  DocumentoRequerido?: string;
 }
 
 @Component({
@@ -117,6 +118,7 @@ export class registroausentismoPage implements OnInit, OnDestroy {
 	selectedEnfermedadesText = '0 Ítems';
 	selectedEnfermedades: string[] = [];
 	search$ = new Subject<string>();
+	DocumentoRequerido: string = '';
 
 	datosFormulario!: { formulario: RxFormGroup, propiedades: Array<string> };
 	datosFormularioEnvio!: { formulario: RxFormGroup, propiedades: Array<string> };
@@ -136,6 +138,7 @@ export class registroausentismoPage implements OnInit, OnDestroy {
 		private storage: StorageService,
 		private datosAusentismo: DatosAusentismosService,
 		private validacionPermisosService: ValidacionPermisosService,
+		private cdr: ChangeDetectorRef,
 	) { }
 	async ngOnInit() {
 		this.datosFormulario = FuncionesGenerales.crearFormulario(this.datosEmpleadosService);
@@ -264,6 +267,17 @@ export class registroausentismoPage implements OnInit, OnDestroy {
 		this.ausentismoForm.get('fechafin')?.setValue(inputSelect.split('T')[0]);
 		this.ausentismoForm.get('fechafin')?.markAsDirty();
 		this.ausentismoForm.get('fechafin')?.updateValueAndValidity();
+	}
+
+	onTipoAusentismoChange(event?: any) {
+		const idAusentismo = event.detail.value;
+		const DocRequerido = document.getElementById('DocumentoRequerido') as HTMLInputElement;
+		const ausentismoSeleccionado = this.ausentismo.find(element => element.id === idAusentismo);
+		
+		if (ausentismoSeleccionado) {
+			this.DocumentoRequerido = ausentismoSeleccionado.DocumentoRequerido || '';
+			DocRequerido.hidden = !this.DocumentoRequerido;
+		}
 	}
 
 	onSelectChange() {

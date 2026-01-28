@@ -40,6 +40,8 @@ export class AgregarFamiliarComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
+		// Limpiar el servicio para evitar que mantenga valores previos
+		this.limpiarServicio();
 		this.datosFamiliar = FuncionesGenerales.crearFormulario(this.informacionFamiliar);
 		this.validarPermiso();
 	}
@@ -87,5 +89,17 @@ export class AgregarFamiliarComponent implements OnInit {
 		const fechanacselect = document.getElementById('selectFecha2') as HTMLInputElement;
 		let inputSelect = inputElement.value.split('T')[0];
 		fechanacselect.value = inputSelect;
+	}
+
+	limpiarServicio() {
+		// Limpiar todas las propiedades del servicio
+		this.informacionFamiliar.tipodoc_id = '';
+		this.informacionFamiliar.num_docu = '';
+		this.informacionFamiliar.parentesco_id = '';
+		this.informacionFamiliar.nombre = '';
+		this.informacionFamiliar.fecha_nac = '';
+		this.informacionFamiliar.tel_fijo = '';
+		this.informacionFamiliar.celular = '';
+		this.informacionFamiliar.direccion = '';
 	}
 }

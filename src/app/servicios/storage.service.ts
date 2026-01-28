@@ -67,9 +67,22 @@ export class StorageService {
 		try {			
 			const tema = await this.get('theme');
 			
-			// 🔥 IMPORTANTE: En Android/iOS, clear() puede ser asíncrono
-			// Debemos esperar a que termine
-			await this.storage.clear();
+			// 🔥 IMPORTANTE: En Android/iOS, clear() es asíncrono y puede tardar
+			// Debemos esperar a que termine con reintentos
+			let intentos = 0;
+			let limpioExitosamente = false;
+			
+			while (intentos < 3 && !limpioExitosamente) {
+				try {
+					await this.storage.clear();
+					limpioExitosamente = true;
+				} catch (error) {
+					intentos++;
+					console.warn(`Intento ${intentos} de limpiar storage falló:`, error);
+					// Esperar antes de reintentar
+					await new Promise(resolve => setTimeout(resolve, 200));
+				}
+			}
 			
 			if (!logout) {
 				this.notifcaciones.alerta("Error de conexión", '', [], [{ text: 'Cerrar', role: 'aceptar' }]);
@@ -88,8 +101,8 @@ export class StorageService {
 			// Esto evita que la foto del usuario anterior aparezca al hacer login con otro usuario
 			await this.storage.set('urlFotoUsuarioSesion', 'assets/images/nofoto.png');
 			
-			// Pequeña espera para asegurar que el storage se haya guardado en disco (Android SQLite)
-			await new Promise(resolve => setTimeout(resolve, 100));
+			// CRÍTICO para Android 13: Esperar más tiempo para que SQLite sincronice en disco
+			await new Promise(resolve => setTimeout(resolve, 300));
 						
 			// Navegar al login
 			this.router.navigateByUrl('login');

@@ -1,0 +1,768 @@
+:host {
+  --page-margin: var(--margin);
+  --page-padding: var(--padding);
+}
+
+// ==================== ESTILOS GENERALES ====================
+
+ion-card {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+ion-searchbar {
+  padding: var(--page-padding);
+}
+
+ion-list {
+  margin: var(--page-margin);
+}
+
+ion-item {
+  --padding-start: var(--page-padding);
+  --padding-end: var(--page-padding);
+}
+
+ion-badge {
+  margin-right: var(--page-padding);
+}
+
+ion-card-content {
+  padding: 0px 15px !important;
+  
+}
+
+ion-card-header {
+  padding: 16px 20px !important;
+}
+
+ion-card-title {
+  padding: 0 !important;
+}
+
+ion-fab-button {
+  --background: var(--ion-color-primary);
+  --background-hover: var(--ion-color-primary-shade);
+}
+
+h2 {
+  font-weight: 600;
+}
+
+p {
+  font-size: 0.9rem;
+  color: var(--ion-text-color-secondary);
+}
+
+// ==================== ESTILOS PARA MÚLTIPLES VALORES ====================
+
+.multi-value-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 8px 0;
+}
+
+.value-badge {
+  display: inline-block;
+  background-color: var(--ion-color-secondary);
+  color: var(--ion-color-secondary-contrast);
+  padding: 6px 14px;
+  border-radius: 16px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  white-space: nowrap;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease-in-out;
+
+  &:active {
+    transform: scale(0.98);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  }
+}
+
+// ==================== TABLA DE REQUISITOS ====================
+
+.requisitos-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 0.95rem;
+
+  thead {
+    tr {
+      background-color: var(--ion-color-primary);
+      color: white;
+
+      th {
+        padding: 12px 16px;
+        text-align: left;
+        font-weight: 600;
+        border: none;
+      }
+
+      th:first-child {
+        width: 30%;
+      }
+
+      th:last-child {
+        width: 70%;
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      border-bottom: 1px solid var(--ion-color-light);
+
+      &.alternate {
+        background-color: rgba(0, 0, 0, 0.02);
+      }
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      td {
+        padding: 12px 16px;
+        color: var(--ion-color-dark);
+        word-break: break-word;
+        vertical-align: top;
+        line-height: 1.5;
+        text-align: justify;
+        
+        &:first-child {
+          color: var(--ion-color-dark);
+          width: 30%;
+        }
+
+        &:last-child {
+          width: 70%;
+        }
+      }
+    }
+  }
+}
+
+// ==================== TABLA DE FUNCIONES ====================
+
+.funciones-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 0.95rem;
+
+  thead {
+    tr {
+      background-color: var(--ion-color-primary);
+      color: white;
+
+      th {
+        padding: 12px 16px;
+        text-align: left;
+        font-weight: 600;
+        border: none;
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      border-bottom: 1px solid var(--ion-color-light);
+
+      &.alternate {
+        background-color: rgba(0, 0, 0, 0.02);
+      }
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      td {
+        padding: 12px 16px;
+        color: var(--ion-color-dark);
+        word-break: break-word;
+        vertical-align: top;
+        line-height: 1.5;
+        text-align: justify;
+
+        p {
+          color: var(--ion-color-medium);
+        }
+      }
+    }
+  }
+}
+
+// ==================== TABLA DE RESPONSABILIDADES ====================
+
+.responsabilidades-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 0.95rem;
+
+  thead {
+    tr {
+      background-color: var(--ion-color-primary);
+      color: white;
+
+      th {
+        padding: 12px 16px;
+        text-align: left;
+        font-weight: 600;
+        border: none;
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      border-bottom: 1px solid var(--ion-color-light);
+
+      &.alternate {
+        background-color: rgba(0, 0, 0, 0.02);
+      }
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      td {
+        padding: 12px 16px;
+        color: var(--ion-color-dark);
+        word-break: break-word;
+        vertical-align: top;
+        line-height: 1.5;
+        text-align: justify;
+      }
+    }
+  }
+}
+
+// ==================== TABLA DE OBJETIVOS ====================
+
+.objetivos-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 0.95rem;
+
+  thead {
+    tr {
+      background-color: var(--ion-color-primary);
+      color: white;
+
+      th {
+        padding: 12px 16px;
+        text-align: left;
+        font-weight: 600;
+        border: none;
+      }
+
+      th:first-child {
+        width: 50%;
+      }
+
+      th:last-child {
+        width: 50%;
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      border-bottom: 1px solid var(--ion-color-light);
+
+      &.alternate {
+        background-color: rgba(0, 0, 0, 0.02);
+      }
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      td {
+        padding: 12px 16px;
+        color: var(--ion-color-dark);
+        word-break: break-word;
+        vertical-align: top;
+        line-height: 1.5;
+        text-align: justify;
+
+        &:first-child {
+          width: 50%;
+        }
+
+        &:last-child {
+          width: 50%;
+        }
+      }
+    }
+  }
+}
+
+// ==================== TABLA DE COMPETENCIAS ====================
+
+.competencias-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 0.95rem;
+
+  thead {
+    tr {
+      background-color: var(--ion-color-primary);
+      color: white;
+
+      th {
+        padding: 12px 16px;
+        text-align: left;
+        font-weight: 600;
+        border: none;
+      }
+
+      th:first-child {
+        width: 30%;
+      }
+
+      th:nth-child(2) {
+        width: 20%;
+      }
+
+      th:last-child {
+        width: 50%;
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      border-bottom: 1px solid var(--ion-color-light);
+
+      &.alternate {
+        background-color: rgba(0, 0, 0, 0.02);
+      }
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      td {
+        padding: 12px 16px;
+        color: var(--ion-color-dark);
+        word-break: break-word;
+        vertical-align: top;
+        line-height: 1.5;
+        text-align: justify;
+
+        &:first-child {
+          width: 30%;
+          color: var(--ion-color-dark);
+        }
+
+        &:nth-child(2) {
+          width: 20%;
+          text-align: center;
+          font-weight: 500;
+        }
+
+        &:last-child {
+          width: 50%;
+        }
+      }
+    }
+  }
+}
+
+// ==================== TABLA DE RIESGOS ====================
+
+.riesgos-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 0.95rem;
+
+  thead {
+    tr {
+      background-color: var(--ion-color-primary);
+      color: white;
+
+      th {
+        padding: 12px 16px;
+        text-align: left;
+        font-weight: 600;
+        border: none;
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      border-bottom: 1px solid var(--ion-color-light);
+
+      &.alternate {
+        background-color: rgba(0, 0, 0, 0.02);
+      }
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      td {
+        padding: 12px 16px;
+        color: var(--ion-color-dark);
+        word-break: break-word;
+        vertical-align: top;
+        line-height: 1.5;
+        white-space: normal;
+        text-align: justify;
+
+        strong {
+          color: #000;
+        }
+
+        span {
+          display: inline;
+          margin: 0;
+        }
+      }
+    }
+  }
+}
+
+// Responsive para móviles
+@media (max-width: 768px) {
+  .requisitos-table {
+    font-size: 0.9rem;
+
+    thead th,
+    tbody td {
+      padding: 10px 12px;
+    }
+
+    thead {
+      th:first-child {
+        width: 35%;
+      }
+
+      th:last-child {
+        width: 65%;
+      }
+    }
+
+    tbody {
+      td:first-child {
+        width: 35%;
+      }
+
+      td:last-child {
+        width: 65%;
+      }
+    }
+  }
+}
+
+.value-badge {
+  display: inline-block;
+  background-color: var(--ion-color-secondary);
+  color: var(--ion-color-secondary-contrast);
+  padding: 6px 14px;
+  border-radius: 16px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  white-space: nowrap;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease-in-out;
+
+  &:active {
+    transform: scale(0.98);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  }
+}
+
+
+// ==================== VISTA DE LISTADO ====================
+
+.perfil-listado {
+  padding: 0;
+}
+
+// ==================== VISTA DE DETALLES ====================
+
+.perfil-detalle {
+  padding-bottom: 80px;
+}
+
+// ==================== TABS ====================
+
+ion-segment {
+  padding: 0;
+  margin: 0;
+
+  ion-segment-button {
+    font-size: 0.75rem;
+
+    @media (min-width: 768px) {
+      font-size: 0.9rem;
+    }
+  }
+}
+
+// ==================== CONTENIDO DE TABS ====================
+
+.tab-content {
+  padding: var(--page-padding);
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// ==================== CARDS ====================
+
+ion-card {
+  margin: var(--page-padding) 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+
+  ion-card-header {
+    padding: var(--page-padding);
+    background: linear-gradient(135deg, var(--ion-color-primary), var(--ion-color-primary-shade));
+    color: white;
+    border-radius: 8px 8px 0 0;
+
+    ion-card-title {
+      color: white;
+      font-weight: 600;
+    }
+  }
+
+  ion-card-content {
+    padding: var(--page-padding);
+  }
+}
+
+// ==================== FORMULARIOS ====================
+
+ion-item {
+  --inner-padding-end: 0;
+  --inner-padding-start: 0;
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--ion-color-light);
+
+  ion-label {
+    font-weight: 500;
+  }
+
+  ion-input,
+  ion-textarea,
+  ion-select {
+    --padding-start: 8px;
+    --padding-end: 8px;
+  }
+
+  ion-textarea {
+    min-height: 80px;
+  }
+}
+
+ion-row {
+  margin-bottom: 10px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+// ==================== TABLAS ====================
+
+.tabla-container {
+  overflow-x: auto;
+  margin: 15px 0;
+  border-radius: 8px;
+  border: 1px solid var(--ion-color-light);
+}
+
+.tabla-datos {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+
+  @media (min-width: 768px) {
+    font-size: 0.95rem;
+  }
+
+  thead {
+    background: linear-gradient(135deg, var(--ion-color-primary-light), var(--ion-color-primary));
+    color: white;
+    position: sticky;
+    top: 0;
+
+    th {
+      padding: 12px 8px;
+      text-align: left;
+      font-weight: 600;
+      white-space: nowrap;
+      border-bottom: 2px solid var(--ion-color-primary-shade);
+    }
+  }
+
+  tbody {
+    tr {
+      border-bottom: 1px solid var(--ion-color-light);
+      transition: background-color 0.2s;
+
+      &:hover {
+        background-color: #f5f5f5;
+      }
+
+      &:nth-child(even) {
+        background-color: #fafafa;
+      }
+
+      td {
+        padding: 12px 8px;
+        text-align: left;
+        vertical-align: middle;
+        word-break: break-word;
+
+        &.sin-datos {
+          text-align: center;
+          color: #999;
+          font-style: italic;
+          padding: 20px 8px;
+        }
+      }
+    }
+  }
+}
+
+// ==================== BOTONES ====================
+
+ion-button {
+  margin-top: 15px;
+
+  &[expand="block"] {
+    --margin-start: 0;
+    --margin-end: 0;
+    --margin-top: 10px;
+    --margin-bottom: 10px;
+  }
+}
+
+// ==================== TOOLBAR ====================
+
+ion-toolbar {
+  --background: linear-gradient(135deg, var(--ion-color-primary), var(--ion-color-primary-shade));
+
+  ion-title {
+    color: white;
+  }
+
+  ion-button {
+    --color: white;
+  }
+}
+
+// ==================== RESPONSIVE ====================
+
+@media (max-width: 576px) {
+  .tabla-container {
+    font-size: 0.75rem;
+  }
+
+  .tabla-datos {
+    td, th {
+      padding: 8px 4px;
+      font-size: 0.7rem;
+    }
+  }
+
+  ion-card-content {
+    padding: 8px;
+  }
+}
+
+// ==================== UTILIDADES ====================
+
+.ion-text-center {
+  text-align: center;
+}
+
+.hide {
+  display: none !important;
+}
+
+// ==================== PRINT ====================
+
+@media print {
+  ion-header,
+  ion-fab,
+  ion-toolbar {
+    display: none;
+  }
+
+  .tabla-datos {
+    font-size: 10px;
+
+    th, td {
+      padding: 4px;
+    }
+  }
+
+  body {
+    background: white;
+  }
+}
+// ==================== RESPONSABILIDADES ====================
+
+.responsabilidades-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.responsabilidad-item {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--ion-color-light);
+}
+
+.responsabilidad-item:last-child {
+  border-bottom: none;
+}
+
+.responsabilidad-header {
+  display: inline;
+  font-weight: 600;
+  margin-right: 6px;
+}
+
+.responsabilidad-content {
+  display: inline;
+  word-break: break-word;
+  line-height: 1.6;
+  font-size: 0.95rem;
+
+  span {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+
+  p {
+    display: inline;
+    margin: 0;
+    padding: 0;
+  }
+}

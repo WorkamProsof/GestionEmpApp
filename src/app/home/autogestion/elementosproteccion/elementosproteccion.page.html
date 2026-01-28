@@ -39,7 +39,7 @@
   </ion-fab>
 
   <!-- Modal para Filtrar por Fecha -->
-  <ion-modal [isOpen]="isModalOpen">
+  <ion-modal [isOpen]="isModalOpen" (ionModalDidPresent)="onModalDidPresent()">
     <ng-template>
       <ion-header>
         <ion-toolbar>
@@ -54,28 +54,34 @@
           <ion-item>
             <ion-label position="floating" for="selectFechaInicio" color="dark">* Fecha Inicio</ion-label>
             <ion-input name="fechainicio" id="selectFechaInicio" expand="block"  display-format="DD-MM-YYYY"  
-            presentation='date' required readonly></ion-input>
-              <ion-popover trigger="selectFechaInicio" size="cover">
+            presentation='date' required readonly formControlName="fechainicio"></ion-input>
+              <ion-popover trigger="selectFechaInicio" size="cover" class="custom-popover">
                 <ng-template>
                   <ion-datetime display-format="DD-MM-YYYY"  
-                    presentation='date' id="Fechainicio" [showDefaultButtons]="true" doneText="Confirmar" cancelText="Cancelar" (ionChange)="confirmarInicio()"></ion-datetime>
+                    presentation='date' id="Fechainicio" [showDefaultButtons]="true" doneText="Confirmar" cancelText="Cancelar" (ionChange)="confirmarInicio()" [max]="fechaFinal"></ion-datetime>
                 </ng-template>
               </ion-popover>
+            <ion-text *ngIf="filtroForm.get('fechainicio')?.hasError('required') && filtroForm.get('fechainicio')?.touched" color="danger" style="font-size: 12px;">
+              La fecha inicial es obligatoria
+            </ion-text>
           </ion-item>
 
           <ion-item>
-            <ion-label position="floating" for="selectFechaInicio" color="dark">* Fecha Fin</ion-label>
-            <ion-input name="fechafin" id="selectFechaFin" expand="block"  display-format="DD-MM-YYYY"  
-            presentation='date' required readonly></ion-input>
-              <ion-popover trigger="selectFechaFin" size="cover" alignment="end">
+            <ion-label position="floating" for="selectFechaFin" color="dark">* Fecha Fin</ion-label>
+            <ion-input name="fechafinal" id="selectFechaFin" expand="block"  display-format="DD-MM-YYYY"  
+            presentation='date' required readonly formControlName="fechafinal" [attr.disabled]="!fechaInicial"></ion-input>
+              <ion-popover trigger="selectFechaFin" size="cover" alignment="end" class="custom-popover">
                 <ng-template>
                   <ion-datetime display-format="DD-MM-YYYY"  
-                    presentation='date' id="FechaFin" [showDefaultButtons]="true" doneText="Confirmar" cancelText="Cancelar" (ionChange)="confirmarFin()"></ion-datetime>
+                    presentation='date' id="FechaFin" [showDefaultButtons]="true" doneText="Confirmar" cancelText="Cancelar" (ionChange)="confirmarFin()" [min]="fechaInicial"></ion-datetime>
                 </ng-template>
               </ion-popover>
+            <ion-text *ngIf="filtroForm.get('fechafinal')?.hasError('required') && filtroForm.get('fechafinal')?.touched" color="danger" style="font-size: 12px;">
+              La fecha final es obligatoria
+            </ion-text>
           </ion-item>
           <!-- Botón Filtrar -->
-          <ion-button expand="full" (click)="filtrarPorFecha()">Filtrar</ion-button>
+          <ion-button expand="full" (click)="filtrarPorFecha()" [disabled]="filtroForm.invalid">Filtrar</ion-button>
         </form>
       </ion-content>
     </ng-template>

@@ -228,7 +228,14 @@ export class CertificadosPage implements OnInit, OnDestroy {
 		});
 	}
 
-	async download(url: string) {
+	async download(url: string) {    
+    // Validar que la URL existe y no esté vacía
+    if (!url || typeof url !== 'string' || url.trim().length === 0) {
+      console.error('❌ URL INVÁLIDA EN DOWNLOAD');
+      this.notificacionService.notificacion('Error: URL del documento inválida');
+      return;
+    }
+
     // Validar permiso antes de mostrar el PDF
     const tienePermiso = await PermisosUtils.validarPermisoImperativo(
       this.validacionPermisosService,
@@ -258,8 +265,18 @@ export class CertificadosPage implements OnInit, OnDestroy {
 	}
 
 	async filtros(param: number | null | undefined) {
-		this.formFiltro['salario'] = param == null ? null : 'S';
-		this.formFiltro['destino'] = '';
+		
+		// Esto evita que valores de usos anteriores del modal persistan
+		if (param == null) {
+			this.formFiltro['salario'] = null;
+			this.formFiltro['destino'] = '';
+		} else {
+			// param = 0 (descargar) o param = 1 (ver)
+			// RESETEAR a valores por defecto, NO mantener anteriores
+			this.formFiltro['salario'] = 'N';
+			this.formFiltro['destino'] = '';
+		}
+				
 		let componentProps = {
       inputanio: this.formFiltro['anio'],
 			inputmeses: this.formFiltro['meses'],
@@ -286,7 +303,7 @@ export class CertificadosPage implements OnInit, OnDestroy {
 					this.formFiltro['quincena'] = data.quincena;
 					this.formFiltro['documento'] = data.documento;
 					this.formFiltro['destino'] = data.destino;
-					this.formFiltro['salario'] = data.salario;
+					this.formFiltro['salario'] = data.salario;					
 					if (param == null) {
 						this.obtenerDatosEmpleado();
 					} else {
@@ -331,10 +348,14 @@ export class CertificadosPage implements OnInit, OnDestroy {
     }
 
     try {
-      await Browser.open({ url });
+      // Crear un elemento <a> para descargar el archivo
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = url.split('/').pop() || 'documento.pdf'; // Nombre del archivo
+      link.click();
     } catch (error) {
-      console.error('Error al abrir archivo:', error);
-      this.notificacionService.notificacion('Error al abrir el archivo');
+      console.error('Error al descargar archivo:', error);
+      this.notificacionService.notificacion('Error al descargar el archivo');
     }
 	}
 
@@ -350,6 +371,27 @@ export class CertificadosPage implements OnInit, OnDestroy {
 
       const { base64Img, file_aux } = resultado;
 
+      // ✅ Validar que base64Img esté bien formado
+      if (!base64Img) {
+        this.notificacionService.notificacion('Error: No se generó el documento PDF');
+        console.error('❌ base64Img no fue retornado por el servidor');
+        return;
+      }
+
+      // ✅ Asegurar que el base64 es un string válido
+      if (typeof base64Img !== 'string') {
+        this.notificacionService.notificacion('Error: Formato de PDF inválido');
+        console.error('❌ base64Img no es un string válido:', typeof base64Img);
+        return;
+      }
+
+      // ✅ Validar que el base64 tenga contenido
+      if (base64Img.trim().length === 0) {
+        this.notificacionService.notificacion('Error: El archivo PDF está vacío');
+        console.error('❌ base64Img está vacío');
+        return;
+      }
+
       if (event == 1) {
         // Usar el modal VerPdfComponent para consistencia con otros PDFs
         this.download(base64Img);
@@ -359,8 +401,8 @@ export class CertificadosPage implements OnInit, OnDestroy {
       }
     } catch (error) {
       // 🔥 Usar helper centralizado para manejar errores de empleado retirado
+      console.error('❌ ERROR EN CartaLaboral:', error);
       this.datosBasicosService.manejarErrorEmpleadoRetirado(error);
-      console.error('Error al generar carta laboral:', error);
       this.notificacionService.notificacion('Error al generar la carta laboral');
     }
 	}

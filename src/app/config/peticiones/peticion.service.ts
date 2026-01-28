@@ -164,6 +164,12 @@ export class PeticionService {
 				try {
 					const desencriptado = await this.desencriptar(resp);
 					
+					// ✅ VALIDAR QUE LA RESPUESTA NO SEA NULL O VACÍA
+					if (!desencriptado) {
+						console.error('Respuesta vacía del servidor');
+						throw new Error('Respuesta vacía del servidor');
+					}
+					
 					// 🔥 VALIDAR SI EL EMPLEADO ESTÁ RETIRADO (respuesta de error del servidor con valido===0)
 					await this.validarEmpleadoRetirado(desencriptado, true);
 					
@@ -184,7 +190,7 @@ export class PeticionService {
 						await this.validarEmpleadoRetirado(desencriptado, false);
 					}
 					
-					if (desencriptado.activoLogueo) {
+					if (desencriptado && desencriptado.activoLogueo) {
 						// Solo cerrar sesión si es una respuesta crítica de autenticación
 						// No cerrar por operaciones normales como cargar fotos
 						console.warn('Servidor indicó activoLogueo=true, pero manteniendo sesión activa');

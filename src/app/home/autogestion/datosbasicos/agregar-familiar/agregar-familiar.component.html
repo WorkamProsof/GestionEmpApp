@@ -42,7 +42,7 @@
 			<ion-item>
 				<ion-label position="floating" color="dark">* Fecha Nacimiento</ion-label><br>
 				<ion-input formControlName="fecha_nac" id="selectFecha2" expand="block"  display-format="DD-MM-YYYY" presentation='date' [max]="maximoFechanacimiento" required></ion-input>
-				<ion-popover trigger="selectFecha2" size="cover" >
+				<ion-popover trigger="selectFecha2" size="cover" class="custom-popover">
 					<ng-template>
 						<ion-datetime display-format="DD-MM-YYYY"  formControlName="fecha_nac" [max]="maximoFechanacimiento"
 							presentation='date' id="selectFecha" [showDefaultButtons]="true" doneText="Confirmar" cancelText="Cancelar" (ionChange)="confirmar()"></ion-datetime>

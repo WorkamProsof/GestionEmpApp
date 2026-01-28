@@ -29,7 +29,7 @@
 			<ion-item>
 				<ion-label position="floating" color="dark">* Fecha Inicio</ion-label>
 				<ion-input [class.invalid]="datosSolicitudPermisos.formulario.get('FechaInicio')?.touched && datosSolicitudPermisos.formulario.get('FechaInicio')?.invalid" formControlName="FechaInicio"  id="selectFechaInicio" expand="block" display-format="DD-MM-YYYY" presentation='date' ></ion-input>
-					<ion-popover trigger="selectFechaInicio" size="cover" class="">
+					<ion-popover trigger="selectFechaInicio" size="cover" class="custom-popover">
 						<ng-template>
 							<ion-datetime display-format="DD-MM-YYYY" formControlName="FechaInicio" presentation='date' id="Fechainicio" [showDefaultButtons]="true" doneText="Confirmar" cancelText="Cancelar" (ionChange)="confirmarInicio($event)"></ion-datetime>
 						</ng-template>
@@ -42,7 +42,7 @@
 			<ion-item>
 				<ion-label position="floating" color="dark">* Fecha Fin</ion-label>
 				<ion-input [class.invalid]="datosSolicitudPermisos.formulario.get('FechaFin')?.touched && datosSolicitudPermisos.formulario.get('FechaFin')?.invalid" formControlName="FechaFin" id="selectFechaFin" expand="block" display-format="DD-MM-YYYY" presentation='date' readonly></ion-input>
-					<ion-popover trigger="selectFechaFin" size="cover" class="">
+					<ion-popover trigger="selectFechaFin" size="cover" class="custom-popover">
 						<ng-template>
 							<ion-datetime display-format="DD-MM-YYYY"  formControlName="FechaFin" presentation='date' id="FechaFin" [showDefaultButtons]="true" doneText="Confirmar" cancelText="Cancelar" (ionChange)="confirmarFin($event)"></ion-datetime>
 						</ng-template>

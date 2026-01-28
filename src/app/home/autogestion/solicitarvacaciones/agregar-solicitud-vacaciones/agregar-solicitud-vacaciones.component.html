@@ -19,7 +19,7 @@
 			  </ion-item>
 		
 			  <!-- Popover para Fecha Inicio -->
-			  <ion-popover trigger="selectFechaInicio" [isOpen]="popoverAbierto === 'inicio'" size="cover">
+			  <ion-popover trigger="selectFechaInicio" [isOpen]="popoverAbierto === 'inicio'" size="cover" class="custom-popover">
 				<ng-template>
 				  <ion-datetime	display-format="DD-MM-YYYY"	formControlName="FechaInicio" presentation="date" [showDefaultButtons]="true"
 					doneText="Confirmar" cancelText="Cancelar" (ionChange)="confirmarInicio($event)">

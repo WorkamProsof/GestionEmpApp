@@ -84,8 +84,32 @@ export class AgregarSolicitarPermisosComponent implements OnInit {
 		this.datosSolicitudPermisos = FuncionesGenerales.crearFormulario(this.informacionPermiso);
 	}
 
+	ionViewDidEnter() {
+		this.reinicializarFormulario();
+	}
+
+	private reinicializarFormulario() {
+		this.datosSolicitudPermisos.formulario.reset();
+		this.selectedOption = '';
+		this.selectedEnfermedades = [];
+		this.selectedEnfermedadesText = '0 Items';
+		this.diasAusentismo = '';
+		this.horasAusentismo = '';
+		this.total_horas = 0;
+		this.diferenciaDias = 0;
+		this.fechaInicio = new Date();
+		this.fechaFin = new Date();
+		this.datosForm = {};
+		this.datosSeleccionados = {};
+		['diasAusentismo', 'horasAusentismo', 'selectFechaInicio', 'selectFechaFin'].forEach(id => {
+			const el = document.getElementById(id) as HTMLInputElement;
+			if (el) el.value = '';
+		});
+	}
+
 	cerrarModal(datos?: any) {
 		this.modalController.dismiss(datos);
+		this.reinicializarFormulario();
 	}
 
 	/**
@@ -141,8 +165,7 @@ export class AgregarSolicitarPermisosComponent implements OnInit {
 	
 			// Enviar los datos y cerrar el modal
 			this.cerrarModal(this.datosForm);
-			this.datosSolicitudPermisos.formulario.reset();
-			this.datosSolicitudPermisos.formulario.markAsUntouched();
+			this.reinicializarFormulario();
 
 			return true;
 

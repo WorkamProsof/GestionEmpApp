@@ -35,6 +35,8 @@ export class AgregarTelefonoComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
+		// Limpiar el servicio para evitar que mantenga valores previos
+		this.limpiarServicio();
 		this.datosTelefono = FuncionesGenerales.crearFormulario(this.informacionTelefono);
 		this.validarPermiso();
 	}
@@ -67,6 +69,13 @@ export class AgregarTelefonoComponent implements OnInit {
 				this.datosTelefono.formulario.get(campo)?.enable();
 			}
 		});
+	}
+
+	limpiarServicio() {
+		// Limpiar todas las propiedades del servicio
+		this.informacionTelefono.fijo = '';
+		this.informacionTelefono.celular = '';
+		this.informacionTelefono.principal = '';
 	}
 
 }

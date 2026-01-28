@@ -35,6 +35,8 @@ export class AgregarCorreoComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
+		// Limpiar el servicio para evitar que mantenga valores previos
+		this.limpiarServicio();
 		this.datosCorreo = FuncionesGenerales.crearFormulario(this.informacionCorreo);
 		this.validarPermiso();
 	}
@@ -67,6 +69,12 @@ export class AgregarCorreoComponent implements OnInit {
 				this.datosCorreo.formulario.get(campo)?.enable();
 			}
 		});
+	}
+
+	limpiarServicio() {
+		// Limpiar todas las propiedades del servicio
+		this.informacionCorreo.correo = '';
+		this.informacionCorreo.principal = '';
 	}
 
 }

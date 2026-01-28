@@ -1,0 +1,78 @@
+// Estilos para detalle-agrupado.page
+// Usa los mismos estilos que detalle-ejecucion.page con la clase .detalle-table
+
+.detalle-table-container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+}
+
+table.detalle-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: transparent;
+  min-width: 400px;
+
+  td {
+    padding: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    vertical-align: middle;
+    color: var(--ion-color-dark);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+
+    strong {
+      color: var(--ion-color-dark);
+    }
+  }
+
+  tr {
+    &.alternate {
+      background-color: rgba(255, 255, 255, 0.08);
+    }
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.08);
+    }
+  }
+}
+
+// Media queries para responsivo
+@media (max-width: 768px) {
+  table.detalle-table {
+    font-size: 13px;
+    min-width: 350px;
+
+    td {
+      padding: 8px;
+      word-break: break-word;
+    }
+  }
+
+  ion-card {
+    margin-bottom: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  table.detalle-table {
+    font-size: 12px;
+    min-width: 300px;
+
+    td {
+      padding: 6px;
+      font-size: 11px;
+      word-break: break-word;
+    }
+  }
+
+  .detalle-table-container {
+    margin-left: -16px;
+    margin-right: -16px;
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+
+

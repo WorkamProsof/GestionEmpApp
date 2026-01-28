@@ -1,0 +1,348 @@
+<app-header titulo="Detalle Evaluación"></app-header>
+
+<ion-content class="ion-padding-top">
+  <!-- Estado de Carga -->
+  <div *ngIf="cargando">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Cargando...</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-spinner name="dots"></ion-spinner>
+        <p style="text-align: center; margin-top: 16px;">Por favor espere mientras se carga el detalle</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="error && !cargando">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Error</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p><strong>{{ error }}</strong></p>
+        <ion-button expand="block" (click)="obtenerDetalleEjecucion()">
+          <ion-icon name="refresh" slot="start"></ion-icon>
+          Reintentar
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Contenido Cargado -->
+  <div *ngIf="!cargando && !error">
+
+    <!-- BOTONES DE ACCIÓN -->
+    <ion-card>
+      <ion-card-content>
+        <ion-button 
+          *ngIf="!encabezado.firmado"
+          expand="block" 
+          (click)="abrirFirma()" 
+          color="success" 
+          class="ion-margin-bottom">
+          <ion-icon name="pencil" slot="start"></ion-icon>
+          Firmar Evaluación
+        </ion-button>
+
+        <ion-button expand="block" (click)="regresar()" color="medium">
+          <ion-icon name="arrow-back" slot="start"></ion-icon>
+          Regresar
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- ENCABEZADO -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>{{ encabezado.nombreEvaluacion || 'Evaluación' }}</ion-card-title>
+        <ion-card-subtitle>{{ encabezado.tipoEvaluacion }}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <table class="detalle-table">
+          <tbody>
+            <tr>
+              <td><strong>Sucursal:</strong></td>
+              <td>{{ encabezado.Sucursal || '' }}</td>
+            </tr>
+            <tr class="alternate">
+              <td><strong>Centro de trabajo:</strong></td>
+              <td>{{ encabezado.CentroTrabajo || '' }}</td>
+            </tr>
+            <tr>
+              <td><strong>Centro de costo:</strong></td>
+              <td>{{ encabezado.CentroCosto || '' }}</td>
+            </tr>
+            <tr class="alternate">
+              <td><strong>Evaluacion:</strong></td>
+              <td>{{ encabezado.nombreEvaluacion || '' }}</td>
+            </tr>
+            <tr>
+              <td><strong>Empleado:</strong></td>
+              <td>{{ encabezado.documento || '' }} -  {{ encabezado.nombreEmpleado || '' }}</td>
+            </tr>
+            <tr class="alternate">
+              <td><strong>Evaluador:</strong></td>
+              <td>{{ encabezado.evaluador || '' }}</td>
+            </tr>
+            <tr *ngIf="encabezado.valida == '2'" class="alternate">
+                <td><strong>Rol:</strong></td>
+                <td>{{ rolDeListado || '' }}</td>
+              </tr>
+            <tr class="alternate">
+              <td><strong>Periodo inicial:</strong></td>
+              <td>{{ (encabezado.periodoinicial | date:'dd/MM/yyyy') || '' }}</td>
+            </tr>
+            <tr>
+              <td><strong>Periodo final:</strong></td>
+              <td>{{ (encabezado.periodofinal | date:'dd/MM/yyyy') || '' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </ion-card-content>
+
+    </ion-card>
+
+    <!-- GRUPOS DE PREGUNTAS (TABLAS HORIZONTALES) -->
+    <div *ngFor="let grupo of grupos; let groupIndex = index">
+      <ion-card class="grupo-card">
+        <ion-card-header>
+          <ion-card-title>Grupo: {{ grupo.nombre }}</ion-card-title>
+          <ion-card-subtitle>Peso Total: {{ grupo.pesoGrupo }}</ion-card-subtitle>
+        </ion-card-header>
+
+        <ion-card-content>
+          <!-- Tabla de preguntas por grupo -->
+          <div *ngFor="let pregunta of grupo.preguntas; let i = index">
+            <table class="detalle-table">
+              <tbody>
+                <tr>
+                  <td><strong>Item:</strong></td>
+                  <td>{{ pregunta.competencia || '' }}</td>
+                </tr>
+                <tr class="alternate">
+                  <td><strong>Pregunta:</strong></td>
+                  <td>{{ sanitizeHtml(pregunta.pregunta) }}</td>
+                </tr>
+                <tr>
+                  <td><strong>Peso Pregunta:</strong></td>
+                  <td>{{ pregunta.pesoOriginal }}</td>
+                </tr>
+                <tr class="alternate">
+                  <td><strong>Tipo Respuesta:</strong></td>
+                  <td>{{ pregunta.tipoRespuesta || pregunta.grupo || '' }}</td>
+                </tr>
+                <tr>
+                  <td><strong>Valor Máximo Tipo Respuesta:</strong></td>
+                  <td>{{ pregunta.valorMaximoRespuesta || '' }}</td>
+                </tr>
+                <tr class="alternate">
+                  <td><strong>Escala:</strong></td>
+                  <td>{{ pregunta.respuestaSeleccionada || pregunta.escala || 0 }}</td>
+                </tr>
+                <tr>
+                  <td><strong>Valor Real:</strong></td>
+                  <td>{{ pregunta.peso || '' }}</td>
+                </tr>
+                <tr class="alternate">
+                  <td><strong>% Ponderado:</strong></td>
+                  <td>{{ pregunta.ponderado }} %</td>
+                </tr>
+                <tr>
+                  <td><strong>Observación:</strong></td>
+                  <td>{{ pregunta.observacion ? sanitizeHtml(pregunta.observacion) : '' }}</td>
+                </tr>
+              </tbody>
+            </table>
+            <hr *ngIf="i < grupo.preguntas.length - 1" style="margin: 16px 0; border: none; border-top: 1px solid #e0e0e0;">
+          </div>
+
+          <!-- TOTALES DEL GRUPO -->
+          <table class="detalle-table" style="margin-top: 20px;">
+            <tbody>
+              <tr>
+                <td colspan="2" style=""><strong>Totales:</strong></td>
+              </tr>
+              <tr class="alternate">
+                <td style="width: 50%;"><strong>Valor Real Total:</strong></td>
+                <td><strong>{{ (calcularValorRealTotal(grupo) | number:'1.0-2') }}</strong></td>
+              </tr>
+              <tr>
+                <td><strong>% Ponderado Total:</strong></td>
+                <td><strong>{{ (totales.ponderadoPorGrupo?.[groupIndex] || 0) | number:'1.0-2' }}%</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <!-- RESUMEN POR GRUPOS -->
+    <ion-card style="margin-top: 30px;">
+      <ion-card-content>
+        <table class="detalle-table">
+          <tbody>
+            <!-- Cada grupo en una fila horizontal -->
+            <tr *ngFor="let grupo of grupos; let i = index" [ngClass]="{'alternate': i % 2 !== 0}">
+              <td style="width: 40%;"><strong>{{ grupo.nombre }}:</strong></td>
+              <td style="width: 60%;"><strong>{{ (totales.ponderadoPorGrupo?.[i] || 0) | number:'1.0-2' }}%</strong></td>
+            </tr>
+            <!-- Total General en última fila -->
+            <tr [ngClass]="{'alternate': grupos.length % 2 === 0}">
+              <td style="width: 40%;"><strong>Total General:</strong></td>
+              <td style="width: 60%;"><strong>{{ (totales.totalGeneral || 0) | number:'1.0-2' }}%</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- FIRMA -->
+    <ion-card style="margin-top: 30px;">
+      <ion-card-content>
+        <table class="detalle-table">
+          <tbody>
+            <tr>
+              <td style="width: 50%;"><strong>Fecha Firma</strong></td>
+              <td style="width: 50%;"><strong>Firma</strong></td>
+            </tr>
+            <tr class="alternate">
+              <td>{{ encabezado.firma  || '' }}</td>
+              <td style="text-align: center;">
+                <img *ngIf="encabezado.rutaFirma" [src]="encabezado.rutaFirma" style="max-width: 150px; max-height: 150px; height: auto; border: 1px solid #ccc; border-radius: 4px;" alt="Firma">
+                <p *ngIf="!encabezado.rutaFirma" style="color: #999;"></p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- CONCLUSIÓN -->
+    <ion-card style="margin-top: 30px;">
+      <ion-card-header>
+        <ion-card-title>Conclusión Final</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p style="white-space: pre-wrap; text-align: justify;">{{ encabezado.conclusion || '' }}</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- MODAL DE FIRMA -->
+  <ion-modal [isOpen]="mostrando_firma">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Firmar Evaluación</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="cerrarFirma()">Cerrar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-card>
+          <ion-card-content>
+            <p style="text-align: center; margin-bottom: 24px;">
+              <strong>Seleccione el método de firma</strong>
+            </p>
+
+            <ion-button expand="block" (click)="abrirModalClave()" color="primary" class="ion-margin-bottom">
+              <ion-icon name="key" slot="start"></ion-icon>
+              Clave de Firma
+            </ion-button>
+
+            <ion-button expand="block" (click)="abrirModalFirmaManual()" color="success" class="ion-margin-bottom">
+              <ion-icon name="pencil" slot="start"></ion-icon>
+              Firmar Manual
+            </ion-button>
+
+            <ion-button expand="block" (click)="abrirModalQR()" color="secondary">
+              <ion-icon name="camera" slot="start"></ion-icon>
+              Firmar con Código QR
+            </ion-button>
+
+          </ion-card-content>
+        </ion-card>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <!-- MODAL FIRMA MANUAL -->
+  <ion-modal #modalFirmaManual [isOpen]="isSignaturePadModalOpen">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Firma Manual</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="regresarAOpciones()">Cerrar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Escriba su firma en el área de abajo</ion-card-title>
+            <ion-card-subtitle>Use el mouse o toque la pantalla para dibujar</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <canvas 
+              #signaturePadCanvas 
+              id="signature-pad-canvas"
+              style="border: 2px solid #ddd; border-radius: 8px; width: 100%; height: 300px; cursor: crosshair; background: white; display: block; margin-bottom: 16px;">
+            </canvas>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+              <!-- Botón 1: Limpiar Firma -->
+              <ion-button (click)="limpiarFirma()" color="danger">
+                <ion-icon name="trash" slot="start"></ion-icon>
+                Limpiar Firma
+              </ion-button>
+
+              <!-- Botón 2: Cancelar -->
+              <ion-button (click)="regresarAOpciones()" color="medium">
+                <ion-icon name="close" slot="start"></ion-icon>
+                Cancelar
+              </ion-button>
+
+              <!-- Botón 3: Guardar -->
+              <ion-button (click)="guardarFirmaManual()" color="primary">
+                <ion-icon name="checkmark" slot="start"></ion-icon>
+                Guardar
+              </ion-button>
+
+              <!-- Botón 4: Actualizar firma del tercero permanente -->
+              <ion-button (click)="actualizarFirmaManual()" color="success">
+                <ion-icon name="refresh" slot="start"></ion-icon>
+                Actualizar Firma Tercero
+              </ion-button>              
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <!-- MODAL QR -->
+  <ion-modal #modalQR [isOpen]="isQRModalOpen" (ionModalDidPresent)="onQRModalDidPresent()" (ionModalWillDismiss)="onQRModalWillDismiss()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Escanear Código QR</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="cerrarModalQR()">Cerrar</ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <div style="width: 100%; height: 400px; overflow: hidden; border-radius: 8px;">
+          <video #videoQR style="width: 100%; height: 100%; object-fit: cover;"></video>
+        </div>
+        <p style="text-align: center; margin-top: 16px; color: #666;">
+          Apunte el código QR a la cámara
+        </p>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>

@@ -91,6 +91,7 @@ export class DatosbasicosPage implements OnInit, OnDestroy {
 	rutaGeneral = 'Autogestion/cDatosBasicos/';
 	datosFormulario!: { formulario: RxFormGroup, propiedades: Array<string> };
 	datosAdicionales!: { formulario: RxFormGroup, propiedades: Array<string> };
+	selectTipoCalculoOptions = { cssClass: 'modal-color', header: 'Tipo de cálculo' };
 	BotonAgregar = '';
 	
 	// Propiedad para almacenar la URL de la foto optimizada
@@ -137,6 +138,10 @@ export class DatosbasicosPage implements OnInit, OnDestroy {
 	datosSeleccionados: { [key: string]: any } = {};
 	dptoResidencia: any = [];
 	ciudadResidencia: any = [];
+
+	// InterfaceOptions para cada select con header automático
+	selectGeneroOptions = { cssClass: 'modal-color', header: 'Género' };
+
 
 	/**
 	 * Actualiza la URL de la foto del usuario

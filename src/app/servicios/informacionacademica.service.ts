@@ -18,6 +18,7 @@ export class InformacionAcademica extends PeticionService {
 		super();
 	}
 
+	@required({ message: 'Campo requerido.' })
 	@numeric({ acceptValue: NumericValueType.PositiveNumber, allowDecimal: false, message: 'Solo valores númericos' })
 	@maxLength({ value: 200, message: 'Maximo 30 caracteres' })
 	public set ultimocursado(value: string) {
@@ -35,6 +36,7 @@ export class InformacionAcademica extends PeticionService {
 		return this._niveleducativo_id;
 	}
 
+	@required({ message: 'Campo requerido.' })
 	@maxLength({ value: 30, message: 'Maximo 30 caracteres' })
 	public set fecha_finalizacion(value: string) {
 		this._fecha_finalizacion = value;
@@ -43,6 +45,7 @@ export class InformacionAcademica extends PeticionService {
 		return this._fecha_finalizacion;
 	}
 
+	@required({ message: 'Campo requerido.' })
 	@maxLength({ value: 200, message: 'Maximo 30 caracteres' })
 	public set institucion(value: string) {
 		this._institucion = value;

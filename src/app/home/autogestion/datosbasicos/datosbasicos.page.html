@@ -110,9 +110,9 @@
 				</app-select-autogestion>
 
 				<ion-item>
-					<ion-label position="floating" color="dark">* Sexo</ion-label>
+					<ion-label position="floating" color="dark">* Genero</ion-label>
 					<ion-select formControlName="sexo" okText="Aceptar" cancelText="Cancelar"
-						[interfaceOptions]="{cssClass: 'modal-color'}" placeholder="Selecciona el Genero">
+						[interfaceOptions]="selectGeneroOptions"placeholder="Selecciona el Genero">
 						<ion-select-option color="dark" *ngFor="let item of generos;" [value]="item.valor">{{
 							item.titulo }}
 						</ion-select-option>

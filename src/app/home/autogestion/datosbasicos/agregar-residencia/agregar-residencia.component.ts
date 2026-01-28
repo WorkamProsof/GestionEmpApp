@@ -44,6 +44,8 @@ export class AgregarResidenciaComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
+		// Limpiar el servicio para evitar que mantenga valores previos
+		this.limpiarServicio();
 		this.datosResidencia = FuncionesGenerales.crearFormulario(this.informacionResidencia);
 		this.validarPermiso();
 	}
@@ -109,6 +111,15 @@ export class AgregarResidenciaComponent implements OnInit {
 
 			}
 		});
+	}
+
+	limpiarServicio() {
+		// Limpiar todas las propiedades del servicio
+		this.informacionResidencia.paisid = '';
+		this.informacionResidencia.dptoid = '';
+		this.informacionResidencia.ciudadid = '';
+		this.informacionResidencia.principal = '';
+		this.informacionResidencia.direccion = '';
 	}
 
 }
