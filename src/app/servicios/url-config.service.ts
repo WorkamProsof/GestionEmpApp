@@ -61,15 +61,68 @@ export class UrlConfigService {
   }
 
   /**
+   * Cambia solo la URL principal sin alterar la contingencia
+   * ✅ Ideal para cambiar dinámicamente la URL sin afectar otros valores
+   * @param nuevaUrl La nueva URL principal
+   */
+  setMainUrl(nuevaUrl: string): void {
+    try {
+      const config = this.getConfig();
+      
+      // Actualizar solo la URL principal, mantener el resto igual
+      localStorage.setItem(this.CONFIG_KEY, JSON.stringify({
+        urlPrincipal: nuevaUrl,
+        urlContingencia: config.urlContingencia
+      }));
+      
+      console.log('✅ URL principal actualizada:', nuevaUrl);
+    } catch (error) {
+      console.error('Error al actualizar URL principal:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Reinicia SOLO la URL principal a su valor por defecto
+   */
+  resetMainUrl(): void {
+    try {
+      const config = this.getConfig();
+      
+      localStorage.setItem(this.CONFIG_KEY, JSON.stringify({
+        urlPrincipal: environment.urlBack,
+        urlContingencia: config.urlContingencia
+      }));
+      
+      console.log('✅ URL principal reiniciada al valor por defecto:', environment.urlBack);
+    } catch (error) {
+      console.error('Error al reiniciar URL principal:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Obtiene la URL principal actual (guardada o por defecto)
+   */
+  getMainUrl(): string {
+    const config = this.getConfig();
+    return config.urlPrincipal || environment.urlBack;
+  }
+
+  /**
    * Obtiene la URL activa actual (principal o contingencia)
    */
   getActiveUrl(): string {
-    if (localStorage.getItem(this.CONTINGENCIA_KEY) === 'true') {
-      // Obtener la URL de contingencia del localStorage o del environment
-      const config = this.getConfig();
+    const config = this.getConfig();
+    
+    // Si está usando contingencia, retornar URL de contingencia
+    if (config.usarContingencia) {
       return config.urlContingencia || environment.urlContingencia;
     }
-    return environment.urlBack;
+    
+    // Si NO está usando contingencia, retornar la URL principal guardada
+    // (no usar environment.urlBack directamente, usar la del config)
+    return config.urlPrincipal || environment.urlBack;
   }
 
   /**

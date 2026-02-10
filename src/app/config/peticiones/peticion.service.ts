@@ -23,7 +23,13 @@ export class PeticionService {
 	private httpClient = inject(HttpClient);
 	private urlConfigService = inject(UrlConfigService);
 	
-	public url: string = environment.urlBack + 'index.php/API/';
+	/**
+	 * Propiedad URL dinámica que se actualiza con la configuración guardada
+	 */
+	get url(): string {
+		return this.getActiveUrl() + 'index.php/API/';
+	}
+	
 	public categoria: string = '';
 
 	constructor() {

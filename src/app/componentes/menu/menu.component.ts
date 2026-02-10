@@ -92,7 +92,7 @@ export class MenuComponent implements OnInit, OnDestroy {
 			},
 			{
 				icon: 'checkmark-done-outline', 
-				title: 'Ver ejecuciones de evaluación', 
+				title: 'Ver Ejecuciones de Evaluación', 
 				path: '/modulos/ejecucionesevaluacion',
 				permisoId: 6001100
 			},

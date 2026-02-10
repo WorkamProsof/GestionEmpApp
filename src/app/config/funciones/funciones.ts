@@ -25,6 +25,30 @@ export class FuncionesGenerales {
 	}
 
 	static urlGestion() {
+		// Intentar obtener la URL del localStorage (guardada por UrlConfigService)
+		try {
+			const CONFIG_KEY = 'url_config';
+			const CONTINGENCIA_KEY = 'usar_contingencia';
+			
+			const usarContingencia = localStorage.getItem(CONTINGENCIA_KEY) === 'true';
+			const savedConfig = localStorage.getItem(CONFIG_KEY);
+			
+			if (savedConfig) {
+				const config = JSON.parse(savedConfig);
+				
+				// Si está usando contingencia, retornar URL de contingencia
+				if (usarContingencia) {
+					return config.urlContingencia || environment.urlContingencia;
+				}
+				
+				// Si NO está usando contingencia, retornar la URL principal guardada
+				return config.urlPrincipal || environment.urlBack;
+			}
+		} catch (error) {
+			console.warn('Error al obtener URL del localStorage:', error);
+		}
+		
+		// Fallback: retornar URL por defecto del environment
 		return environment.urlBack;
 	}
 

@@ -1,6 +1,35 @@
 :host {
   --page-margin: var(--margin);
   --page-padding: var(--padding);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+// ==================== TABS CONTAINER (FIXED) ====================
+
+.tabs-container {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background-color: #ffffff;
+  border-bottom: 2px solid var(--ion-color-light);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 0;
+  
+  ion-segment {
+    margin: 0;
+    padding: 8px 16px;
+  }
+}
+
+// ==================== ION-CONTENT ====================
+
+ion-content {
+  --padding-top: 16px;
+  flex: 1;
 }
 
 // ==================== ESTILOS GENERALES ====================

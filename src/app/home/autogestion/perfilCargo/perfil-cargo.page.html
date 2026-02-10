@@ -1,6 +1,33 @@
 <app-header titulo="Perfil de Cargo"></app-header>
 
-<ion-content class="ion-padding-top">
+<!-- TABS CONTAINER (FIXED) -->
+<div class="tabs-container" *ngIf="!cargando && mostrandoDetalles && !error">
+  <ion-segment [(ngModel)]="tabActiva" (ionChange)="cambiarTab(tabActiva)" scrollable>
+    <ion-segment-button value="basicos">
+      <ion-label>Datos básicos </ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="requisitos">
+      <ion-label>Requisitos Indispensables</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="funciones">
+      <ion-label>Funciones</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="objetivos">
+      <ion-label>Metas del Cargo</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="responsabilidades">
+      <ion-label>Responsabilidades</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="competencias">
+      <ion-label>Competencias</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="riesgos">
+      <ion-label>Riesgos</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+</div>
+
+<ion-content>
   <!-- Estado de Carga -->
   <div *ngIf="cargando">
     <ion-card>
@@ -32,31 +59,6 @@
 
   <!-- Contenido Cargado -->
   <div *ngIf="!cargando && mostrandoDetalles && !error" class="ion-padding">
-
-    <!-- TABS -->
-    <ion-segment [(ngModel)]="tabActiva" (ionChange)="cambiarTab(tabActiva)" class="ion-margin-bottom" scrollable>
-      <ion-segment-button value="basicos">
-        <ion-label>Datos básicos </ion-label>
-      </ion-segment-button>
-      <ion-segment-button value="requisitos">
-        <ion-label>Requisitos Indispensables</ion-label>
-      </ion-segment-button>
-      <ion-segment-button value="funciones">
-        <ion-label>Funciones</ion-label>
-      </ion-segment-button>
-      <ion-segment-button value="objetivos">
-        <ion-label>Metas del Cargo</ion-label>
-      </ion-segment-button>
-      <ion-segment-button value="responsabilidades">
-        <ion-label>Responsabilidades</ion-label>
-      </ion-segment-button>
-      <ion-segment-button value="competencias">
-        <ion-label>Competencias</ion-label>
-      </ion-segment-button>
-      <ion-segment-button value="riesgos">
-        <ion-label>Riesgos</ion-label>
-      </ion-segment-button>
-    </ion-segment>
 
     <!-- TAB: DATOS BÁSICOS -->
     <div *ngIf="tabActiva === 'basicos'">

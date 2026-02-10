@@ -46,7 +46,7 @@ export class ElementosproteccionPage implements OnInit, OnDestroy {
   filtroForm: FormGroup;
   isFirmaModalOpen = false;
   currentItem: any;
-  isModalOpen!: boolean;
+  isModalOpen = false;  // ✅ INICIALIZAR correctamente
   isClaveModalOpen!: boolean;
   isQRModalOpen!: boolean;
   clave!: string;
@@ -118,18 +118,25 @@ export class ElementosproteccionPage implements OnInit, OnDestroy {
 
   openModal() {
     this.isModalOpen = true;
-    // Reiniciar fechas cuando se abre el modal
-    this.fechaInicial = '';
-    this.fechaFinal = '';
-    this.filtroForm.reset();
     
-    // Limpiar inputs del DOM
-    const fechaInicioInput = document.getElementById('selectFechaInicio') as HTMLInputElement;
-    const fechaFinInput = document.getElementById('selectFechaFin') as HTMLInputElement;
-    if (fechaInicioInput) fechaInicioInput.value = '';
-    if (fechaFinInput) fechaFinInput.value = '';
-    
+    // Ejecutar la lógica de limpieza en el siguiente ciclo de cambio de detección
+    // para asegurar que la modal se renderice antes de manipular el DOM
     this.cdRef.detectChanges();
+    
+    setTimeout(() => {
+      // Reiniciar fechas cuando se abre el modal
+      this.fechaInicial = '';
+      this.fechaFinal = '';
+      this.filtroForm.reset();
+      
+      // Limpiar inputs del DOM
+      const fechaInicioInput = document.getElementById('selectFechaInicio') as HTMLInputElement;
+      const fechaFinInput = document.getElementById('selectFechaFin') as HTMLInputElement;
+      if (fechaInicioInput) fechaInicioInput.value = '';
+      if (fechaFinInput) fechaFinInput.value = '';
+      
+      this.cdRef.detectChanges();
+    }, 0);
   }
 
   onModalDidPresent() {

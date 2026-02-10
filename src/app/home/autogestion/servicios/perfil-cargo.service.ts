@@ -1,15 +1,23 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { UrlConfigService } from 'src/app/servicios/url-config.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PerfilCargoService {
-  public url: string = environment.urlBack + 'index.php/API/';
+  private urlConfigService = inject(UrlConfigService);
   public categoria: string = 'Autogestion/cPerfilCargo/';
 
   constructor(private http: HttpClient) { }
+
+  /**
+   * Obtiene la URL base dinámica (actualiza con la configuración guardada)
+   */
+  private get url(): string {
+    return this.urlConfigService.getActiveUrl() + 'index.php/API/';
+  }
 
   /**
    * Obtiene el cargo completo SIN ENCRIPTACIÓN
