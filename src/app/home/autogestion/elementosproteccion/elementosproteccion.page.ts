@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/quotes */
 /* eslint-disable @typescript-eslint/dot-notation */
-import { Component, OnInit, OnDestroy, ViewChild, ChangeDetectorRef, ElementRef, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ChangeDetectorRef, ElementRef, NgZone, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -61,6 +61,7 @@ export class ElementosproteccionPage implements OnInit, OnDestroy {
     private alertController: AlertController,
     private notificacionService: NotificacionesService,
     private cdRef: ChangeDetectorRef,
+    private ngZone: NgZone,
   ) {
     this.filtroForm = new FormGroup({
       fechainicio: new FormControl(),
@@ -118,25 +119,27 @@ export class ElementosproteccionPage implements OnInit, OnDestroy {
 
   openModal() {
     this.isModalOpen = true;
-    
-    // Ejecutar la lógica de limpieza en el siguiente ciclo de cambio de detección
-    // para asegurar que la modal se renderice antes de manipular el DOM
     this.cdRef.detectChanges();
     
-    setTimeout(() => {
-      // Reiniciar fechas cuando se abre el modal
-      this.fechaInicial = '';
-      this.fechaFinal = '';
-      this.filtroForm.reset();
-      
-      // Limpiar inputs del DOM
-      const fechaInicioInput = document.getElementById('selectFechaInicio') as HTMLInputElement;
-      const fechaFinInput = document.getElementById('selectFechaFin') as HTMLInputElement;
-      if (fechaInicioInput) fechaInicioInput.value = '';
-      if (fechaFinInput) fechaFinInput.value = '';
-      
-      this.cdRef.detectChanges();
-    }, 0);
+    // Usar requestAnimationFrame para un timing más confiable en todas las versiones de Android
+    this.ngZone.runOutsideAngular(() => {
+      requestAnimationFrame(() => {
+        this.ngZone.run(() => {
+          // Reiniciar fechas cuando se abre el modal
+          this.fechaInicial = '';
+          this.fechaFinal = '';
+          this.filtroForm.reset();
+          
+          // Limpiar inputs del DOM
+          const fechaInicioInput = document.getElementById('selectFechaInicio') as HTMLInputElement;
+          const fechaFinInput = document.getElementById('selectFechaFin') as HTMLInputElement;
+          if (fechaInicioInput) fechaInicioInput.value = '';
+          if (fechaFinInput) fechaFinInput.value = '';
+          
+          this.cdRef.detectChanges();
+        });
+      });
+    });
   }
 
   onModalDidPresent() {
