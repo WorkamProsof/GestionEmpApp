@@ -14,11 +14,10 @@ import { AgregarSolicitudVacacionesComponent } from './agregar-solicitud-vacacio
 import { ModalController } from '@ionic/angular';
 import { LoginService } from 'src/app/servicios/login.service';
 import { StorageService } from 'src/app/servicios/storage.service';
+import { ValidacionPermisosService } from 'src/app/servicios/validacion-permisos.service';
+import { ValidarPermiso } from 'src/app/utils/permisos.decorators';
 import { HeaderComponent } from 'src/app/componentes/header/header.component';
 import { FiltroListaPipe } from 'src/app/pipes/filtro-lista/filtro-lista.pipe';
-import { ValidacionPermisosService } from 'src/app/servicios/validacion-permisos.service';
-import { PermisosHelperService } from 'src/app/servicios/permisos-helper.service';
-import { ValidarPermiso, PermisosUtils } from 'src/app/utils/permisos.decorators';
 
 interface DatosUsuario {
 	[key: string]: any;
@@ -44,6 +43,7 @@ export class SolicitarvacacionesPage implements OnInit, OnDestroy {
 	permisoCrear = false;
 	permisoDisfrutados = false;
 	permisoPendientes = false;
+	permisoAdjuntarArchivo = false;
 	searching: boolean = true;
 	datosUsuario: DatosUsuario = { SEGUR: [] };
 	SEGUR: Array<number> = [];
@@ -62,8 +62,7 @@ export class SolicitarvacacionesPage implements OnInit, OnDestroy {
 		private datosBasicosService: DatosbasicosService,
 		private menu: CambioMenuService,
 		private modalController: ModalController,
-		private validacionPermisosService: ValidacionPermisosService,
-		private permisosHelper: PermisosHelperService
+		private validacionPermisosService: ValidacionPermisosService
 	) { }
 
 	ngOnInit() {
@@ -111,15 +110,23 @@ export class SolicitarvacacionesPage implements OnInit, OnDestroy {
 		// ✅ Usar método centralizado que valida empleados retirados
 		this.datosUsuario = await this.datosBasicosService.obtenerDatosStorage('usuario');
 		
+		// Fallback: conserva compatibilidad con el flujo anterior de desencriptado directo.
+		if (!this.datosUsuario || !this.datosUsuario.SEGUR) {
+			this.datosUsuario = await this.loginService.desencriptar(
+				JSON.parse(await this.storage.get('usuario').then(resp => resp))
+			);
+		}
+
 		if (!this.datosUsuario) {
 			console.error('No se pudo obtener usuario del storage');
 			return;
 		}
-		
+
 		this.SEGUR = this.datosUsuario.SEGUR || [];
 		this.permisoCrear = this.validarPermiso(60010083);
 		this.permisoDisfrutados = this.validarPermiso(60010082);
 		this.permisoPendientes = this.validarPermiso(60010081);
+		this.permisoAdjuntarArchivo = this.validarPermiso(60010084);
 	}
 
 	validarPermiso(permiso: number) {
@@ -174,7 +181,9 @@ export class SolicitarvacacionesPage implements OnInit, OnDestroy {
 				this.notificacionService.notificacion(resp.mensaje);
 			}
 			this.searching = false;
-			if (event) {event.target.complete();}
+			if (event?.target) {
+				event.target.complete();
+			}
 		}, console.error).catch(err => {
 			// ✅ Usar helper centralizado para manejar errores
 			this.datosBasicosService.manejarErrorEmpleadoRetirado(err, event);
@@ -215,7 +224,12 @@ export class SolicitarvacacionesPage implements OnInit, OnDestroy {
 
 	@ValidarPermiso(60010083, 'crear solicitud de vacaciones')
 	async irModal() {
-		const datos = { component: AgregarSolicitudVacacionesComponent, componentProps: {} };
+		let datos = {
+			component: AgregarSolicitudVacacionesComponent,
+			componentProps: {
+				permisoAdjuntarArchivo: this.permisoAdjuntarArchivo
+			}
+		};
 		const modal = await this.modalController.create(datos);
 		await modal.present();
 		await modal.onWillDismiss().then(resp => {

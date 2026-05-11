@@ -144,13 +144,13 @@ export class FuncionesGenerales {
 			{ id: 60010081, tipo: 'SV', campo: 'Periodos vacacionales pendientes' },
 			{ id: 60010082, tipo: 'SV', campo: 'Periodos vacacionales disfrutados o pagados' },
 			{ id: 60010083, tipo: 'SV', campo: 'Crear' },
+			{ id: 60010084, tipo: 'SV', campo: 'Adjuntar Archivo' },
 			{ id: 6001009, 	tipo: 'RC', campo: 'Ausentismo' },
 			{ id: 6001100, 	tipo: 'VEE', campo: 'Ver ejecuciones de evaluaciones' },
 			{ id: 6001200, 	tipo: 'PC', campo: 'Perfil de Cargo' },
 
 			// Gastos
 			{ id: 500100, tipo: 'GASTOS', campo: 'modulo_gastos' },
-
 		];
 
 		if (tipo === '') {
@@ -185,6 +185,7 @@ export class FuncionesGenerales {
 			{ id: 6001006, tipo: 'Datos Personales', descripcion: 'Ver y editar datos personales' },
 			{ id: 6001007, tipo: 'CL', descripcion: 'Certificados Laborales' },
 			{ id: 6001008, tipo: 'SV', descripcion: 'Solicitar Vacaciones' },
+			{ id: 60010084, tipo: 'SV', descripcion: 'Adjuntar Archivo en Solicitud de Vacaciones' },
 			{ id: 6001009, tipo: 'RC', descripcion: 'Registro de Ausentismo' },
 			{ id: 500100, tipo: 'GASTOS', descripcion: 'Módulo de Gastos' },
 		];

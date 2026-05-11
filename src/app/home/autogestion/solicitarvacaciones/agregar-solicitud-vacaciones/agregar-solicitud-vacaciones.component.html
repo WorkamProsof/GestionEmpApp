@@ -16,16 +16,16 @@
 				<ion-label position="floating" for="selectFechaInicio" color="dark">* Fecha Inicio</ion-label>
 				<ion-input formControlName="FechaInicio" id="selectFechaInicio" expand="block" display-format="DD-MM-YYYY" presentation="date" readonly (click)="abrirPopover('inicio')">
 				</ion-input>
-			  </ion-item>
+			</ion-item>
 		
-			  <!-- Popover para Fecha Inicio -->
-			  <ion-popover trigger="selectFechaInicio" [isOpen]="popoverAbierto === 'inicio'" size="cover" class="custom-popover">
+			<!-- Popover para Fecha Inicio -->
+			<ion-popover trigger="selectFechaInicio" [isOpen]="popoverAbierto === 'inicio'" size="cover" class="custom-popover">
 				<ng-template>
-				  <ion-datetime	display-format="DD-MM-YYYY"	formControlName="FechaInicio" presentation="date" [showDefaultButtons]="true"
-					doneText="Confirmar" cancelText="Cancelar" (ionChange)="confirmarInicio($event)">
-				  </ion-datetime>
+					<ion-datetime	display-format="DD-MM-YYYY"	formControlName="FechaInicio" presentation="date" [showDefaultButtons]="true"
+						doneText="Confirmar" cancelText="Cancelar" (ionChange)="confirmarInicio($event)">
+					</ion-datetime>
 				</ng-template>
-			  </ion-popover>
+			</ion-popover>
 
 			<ion-item>
 				<ion-label position="floating" color="dark">* Dias compensados</ion-label>
@@ -34,6 +34,38 @@
 					*ngIf="datosSolicitud.formulario.get('DiaCompensado')?.touched" color="danger">{{
 					datosSolicitud.formulario.get('DiaCompensado')?.getError('errorMessage') }}</ion-text>
 			</ion-item>
+
+			<ng-container *ngIf="permisoAdjuntarArchivo">
+				<ion-item lines="none">
+					<ion-label class="ion-text-wrap">
+						<h3>* Adjuntar soporte</h3>
+						<p>PDF o imagen JPG/PNG, maximo 4 MB.</p>
+					</ion-label>
+				</ion-item>
+
+				<ion-item>
+					<input id="inputArchivoVacaciones" type="file" accept=".pdf,.png,.jpg,.jpeg,image/png,image/jpeg,application/pdf"
+						(change)="onArchivoSeleccionado($event)">
+				</ion-item>
+
+				<ion-item lines="none" *ngIf="archivoAdjunto">
+					<ion-label class="ion-text-wrap">
+						<strong>{{ archivoAdjunto.name }}</strong><br>
+						<small>{{ archivoAdjunto.size / 1024 / 1024 | number:'1.2-2' }} MB</small>
+					</ion-label>
+					<ion-button fill="clear" color="danger" (click)="quitarArchivo()">
+						<ion-icon slot="icon-only" name="close-circle"></ion-icon>
+					</ion-button>
+				</ion-item>
+
+				<ion-item lines="none" *ngIf="archivoAdjuntoError">
+					<ion-text color="danger">{{ archivoAdjuntoError }}</ion-text>
+				</ion-item>
+
+				<ion-item lines="none" *ngIf="!archivoAdjunto && !archivoAdjuntoError">
+					<ion-text color="medium">Debe adjuntar un archivo para guardar la solicitud.</ion-text>
+				</ion-item>
+			</ng-container>
 		</ion-list>
 	</form>
 
@@ -42,7 +74,7 @@
 <ion-footer>
 	<ion-toolbar>
 		<ion-title>
-			<ion-button [disabled]="datosSolicitud.formulario.invalid" type="submit" class="ion-no-margin" shape="round"
+			<ion-button [disabled]="datosSolicitud.formulario.invalid || !!archivoAdjuntoError || (permisoAdjuntarArchivo && !archivoAdjunto)" type="submit" class="ion-no-margin" shape="round"
 				expand="full" (click)="submitDataFamiliaContacto()">
 				Agregar
 				<ion-icon slot="start" name="save-outline"></ion-icon>
