@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.gestionemp.app',
-  appName: 'gestionEmp',
+  appId: 'com.prosof.co',
+  appName: 'GestionEmp',
   webDir: 'www/browser',
   android: {
     allowMixedContent: true,
