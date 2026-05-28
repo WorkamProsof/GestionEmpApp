@@ -16,7 +16,12 @@ import { Camera } from '@capacitor/camera';
 import { Capacitor } from '@capacitor/core';
 import { HeaderComponent } from 'src/app/componentes/header/header.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ValidacionPermisosService } from 'src/app/servicios/validacion-permisos.service';
 
+interface DatosUsuario {
+	[key: string]: any;
+	SEGUR: Array<number>;
+}
 @Component({
   selector: 'app-elementosproteccion',
   templateUrl: './elementosproteccion.page.html',
@@ -39,8 +44,8 @@ export class ElementosproteccionPage implements OnInit, OnDestroy {
   rutaGeneral = 'Autogestion/cElementosProteccion/';
   elementosProteccion: any[] = [];
   terceroId!: number;
-  datosUsuario: { num_docu: number } = { num_docu: 0 };
-  segur: Array<object> = [];
+  datosUsuario: DatosUsuario = { num_docu: 0, SEGUR: [] };
+  SEGUR: Array<number> = [];
   fechaInicial!: string;
   fechaFinal!: string;
   filtroForm: FormGroup;
@@ -52,6 +57,7 @@ export class ElementosproteccionPage implements OnInit, OnDestroy {
   clave!: string;
   lectorQR: QrScanner | null = null;
   validandoClave = false;
+  permisoFirma = false;
 
   constructor(
     private datosEmpleadosService: DatosEmpleadosService,
@@ -62,6 +68,7 @@ export class ElementosproteccionPage implements OnInit, OnDestroy {
     private notificacionService: NotificacionesService,
     private cdRef: ChangeDetectorRef,
     private ngZone: NgZone,
+    private validacionPermisosService: ValidacionPermisosService,
   ) {
     this.filtroForm = new FormGroup({
       fechainicio: new FormControl(),
@@ -77,24 +84,56 @@ export class ElementosproteccionPage implements OnInit, OnDestroy {
   ngOnDestroy() {
     // Limpiar recursos cuando el componente se destruye
     this.stopQRScanner();
+    this.validarPermisosIniciales();
   }
+
+  private validarPermisosIniciales() {
+		// Validar múltiples permisos de forma asíncrona
+		const permisos = [60010121];
+		const promesasValidacion = permisos.map(permiso => 
+			this.validacionPermisosService.validarPermisoLocal(permiso)
+		);
+
+		Promise.all(promesasValidacion).then(resultados => {
+			this.permisoFirma = resultados[0];
+		}).catch(error => {
+			console.error('Error validando permisos:', error);
+		});
+	}
 
   async obtenerUsuario() {
     // Usar el método que valida empleados retirados
     this.datosUsuario = await this.datosEmpleadosService.obtenerDatosStorage('usuario');
+
+    // Fallback: conserva compatibilidad con el flujo anterior de desencriptado directo.
+		if (!this.datosUsuario || !this.datosUsuario.SEGUR) {
+			this.datosUsuario = await this.loginService.desencriptar(
+				JSON.parse(await this.storage.get('usuario').then(resp => resp))
+			);
+		}
     
     if (!this.datosUsuario) {
       console.error('No se pudo obtener usuario del storage');
       return;
     }
     
+    this.SEGUR = this.datosUsuario.SEGUR || [];
     this.terceroId = this.datosUsuario['num_docu'];
     this.obtenerInformacion('obtenerElementosAsignados', 'cargarElementosAsignados', {
       terceroId: this.terceroId,
       fechaInicial: this.fechaInicial,
       fechaFinal: this.fechaFinal
     });
+    this.permisoFirma = this.validarPermiso(60010121);
   }
+
+  validarPermiso(permiso: number) {
+		if (this.SEGUR.length > 0 && this.SEGUR.includes(permiso)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
   obtenerInformacion(metodo: string, funcion: string, datos = {}, event?: any): Promise<any> {
     return this.datosEmpleadosService.informacion(datos, this.rutaGeneral + metodo).then(resp => {
