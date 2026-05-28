@@ -17,6 +17,7 @@
 
       <ion-button 
         expand="full" 
+        *ngIf="permisoFirma"
         [disabled]="item.cantidadFirmas === item.cantidadElementosParaFirmas" 
         [color]="item.cantidadFirmas === item.cantidadElementosParaFirmas ? 'medium' : 'primary'" 
         (click)="openModalFirmas(item)">

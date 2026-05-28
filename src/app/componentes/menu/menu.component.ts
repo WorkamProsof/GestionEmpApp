@@ -89,6 +89,7 @@ export class MenuComponent implements OnInit, OnDestroy {
 				icon: 'list', 
 				title: 'Elementos de Protección', 
 				path: '/modulos/elementosproteccion',
+				permisoId: 6001012
 			},
 			{
 				icon: 'checkmark-done-outline', 
