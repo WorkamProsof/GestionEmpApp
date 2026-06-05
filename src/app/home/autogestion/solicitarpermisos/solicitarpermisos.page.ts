@@ -36,6 +36,7 @@ export class SolicitarpermisosPage implements OnInit, OnDestroy {
 	searching= false;
 	permisoPendientes= false;
 	permisoDisfrutados = false;
+	permisoAdjuntarArchivo = false;
 	buscarPendientes = '';
 	permisoCrear = false;
 	datosInicialmenteLoaded = false; // Nueva propiedad para controlar la carga inicial
@@ -63,6 +64,7 @@ export class SolicitarpermisosPage implements OnInit, OnDestroy {
 		this.permisoPendientes = false;
 		this.permisoDisfrutados = false;
 		this.permisoCrear = false;
+		this.permisoAdjuntarArchivo = false;
 	}
 
 	private async validarPermisosIniciales() {
@@ -74,7 +76,7 @@ export class SolicitarpermisosPage implements OnInit, OnDestroy {
 			await this.validacionPermisosService.inicializar();
 			
 			// 3. Validar permisos usando tanto el cache del servicio como la validación local
-			const permisos = [60010081, 60010082, 60010083];
+			const permisos = [60010081, 60010082, 60010083, 60010084];
 			
 			// Luego validar localmente como respaldo
 			const resultadosLocales = permisos.map(permiso => this.validarPermiso(permiso));
@@ -83,6 +85,7 @@ export class SolicitarpermisosPage implements OnInit, OnDestroy {
 			this.permisoPendientes = resultadosLocales[0];
 			this.permisoDisfrutados = resultadosLocales[1]; 
 			this.permisoCrear = resultadosLocales[2];
+			this.permisoAdjuntarArchivo = resultadosLocales[3];
 
 		} catch (error) {
 			console.error('❌ Error validando permisos iniciales:', error);
@@ -90,6 +93,7 @@ export class SolicitarpermisosPage implements OnInit, OnDestroy {
 			this.permisoPendientes = false;
 			this.permisoDisfrutados = false;
 			this.permisoCrear = false;
+			this.permisoAdjuntarArchivo = false;
 		}
 	}
 
@@ -187,7 +191,8 @@ export class SolicitarpermisosPage implements OnInit, OnDestroy {
 			component: AgregarSolicitarPermisosComponent,
 			componentProps: {
 				ausentimos: this.tiposAusentismosArray, 
-				enfermedades: this.enfermedadesArray
+				enfermedades: this.enfermedadesArray,
+				permisoAdjuntarArchivo: this.permisoAdjuntarArchivo
 			}
 		};
 		const modalInstance = await this.modalController.create(datos);

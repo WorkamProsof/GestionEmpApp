@@ -28,44 +28,50 @@
 						class="ion-margin familiar" lines="none" [style]="item['Color']">
 
 						<ion-label>
-							<h2 class="ion-text-center">{{ item['nombre'] }}</h2>
-
 							<div class="item d-flex justify-content-between">
-								<span><b>Fecha Inicio </b></span>
+								<span><b>Fecha Inicio: </b></span>
 								<span>{{ item['FechaInicio'] }}</span>
 							</div>
 
 						 	<div class="item d-flex justify-content-between">
-								<span><b>Fecha Fin </b></span>
+								<span><b>Fecha Fin: </b></span>
 								<span>{{ item['FechaFin'] }}</span>
 							</div>
 
 							<div class="item d-flex justify-content-between">
-								<span><b>Días Ausentismo </b></span>
+								<span><b>Días Ausentismo: </b></span>
 								<span>{{ item['DiaCompensado'] }}</span>
 							</div>
 
 							<div class="item d-flex justify-content-between">
-								<span><b>Horas Ausentismo </b></span>
+								<span><b>Horas Ausentismo: </b></span>
 								<span>{{ item['horas'] }}</span>
 							</div>
 
 							<div class="item d-flex justify-content-between">
-								<span><b>Tipo ausentismo </b></span>
+								<span><b>Tipo ausentismo: </b></span>
 								<span>{{ item['NombreAusentismo'] }}</span>
 							</div>
 
-							<span *ngIf="item['Observacion']"><b>Observación:</b> {{ item['Observacion'] }}</span>
+							<span *ngIf="item['Observacion']"><b>Observación: </b> {{ item['Observacion'] }}</span>
 
 							<div class="item d-flex justify-content-between">
-								<span><b>Estado solicitud</b></span>
+								<span><b>Estado solicitud: </b></span>
 								<ion-label class="ion-text-wrap">
 									<ion-text [color]="item['ColorEstado']">
 										<span><b>{{ item['Estado'] }}</b></span>
 									</ion-text>
 								</ion-label>
 							</div>
-
+							<div class="item d-flex justify-content-between" *ngIf="item['MotivoRechazo']" style="margin-bottom: 10px;">
+								<span><b>Detalle: </b></span>
+								<span>{{ item['MotivoRechazo'] }}</span>
+							</div>
+							<ion-row class="ion-justify-content-end ion-align-items-center" *ngIf="item['anexo'] != null">
+								<ion-col size="auto" class="ion-no-padding">
+									<ion-icon name="attach-outline" color="primary" style="font-size: 18px;"></ion-icon>
+								</ion-col>
+							</ion-row>
 						</ion-label>
 					</ion-item>
 				</ion-list>

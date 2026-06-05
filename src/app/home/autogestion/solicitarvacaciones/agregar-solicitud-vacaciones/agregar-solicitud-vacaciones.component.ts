@@ -53,6 +53,19 @@ export class AgregarSolicitudVacacionesComponent implements OnInit {
 	}
 
 	async submitDataFamiliaContacto() {
+		this.datosSolicitud.formulario.markAllAsTouched();
+
+		if (this.datosSolicitud.formulario.invalid) {
+			this.notificacionService.notificacion('Complete los campos obligatorios para continuar.');
+			return;
+		}
+
+		const valorDiaCompensado = Number(this.datosSolicitud.formulario.get('DiaCompensado')?.value);
+		if (!Number.isNaN(valorDiaCompensado) && valorDiaCompensado > 30) {
+			this.datosSolicitud.formulario.patchValue({ DiaCompensado: '30' });
+			this.notificacionService.notificacion('Maximo 30 dias de vacaciones.');
+		}
+
 		if (this.permisoAdjuntarArchivo && !this.archivoAdjunto) {
 			this.archivoAdjuntoError = 'Debe adjuntar un archivo para continuar.';
 			this.notificacionService.notificacion(this.archivoAdjuntoError);
@@ -127,5 +140,67 @@ export class AgregarSolicitudVacacionesComponent implements OnInit {
 		fecha = fecha.split('T')[0];
 		this.datosSolicitud.formulario.patchValue({ FechaInicio: fecha });
 		this.popoverAbierto = null;
+	}
+
+	onDiaCompensadoInput(event: any) {
+		const valorIngresado = String(event?.detail?.value ?? '').replace(/[^0-9]/g, '');
+		if (valorIngresado === '') {
+			this.datosSolicitud.formulario.patchValue({ DiaCompensado: '' });
+			if (event?.target) {
+				event.target.value = '';
+			}
+			return;
+		}
+
+		const valorNumerico = Number(valorIngresado);
+		if (valorNumerico > 30) {
+			this.datosSolicitud.formulario.patchValue({ DiaCompensado: '30' });
+			if (event?.target) {
+				event.target.value = '30';
+			}
+			this.notificacionService.notificacion('Maximo 30 dias de vacaciones.');
+			return;
+		}
+
+		this.datosSolicitud.formulario.patchValue({ DiaCompensado: valorIngresado });
+		if (event?.target) {
+			event.target.value = valorIngresado;
+		}
+	}
+
+	onDiaCompensadoKeydown(event: KeyboardEvent) {
+		const teclasPermitidas = ['Backspace', 'Delete', 'Tab', 'ArrowLeft', 'ArrowRight', 'Home', 'End'];
+		if (teclasPermitidas.includes(event.key)) {
+			return;
+		}
+
+		if (!/^[0-9]$/.test(event.key)) {
+			event.preventDefault();
+		}
+	}
+
+	getMensajeError(campo: string): string {
+		const control = this.datosSolicitud.formulario.get(campo);
+		if (!control || !control.errors) {
+			return '';
+		}
+
+		if (control.errors['errorMessage']) {
+			return control.errors['errorMessage'];
+		}
+
+		if (control.errors['required']) {
+			return 'Campo requerido.';
+		}
+
+		if (control.errors['maxNumber']) {
+			return 'Maximo 30 dias de vacaciones.';
+		}
+
+		if (control.errors['numeric']) {
+			return 'Solo numeros positivos.';
+		}
+
+		return 'Valor invalido.';
 	}
 }

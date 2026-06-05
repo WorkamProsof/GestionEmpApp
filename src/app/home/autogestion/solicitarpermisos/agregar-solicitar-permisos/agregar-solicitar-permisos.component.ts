@@ -33,6 +33,7 @@ export class AgregarSolicitarPermisosComponent implements OnInit {
 
 	@Input() ausentimos: Array<{ id: string; nombre: string }> = [];
 	@Input() enfermedades: Item[] = [];
+	@Input() permisoAdjuntarArchivo = false;
 	@ViewChild('modal', { static: true }) ionModal!: IonModal;
 
 	tipoCalculo = Constantes.tipoCalculo;
@@ -50,6 +51,10 @@ export class AgregarSolicitarPermisosComponent implements OnInit {
 	diasAusentismo: string = '';
 	horasAusentismo: string = '';
 	total_horas: number = 0;
+	archivoAdjunto: File | null = null;
+	archivoAdjuntoError = '';
+	readonly pesoMaximoArchivo = 4 * 1024 * 1024;
+	readonly tiposArchivoPermitidos = ['application/pdf', 'image/png', 'image/jpeg'];
 
 	// InterfaceOptions para cada select con header automático
 	selectTipoAusentismoOptions = { cssClass: 'modal-color', header: 'Tipo Ausentismo' };
@@ -101,10 +106,16 @@ export class AgregarSolicitarPermisosComponent implements OnInit {
 		this.fechaFin = new Date();
 		this.datosForm = {};
 		this.datosSeleccionados = {};
+		this.archivoAdjunto = null;
+		this.archivoAdjuntoError = '';
 		['diasAusentismo', 'horasAusentismo', 'selectFechaInicio', 'selectFechaFin'].forEach(id => {
 			const el = document.getElementById(id) as HTMLInputElement;
 			if (el) el.value = '';
 		});
+		const inputArchivo = document.getElementById('inputArchivoPermisos') as HTMLInputElement;
+		if (inputArchivo) {
+			inputArchivo.value = '';
+		}
 	}
 
 	cerrarModal(datos?: any) {
@@ -127,12 +138,20 @@ export class AgregarSolicitarPermisosComponent implements OnInit {
 			const control = this.datosSolicitudPermisos.formulario.get(campo);
 			if (control && control.invalid) {
 				formularioValido = false;
-				control.markAsTouched(); // Marcar el campo como tocado para mostrar errores
+				control.markAsTouched();
+				control.markAsDirty();
+				control.updateValueAndValidity({ onlySelf: true });
 			}
 		});
 	
 		if (!formularioValido) {
 			this.notificacionService.notificacion('Por favor, complete todos los campos obligatorios marcados con *.');
+			return false;
+		}
+
+		if (this.permisoAdjuntarArchivo && !this.archivoAdjunto) {
+			this.archivoAdjuntoError = 'Debe adjuntar un archivo para continuar.';
+			this.notificacionService.notificacion(this.archivoAdjuntoError);
 			return false;
 		}
 
@@ -159,6 +178,16 @@ export class AgregarSolicitarPermisosComponent implements OnInit {
 			Object.keys(this.datosSeleccionados).forEach((key) => {
 				this.datosForm[key] = this.datosSeleccionados[key];
 			});
+			if (this.archivoAdjunto) {
+				const base64 = await this.getBase64(this.archivoAdjunto);
+				this.datosForm.anexos = {
+					[this.archivoAdjunto.name]: {
+						ArchivoNombre: this.archivoAdjunto.name,
+						TipoArchivo: this.archivoAdjunto.type,
+						archivo: base64,
+					}
+				};
+			}
 
 			// Limpiar y validar datos antes de enviar
 			this.datosForm = this.limpiarDatosParaEnvio(this.datosForm);
@@ -180,6 +209,65 @@ export class AgregarSolicitarPermisosComponent implements OnInit {
 			
 			return false;
 		}
+	}
+
+	getMensajeError(campo: string): string {
+		const control = this.datosSolicitudPermisos.formulario.get(campo);
+		if (!control || !control.errors) {
+			return '';
+		}
+
+		if (control.errors['errorMessage']) {
+			return control.errors['errorMessage'];
+		}
+
+		if (control.errors['required']) {
+			return 'Este campo es obligatorio.';
+		}
+
+		return 'Valor invalido.';
+	}
+
+	onArchivoSeleccionado(event: Event) {
+		const input = event.target as HTMLInputElement;
+		const archivo = input.files && input.files.length ? input.files[0] : null;
+		this.archivoAdjunto = null;
+		this.archivoAdjuntoError = '';
+		if (!archivo) {
+			return;
+		}
+		if (!this.tiposArchivoPermitidos.includes(archivo.type)) {
+			this.archivoAdjuntoError = 'Solo se permite adjuntar PDF o imagen JPG/PNG.';
+			input.value = '';
+			this.notificacionService.notificacion(this.archivoAdjuntoError);
+			return;
+		}
+		if (archivo.size > this.pesoMaximoArchivo) {
+			this.archivoAdjuntoError = 'El archivo no puede superar 4 MB.';
+			input.value = '';
+			this.notificacionService.notificacion(this.archivoAdjuntoError);
+			return;
+		}
+		this.archivoAdjunto = archivo;
+		this.archivoAdjuntoError = '';
+	}
+
+	quitarArchivo() {
+		this.archivoAdjunto = null;
+		this.archivoAdjuntoError = '';
+		const input = document.getElementById('inputArchivoPermisos') as HTMLInputElement;
+		if (input) {
+			input.value = '';
+		}
+	}
+
+	getBase64(file: File): Promise<string> {
+		return new Promise((resolve, reject) => {
+			const reader = new FileReader();
+			reader.readAsDataURL(file);
+			reader.onload = () => resolve(reader.result as string);
+			reader.onerror = error => reject(error);
+		});
 	}
 
 	/**

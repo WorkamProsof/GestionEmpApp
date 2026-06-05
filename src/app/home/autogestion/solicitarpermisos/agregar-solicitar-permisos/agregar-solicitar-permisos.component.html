@@ -15,75 +15,127 @@
 
 			<ion-item>
 				<ion-label position="floating" color="dark">* Tipo Ausentismo</ion-label>
-			<ion-select formControlName="TipoAusentismoId" okText="Aceptar" cancelText="Cancelar"
-				[interfaceOptions]="selectTipoAusentismoOptions" placeholder="Selecciona el Tipo de Ausentismo">
+				<ion-select formControlName="TipoAusentismoId" okText="Aceptar" cancelText="Cancelar"
+					[interfaceOptions]="selectTipoAusentismoOptions" placeholder="Selecciona el Tipo de Ausentismo">
 					<ion-select-option color="dark" *ngFor="let item of ausentimos" [value]="item.id">{{
 						item['nombre'] }}
 					</ion-select-option>
 				</ion-select>
 				<ion-text class="animate__animated animate__bounceIn animate__faster"
-					*ngIf="datosSolicitudPermisos.formulario.get('TipoAusentismoId')?.touched && datosSolicitudPermisos.formulario.get('TipoAusentismoId')?.invalid" color="danger">{{
-					datosSolicitudPermisos.formulario.get('TipoAusentismoId')?.getError('errorMessage') }}</ion-text>
+					*ngIf="datosSolicitudPermisos.formulario.get('TipoAusentismoId')?.touched && datosSolicitudPermisos.formulario.get('TipoAusentismoId')?.invalid"
+					color="danger">{{ getMensajeError('TipoAusentismoId') }}</ion-text>
 			</ion-item>
 
 			<ion-item>
 				<ion-label position="floating" color="dark">* Fecha Inicio</ion-label>
-				<ion-input [class.invalid]="datosSolicitudPermisos.formulario.get('FechaInicio')?.touched && datosSolicitudPermisos.formulario.get('FechaInicio')?.invalid" formControlName="FechaInicio"  id="selectFechaInicio" expand="block" display-format="DD-MM-YYYY" presentation='date' ></ion-input>
-					<ion-popover trigger="selectFechaInicio" size="cover" class="custom-popover">
-						<ng-template>
-							<ion-datetime display-format="DD-MM-YYYY" formControlName="FechaInicio" presentation='date' id="Fechainicio" [showDefaultButtons]="true" doneText="Confirmar" cancelText="Cancelar" (ionChange)="confirmarInicio($event)"></ion-datetime>
-						</ng-template>
-					</ion-popover>
-					<ion-text class="animate__animated animate__bounceIn animate__faster" *ngIf="datosSolicitudPermisos.formulario.get('FechaInicio')?.touched && datosSolicitudPermisos.formulario.get('FechaInicio')?.invalid" color="danger">
-						{{ datosSolicitudPermisos.formulario.get('FechaInicio')?.getError('errorMessage') }}
-					</ion-text>
+				<ion-input
+					[class.invalid]="datosSolicitudPermisos.formulario.get('FechaInicio')?.touched && datosSolicitudPermisos.formulario.get('FechaInicio')?.invalid"
+					formControlName="FechaInicio" id="selectFechaInicio" expand="block" display-format="DD-MM-YYYY"
+					presentation='date'></ion-input>
+				<ion-popover trigger="selectFechaInicio" size="cover" class="custom-popover">
+					<ng-template>
+						<ion-datetime display-format="DD-MM-YYYY" formControlName="FechaInicio" presentation='date'
+							id="Fechainicio" [showDefaultButtons]="true" doneText="Confirmar" cancelText="Cancelar"
+							(ionChange)="confirmarInicio($event)"></ion-datetime>
+					</ng-template>
+				</ion-popover>
+				<ion-text class="animate__animated animate__bounceIn animate__faster"
+					*ngIf="datosSolicitudPermisos.formulario.get('FechaInicio')?.touched && datosSolicitudPermisos.formulario.get('FechaInicio')?.invalid"
+					color="danger">
+					{{ getMensajeError('FechaInicio') }}
+				</ion-text>
 			</ion-item>
 
 			<ion-item>
 				<ion-label position="floating" color="dark">* Fecha Fin</ion-label>
-				<ion-input [class.invalid]="datosSolicitudPermisos.formulario.get('FechaFin')?.touched && datosSolicitudPermisos.formulario.get('FechaFin')?.invalid" formControlName="FechaFin" id="selectFechaFin" expand="block" display-format="DD-MM-YYYY" presentation='date' readonly></ion-input>
-					<ion-popover trigger="selectFechaFin" size="cover" class="custom-popover">
-						<ng-template>
-							<ion-datetime display-format="DD-MM-YYYY"  formControlName="FechaFin" presentation='date' id="FechaFin" [showDefaultButtons]="true" doneText="Confirmar" cancelText="Cancelar" (ionChange)="confirmarFin($event)"></ion-datetime>
-						</ng-template>
-					</ion-popover>
-					<ion-text class="animate__animated animate__bounceIn animate__faster" *ngIf="datosSolicitudPermisos.formulario.get('FechaFin')?.touched && datosSolicitudPermisos.formulario.get('FechaFin')?.invalid" color="danger" >
-						{{ datosSolicitudPermisos.formulario.get('FechaFin')?.getError('errorMessage') }}
-					</ion-text>
+				<ion-input
+					[class.invalid]="datosSolicitudPermisos.formulario.get('FechaFin')?.touched && datosSolicitudPermisos.formulario.get('FechaFin')?.invalid"
+					formControlName="FechaFin" id="selectFechaFin" expand="block" display-format="DD-MM-YYYY"
+					presentation='date' readonly></ion-input>
+				<ion-popover trigger="selectFechaFin" size="cover" class="custom-popover">
+					<ng-template>
+						<ion-datetime display-format="DD-MM-YYYY" formControlName="FechaFin" presentation='date'
+							id="FechaFin" [showDefaultButtons]="true" doneText="Confirmar" cancelText="Cancelar"
+							(ionChange)="confirmarFin($event)"></ion-datetime>
+					</ng-template>
+				</ion-popover>
+				<ion-text class="animate__animated animate__bounceIn animate__faster"
+					*ngIf="datosSolicitudPermisos.formulario.get('FechaFin')?.touched && datosSolicitudPermisos.formulario.get('FechaFin')?.invalid"
+					color="danger">
+					{{ getMensajeError('FechaFin') }}
+				</ion-text>
 			</ion-item>
-			
+
 			<ion-item>
 				<ion-label position="floating" color="dark">* Tipo de cálculo</ion-label>
-			<ion-select formControlName="TipoCalculo" [(ngModel)]="selectedOption" (ionChange)="onSelectChange()" okText="Aceptar" cancelText="Cancelar" 
-				[interfaceOptions]="selectTipoCalculoOptions" placeholder="Selecciona el tipo de cálculo">
+				<ion-select formControlName="TipoCalculo" [(ngModel)]="selectedOption" (ionChange)="onSelectChange()"
+					okText="Aceptar" cancelText="Cancelar" [interfaceOptions]="selectTipoCalculoOptions"
+					placeholder="Selecciona el tipo de cálculo">
 					<ion-select-option color="dark" *ngFor="let item of tipoCalculo;" [value]="item.valor">{{
 						item['titulo'] }}
 					</ion-select-option>
 				</ion-select>
 				<ion-text class="animate__animated animate__bounceIn animate__faster"
-					*ngIf="datosSolicitudPermisos.formulario.get('TipoCalculo')?.touched" color="danger">{{
-					datosSolicitudPermisos.formulario.get('TipoCalculo')?.getError('errorMessage') }}</ion-text>
+					*ngIf="datosSolicitudPermisos.formulario.get('TipoCalculo')?.touched && datosSolicitudPermisos.formulario.get('TipoCalculo')?.invalid"
+					color="danger">{{ getMensajeError('TipoCalculo') }}</ion-text>
 			</ion-item>
 
 			<ion-item>
 				<ion-label position="floating" color="dark">Horas Laborales Diarias</ion-label>
-				<ion-input formControlName="horas_dia_laboradas" color="dark" type="number" id="horasLaborales" (ionChange)="onHorasLaboralesChange($event)"></ion-input>
+				<ion-input formControlName="horas_dia_laboradas" color="dark" type="number" id="horasLaborales"
+					(ionChange)="onHorasLaboralesChange($event)"></ion-input>
 			</ion-item>
 
 			<ion-item>
 				<ion-label position="floating" color="dark">Días de ausentismo</ion-label>
-				<ion-input formControlName="Dias" color="dark" type="text" id="diasAusentismo" [(ngModel)]="diasAusentismo" readonly></ion-input>
+				<ion-input formControlName="Dias" color="dark" type="text" id="diasAusentismo"
+					[(ngModel)]="diasAusentismo" readonly></ion-input>
 			</ion-item>
 
 			<ion-item>
 				<ion-label position="floating" color="dark">Horas de ausentismo</ion-label>
-				<ion-input formControlName="horas" color="dark" type="text" id="horasAusentismo" (ionChange)="onHorasAusentismoChange($event)" readonly></ion-input>
+				<ion-input formControlName="horas" color="dark" type="text" id="horasAusentismo"
+					(ionChange)="onHorasAusentismoChange($event)" readonly></ion-input>
 			</ion-item>
 
 			<ion-item>
 				<ion-label position="floating" color="dark">Total Horas Ausente</ion-label>
-				<ion-input formControlName="total_horas" color="dark" type="number" id="total_horas" [(ngModel)]="total_horas" readonly></ion-input>
+				<ion-input formControlName="total_horas" color="dark" type="number" id="total_horas"
+					[(ngModel)]="total_horas" readonly></ion-input>
 			</ion-item>
+
+			<ng-container *ngIf="permisoAdjuntarArchivo">
+				<ion-item lines="none">
+					<ion-label class="ion-text-wrap">
+						<h3>* Adjuntar soporte</h3>
+						<p>PDF o imagen JPG/PNG, maximo 4 MB.</p>
+					</ion-label>
+				</ion-item>
+
+				<ion-item>
+					<input id="inputArchivoPermisos" type="file"
+						accept=".pdf,.png,.jpg,.jpeg,image/png,image/jpeg,application/pdf"
+						(change)="onArchivoSeleccionado($event)">
+				</ion-item>
+
+				<ion-item lines="none" *ngIf="archivoAdjunto">
+					<ion-label class="ion-text-wrap">
+						<strong>{{ archivoAdjunto.name }}</strong><br>
+						<small>{{ archivoAdjunto.size / 1024 / 1024 | number:'1.2-2' }} MB</small>
+					</ion-label>
+					<ion-button fill="clear" color="danger" (click)="quitarArchivo()">
+						<ion-icon slot="icon-only" name="close-circle"></ion-icon>
+					</ion-button>
+				</ion-item>
+
+				<ion-item lines="none" *ngIf="archivoAdjuntoError">
+					<ion-text color="danger">{{ archivoAdjuntoError }}</ion-text>
+				</ion-item>
+
+				<ion-item lines="none" *ngIf="!archivoAdjunto && !archivoAdjuntoError">
+					<ion-text color="medium">Debe adjuntar un archivo para guardar la solicitud.</ion-text>
+				</ion-item>
+			</ng-container>
 
 			<ion-item>
 				<ion-label position="floating" color="dark">Observaciones</ion-label>
@@ -97,24 +149,20 @@
 <ion-footer>
 	<ion-toolbar>
 		<ion-title>
-			<ion-button  type="submit" class="ion-no-margin" shape="round"
-				expand="full" (click)="submitData()">
+			<ion-button
+				[disabled]="!!archivoAdjuntoError"
+				type="submit" class="ion-no-margin" shape="round" expand="full" (click)="submitData()">
 				Agregar
 				<ion-icon slot="start" name="save-outline"></ion-icon>
 			</ion-button>
 		</ion-title>
-	</ion-toolbar> 
+	</ion-toolbar>
 </ion-footer>
 
 <ion-modal trigger="select-enfermedades" #modal>
 	<ng-template>
-	  <app-typeahead
-		class="ion-page"
-		title="CIE 10"
-		[items]="enfermedades"
-		[selectedItems]="selectedEnfermedades"
-		(selectionChange)="enfermedadesSelectionChanged($event)"
-		(selectionCancel)="modal.dismiss()"
-	  ></app-typeahead>
+		<app-typeahead class="ion-page" title="CIE 10" [items]="enfermedades" [selectedItems]="selectedEnfermedades"
+			(selectionChange)="enfermedadesSelectionChanged($event)"
+			(selectionCancel)="modal.dismiss()"></app-typeahead>
 	</ng-template>
-  </ion-modal>
+</ion-modal>
