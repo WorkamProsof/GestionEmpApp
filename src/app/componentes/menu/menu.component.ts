@@ -102,6 +102,18 @@ export class MenuComponent implements OnInit, OnDestroy {
 				path: '/modulos/perfilcargo',
 				permisoId: 6001200
 			},
+			{
+				icon: 'time-outline',
+				title: 'Marcaciones',
+				path: '/modulos/marcaciones',
+				permisoId: 6001015
+			},
+			{
+				icon: 'reader-outline',
+				title: 'Reporte Marcaciones',
+				path: '/modulos/marcaciones-reporte',
+				permisoId: 6001015
+			},
 		]
 		}
 	];

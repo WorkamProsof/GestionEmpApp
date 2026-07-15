@@ -1,0 +1,294 @@
+<app-header titulo="Marcaciones"></app-header>
+
+<ion-content class="ion-padding">
+  <ion-progress-bar *ngIf="cargando" type="indeterminate"></ion-progress-bar>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Registro de actividades</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="12" sizeMd="6" class="accion-col--ingreso">
+            <ng-container *ngIf="puedeRegistrarIngreso(); else infoIngresoRegistrado">
+              <div class="accion-ingreso-wrapper">
+                <ion-button expand="block" color="success" class="accion-boton accion-boton--success"
+                  [disabled]="procesandoMarcacion" (click)="registrarIngreso()">
+                  <span class="accion-boton__contenido">
+                    <ion-icon name="log-in-outline" aria-hidden="true"></ion-icon>
+                    <span>Ingreso Turno</span>
+                  </span>
+                </ion-button>
+              </div>
+            </ng-container>
+
+            <ng-template #infoIngresoRegistrado>
+              <ion-item lines="none" class="estado-ingreso-inline">
+                <ion-label>
+                  <h3>Ingreso registrado:</h3>
+                  <p>{{ estadoDia.ingreso ? (estadoDia.ingreso.Fecha | date:'dd/MM/yyyy HH:mm') : 'Sin dato' }}</p>
+                </ion-label>
+              </ion-item>
+
+              <ion-item lines="none" class="estado-ingreso-inline" *ngIf="actividadEnCurso">
+                <ion-label>
+                  <h3>Actividad actual:</h3>
+                  <p>
+                    {{ actividadEnCurso.Descripcion }}
+                    <span *ngIf="actividadEnPausa">(Pausada)</span>
+                    <span *ngIf="!actividadEnPausa">(En curso)</span>
+                  </p>
+                </ion-label>
+              </ion-item>
+            </ng-template>
+          </ion-col>
+
+        </ion-row>
+
+        <ion-row class="ion-margin-top acciones-principales-row row-content-buttons">
+          <ion-col *ngIf="mostrarBotonIniciarActividad()" size="6" sizeMd="6" class="accion-col">
+            <ion-button expand="block" color="primary" class="accion-boton accion-boton--success"
+              [disabled]="procesandoMarcacion" (click)="abrirFormularioInicioActividad()">
+              <span class="accion-boton__contenido">
+                <ion-icon name="play-outline" aria-hidden="true"></ion-icon>
+                <span>Iniciar Actividad</span>
+              </span>
+            </ion-button>
+          </ion-col>
+
+          <ion-col *ngIf="mostrarBotonPausarActividad()" size="6" sizeMd="6" class="accion-col">
+            <ion-button expand="block" color="warning" class="accion-boton accion-boton--warning"
+              [disabled]="procesandoMarcacion" (click)="abrirFormularioPausaActividad()">
+              <span class="accion-boton__contenido">
+                <ion-icon name="pause-outline" aria-hidden="true"></ion-icon>
+                <span>Pausar Actividad</span>
+              </span>
+            </ion-button>
+          </ion-col>
+
+          <ion-col *ngIf="mostrarBotonContinuarActividad()" size="6" sizeMd="6" class="accion-col">
+            <ion-button expand="block" color="tertiary" class="accion-boton accion-boton--info"
+              [disabled]="procesandoMarcacion" (click)="registrarAccionActividad('CONTINUAR')">
+              <span class="accion-boton__contenido">
+                <ion-icon name="play-forward-outline" aria-hidden="true"></ion-icon>
+                <span>Continuar Actividad</span>
+              </span>
+            </ion-button>
+          </ion-col>
+
+          <ion-col *ngIf="mostrarBotonFinalizarActividad()" size="6" sizeMd="6" class="accion-col">
+            <ion-button expand="block" color="danger" class="accion-boton accion-boton--danger"
+              [disabled]="procesandoMarcacion" (click)="registrarAccionActividad('FINALIZAR')">
+              <span class="accion-boton__contenido">
+                <ion-icon name="stop-outline" aria-hidden="true"></ion-icon>
+                <span>Finalizar Actividad</span>
+              </span>
+            </ion-button>
+          </ion-col>
+
+          <ion-col *ngIf="mostrarBotonCambiarActividad()" size="6" sizeMd="6" class="accion-col">
+            <ion-button expand="block" color="primary" class="accion-boton accion-boton--primary"
+              [disabled]="procesandoMarcacion" (click)="abrirFormularioCambioActividad()">
+              <span class="accion-boton__contenido">
+                <ion-icon name="swap-horizontal-outline" aria-hidden="true"></ion-icon>
+                <span>Cambiar Actividad</span>
+              </span>
+            </ion-button>
+          </ion-col>
+
+          <ion-col *ngIf="mostrarBotonSalida()" size="6" sizeMd="6" class="accion-col">
+            <ion-button expand="block" color="danger" class="accion-boton accion-boton--dark-danger"
+              [disabled]="!puedeRegistrarSalida() || procesandoMarcacion" (click)="registrarSalida()">
+              <span class="accion-boton__contenido">
+                <ion-icon name="log-out-outline" aria-hidden="true"></ion-icon>
+                <span>Salida Turno</span>
+              </span>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <div *ngIf="procesandoMarcacion" class="estado-proceso">
+        Procesando evidencias y validaciones obligatorias...
+      </div>
+
+    </ion-card-content>
+  </ion-card>
+
+  <ion-modal [isOpen]="mostrarFormularioInicioActividad" [initialBreakpoint]="0.6" [breakpoints]="[0, 0.45, 0.7, 0.95]"
+    cssClass="inicio-actividad-modal" (didDismiss)="cancelarInicioActividad()">
+    <ng-template>
+      <ion-header class="ion-no-border">
+        <ion-toolbar>
+          <ion-title>Iniciar actividad</ion-title>
+          <ion-buttons slot="end">
+            <ion-button fill="clear" color="medium" [disabled]="procesandoMarcacion"
+              (click)="cancelarInicioActividad()">
+              Cerrar
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding">
+        <ion-item>
+          <ion-label position="stacked">Actividades</ion-label>
+          <ion-select interface="popover" [(ngModel)]="actividadSeleccionadaId"
+            [disabled]="!puedeGestionarActividad() || procesandoMarcacion">
+            <ion-select-option *ngFor="let actividad of actividades" [value]="actividad.ActividadTurnoId"
+              [disabled]="actividad.CierraTurno === 1">
+              {{ actividad.Descripcion }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item class="ion-margin-top">
+          <ion-label position="stacked">Observación</ion-label>
+          <ion-textarea [(ngModel)]="observacionActividad" maxlength="100" autoGrow="true"
+            placeholder="Ingrese observación (máximo 100 caracteres)">
+          </ion-textarea>
+        </ion-item>
+
+        <ion-button class="ion-margin-top" expand="block" color="primary"
+          [disabled]="!puedeIniciarActividad() || procesandoMarcacion" (click)="confirmarInicioActividad()">
+          Confirmar Inicio
+        </ion-button>
+
+        <ion-button expand="block" fill="outline" color="medium" [disabled]="procesandoMarcacion"
+          (click)="cancelarInicioActividad()">
+          Cancelar
+        </ion-button>
+      </ion-content>
+
+    </ng-template>
+  </ion-modal>
+
+  <ion-modal [isOpen]="mostrarFormularioPausaActividad" [initialBreakpoint]="0.6" [breakpoints]="[0, 0.45, 0.7, 0.95]"
+    cssClass="pausa-actividad-modal" (didDismiss)="cancelarPausaActividad()">
+    <ng-template>
+      <ion-header class="ion-no-border">
+        <ion-toolbar>
+          <ion-title>Pausar actividad</ion-title>
+          <ion-buttons slot="end">
+            <ion-button fill="clear" color="medium" [disabled]="procesandoMarcacion" (click)="cancelarPausaActividad()">
+              Cerrar
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding">
+        <ion-item>
+          <ion-label position="stacked">Motivo de la pausa</ion-label>
+          <ion-textarea [(ngModel)]="motivoPausaActividad" maxlength="100" autoGrow="true"
+            placeholder="Explique por qué pausa (máximo 100 caracteres)">
+          </ion-textarea>
+        </ion-item>
+
+        <ion-button class="ion-margin-top" expand="block" color="warning" [disabled]="procesandoMarcacion"
+          (click)="confirmarPausaActividad()">
+          Confirmar Pausa
+        </ion-button>
+
+        <ion-button expand="block" fill="outline" color="medium" [disabled]="procesandoMarcacion"
+          (click)="cancelarPausaActividad()">
+          Cancelar
+        </ion-button>
+      </ion-content>
+
+    </ng-template>
+  </ion-modal>
+
+  <ion-modal [isOpen]="mostrarFormularioCambioActividad" [initialBreakpoint]="0.6" [breakpoints]="[0, 0.6, 0.85, 0.95]"
+    cssClass="cambio-actividad-modal" (didDismiss)="cancelarCambioActividad()">
+    <ng-template>
+      <ion-header class="ion-no-border">
+        <ion-toolbar>
+          <ion-title>Cambiar actividad</ion-title>
+          <ion-buttons slot="end">
+            <ion-button fill="clear" color="medium" [disabled]="procesandoMarcacion"
+              (click)="cancelarCambioActividad()">
+              Cerrar
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding">
+        <ion-item>
+          <ion-label position="stacked">Nueva actividad</ion-label>
+          <ion-select interface="popover" placeholder="Seleccione una actividad" [(ngModel)]="nuevaActividadId"
+            [disabled]="procesandoMarcacion">
+            <ion-select-option *ngFor="let actividad of actividadesTotales" [value]="actividad.ActividadTurnoId">
+              {{ actividad.Descripcion }} {{ actividad.CierraTurno === 1 ? '(Cierra turno)' : '(No cierra turno)' }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item class="ion-margin-top" *ngIf="nuevaActividadCierraTurno">
+          <ion-label position="stacked">Observación</ion-label>
+          <ion-textarea [(ngModel)]="observacionCambioActividad" maxlength="100" autoGrow="true"
+            placeholder="Ingrese observación para stopTurno (máximo 100 caracteres)">
+          </ion-textarea>
+        </ion-item>
+
+        <ion-button class="ion-margin-top" expand="block" color="primary" [disabled]="procesandoMarcacion"
+          (click)="confirmarCambioActividad()">
+          Confirmar Cambio
+        </ion-button>
+
+        <ion-button expand="block" fill="outline" color="medium" [disabled]="procesandoMarcacion"
+          (click)="cancelarCambioActividad()">
+          Cancelar
+        </ion-button>
+      </ion-content>
+
+    </ng-template>
+  </ion-modal>
+
+  <ion-modal [isOpen]="mostrarPreviewFotos" [initialBreakpoint]="1" [breakpoints]="[0, 0.9, 1]"
+    cssClass="preview-fotos-modal" (didDismiss)="onPreviewFotosDismiss()">
+    <ng-template>
+      <ion-header class="ion-no-border">
+        <ion-toolbar>
+          <ion-title>Previsualizar fotos</ion-title>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>FotoTercero</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <img [src]="fotoPreviewTercero" alt="Previsualización FotoTercero" class="preview-foto-imagen" />
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>FotoEntorno</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <img [src]="fotoPreviewEntorno" alt="Previsualización FotoEntorno" class="preview-foto-imagen" />
+          </ion-card-content>
+        </ion-card>
+        <ion-button expand="block" color="primary" (click)="confirmarPreviewFotos()">
+          Confirmar y enviar
+        </ion-button>
+
+        <ion-button expand="block" fill="outline" color="warning" (click)="recapturarPreviewFotos()">
+          Recapturar fotos
+        </ion-button>
+
+        <ion-button expand="block" fill="clear" color="medium" (click)="cancelarPreviewFotos()" style="margin-bottom: 20px;">
+          Cancelar
+        </ion-button>
+
+      </ion-content>
+
+    </ng-template>
+  </ion-modal>
+</ion-content>
