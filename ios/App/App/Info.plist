@@ -45,5 +45,11 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Se requiere acceso a la camara para registrar foto de ingreso y salida.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Se usa para permisos de camara del sistema.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Se requiere la ubicacion para georreferenciar las marcaciones de ingreso y salida.</string>
 </dict>
 </plist>
