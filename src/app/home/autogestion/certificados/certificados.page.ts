@@ -125,7 +125,7 @@ export class CertificadosPage implements OnInit, OnDestroy {
 
       if (!resultado.valido) {
         this.notificacionService.notificacion(resultado.mensaje);
-        this.router.navigateByUrl('/modulos/datosbasicos');
+        this.router.navigateByUrl('/modulos/inicio');
         return;
       }
 

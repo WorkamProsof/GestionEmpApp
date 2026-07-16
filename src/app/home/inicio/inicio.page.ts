@@ -89,7 +89,6 @@ export class InicioPage implements OnInit {
 
     const usuarioParsed = JSON.parse(usuarioStorage);
     this.datosUsuario = await this.loginService.desencriptar(usuarioParsed);
-    console.log('Usuario obtenido del storage:', this.datosUsuario);
   }
 
   /**

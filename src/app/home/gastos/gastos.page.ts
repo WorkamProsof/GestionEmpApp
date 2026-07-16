@@ -67,7 +67,7 @@ export class GastosPage implements OnInit, OnDestroy {
 
       if (!resultado.valido) {
         this.notificaciones.notificacion(resultado.mensaje);
-        this.router.navigateByUrl('/modulos/datosbasicos');
+        this.router.navigateByUrl('/modulos/inicio');
         return;
       }
 

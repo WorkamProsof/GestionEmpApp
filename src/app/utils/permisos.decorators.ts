@@ -49,7 +49,7 @@ export function ValidarPermiso(permisoId: number, nombreAccion: string = 'realiz
             validacionPermisosService.manejarFaltaDePermisos('Error al validar permisos');
           } else {
             // Fallback manual si el método no está disponible
-            window.location.href = '/modulos/datosbasicos';
+            window.location.href = '/modulos/inicio';
           }
         }, 1500);
         
@@ -154,7 +154,7 @@ export function ValidarMultiplesPermisos(
             validacionPermisosService.manejarFaltaDePermisos('Error al validar permisos');
           } else {
             // Fallback manual si el método no está disponible
-            window.location.href = '/modulos/datosbasicos';
+            window.location.href = '/modulos/inicio';
           }
         }, 1500);
         
@@ -212,7 +212,7 @@ export class PermisosUtils {
           if (validacionService.manejarFaltaDePermisos) {
             validacionService.manejarFaltaDePermisos(mensaje);
           } else {
-            window.location.href = '/modulos/datosbasicos';
+            window.location.href = '/modulos/inicio';
           }
         }, 1500);
         
@@ -229,7 +229,7 @@ export class PermisosUtils {
         if (validacionService.manejarFaltaDePermisos) {
           validacionService.manejarFaltaDePermisos('Error al validar permisos');
         } else {
-          window.location.href = '/modulos/datosbasicos';
+          window.location.href = '/modulos/inicio';
         }
       }, 1500);
       
@@ -267,7 +267,7 @@ export class PermisosUtils {
           if (validacionService.manejarFaltaDePermisos) {
             validacionService.manejarFaltaDePermisos(mensaje);
           } else {
-            window.location.href = '/modulos/datosbasicos';
+            window.location.href = '/modulos/inicio';
           }
         }, 1500);
         
@@ -284,7 +284,7 @@ export class PermisosUtils {
         if (validacionService.manejarFaltaDePermisos) {
           validacionService.manejarFaltaDePermisos('Error al validar permisos');
         } else {
-          window.location.href = '/modulos/datosbasicos';
+          window.location.href = '/modulos/inicio';
         }
       }, 1500);
       
