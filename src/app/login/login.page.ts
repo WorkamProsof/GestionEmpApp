@@ -186,7 +186,7 @@ export class LoginPage implements OnInit {
 					// - Todos los componentes cacheados
 					// - Todas las variables estáticas
 					// - Todo el estado de la aplicación
-					window.location.href = '/modulos/datosbasicos';
+					window.location.href = '/modulos/inicio';
 				} else {
 					this.notificaciones.notificacion(respuesta.mensaje);
 				}
