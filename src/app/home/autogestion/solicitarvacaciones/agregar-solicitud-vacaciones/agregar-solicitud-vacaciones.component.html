@@ -29,10 +29,10 @@
 
 			<ion-item>
 				<ion-label position="floating" color="dark">* Dias compensados</ion-label>
-				<ion-input formControlName="DiaCompensado" color="dark" type="text"></ion-input>
+				<ion-input formControlName="DiaCompensado" color="dark" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="2" (keydown)="onDiaCompensadoKeydown($event)" (ionInput)="onDiaCompensadoInput($event)"></ion-input>
 				<ion-text class="animate__animated animate__bounceIn animate__faster"
-					*ngIf="datosSolicitud.formulario.get('DiaCompensado')?.touched" color="danger">{{
-					datosSolicitud.formulario.get('DiaCompensado')?.getError('errorMessage') }}</ion-text>
+					*ngIf="datosSolicitud.formulario.get('DiaCompensado')?.touched && datosSolicitud.formulario.get('DiaCompensado')?.invalid"
+					color="danger">{{ getMensajeError('DiaCompensado') }}</ion-text>
 			</ion-item>
 
 			<ng-container *ngIf="permisoAdjuntarArchivo">
@@ -74,7 +74,7 @@
 <ion-footer>
 	<ion-toolbar>
 		<ion-title>
-			<ion-button [disabled]="datosSolicitud.formulario.invalid || !!archivoAdjuntoError || (permisoAdjuntarArchivo && !archivoAdjunto)" type="submit" class="ion-no-margin" shape="round"
+			<ion-button [disabled]="!!archivoAdjuntoError" type="submit" class="ion-no-margin" shape="round"
 				expand="full" (click)="submitDataFamiliaContacto()">
 				Agregar
 				<ion-icon slot="start" name="save-outline"></ion-icon>
