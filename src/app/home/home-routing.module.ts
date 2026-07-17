@@ -47,6 +47,14 @@ const routes: Routes = [
   {
     path: 'ejecucionesevaluacion',
     loadChildren: () => import('./autogestion/ejecucionesEvaluacion/ejecuciones-evaluacion.module').then( m => m.EjecucionesEvaluacionModule)
+  },
+  {
+    path: 'marcaciones',
+    loadChildren: () => import('./autogestion/marcaciones/marcaciones.module').then( m => m.MarcacionesPageModule)
+  },
+  {
+    path: 'marcaciones-reporte',
+    loadChildren: () => import('./reportes/marcaciones-reporte/marcaciones-reporte.module').then( m => m.MarcacionesReportePageModule)
   }
 ];
 

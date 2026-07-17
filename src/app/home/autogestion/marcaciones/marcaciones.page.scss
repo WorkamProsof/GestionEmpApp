@@ -1,0 +1,195 @@
+.row-content-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 35vh;
+}
+
+.estado-proceso {
+  margin-top: 12px;
+  padding: 10px;
+  border-radius: 8px;
+  background: #f4f5f8;
+  font-size: 0.9rem;
+  color: #3d3d3d;
+}
+
+.estado-dia {
+  margin-top: 14px;
+}
+
+.acciones-historial {
+  display: flex;
+  align-items: flex-end;
+}
+
+.acciones-principales-row {
+  justify-content: center;
+  row-gap: 10px;
+}
+
+.acciones-principales-row > .accion-col {
+  flex: 0 0 50%;
+  max-width: 50%;
+}
+
+.acciones-principales-row > .accion-col:last-child:nth-child(odd) {
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+
+.accion-ingreso-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.accion-col {
+  display: flex;
+  justify-content: center;
+}
+
+.accion-boton {
+  width: 102px;
+  min-height: 102px;
+  --border-radius: 22px;
+  --box-shadow: none;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+  --padding-start: 8px;
+  --padding-end: 8px;
+  font-weight: 700;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.accion-boton::part(native) {
+  min-height: 102px;
+}
+
+.accion-boton__contenido {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.accion-boton__contenido ion-icon {
+  font-size: 2.1rem;
+  color: rgba(255, 255, 255, 0.58);
+}
+
+.accion-boton__contenido span {
+  font-size: 1rem;
+  line-height: 1.1;
+}
+
+.accion-boton--success {
+  --background: #285d2d;
+  --background-hover: #2f6b34;
+  --background-activated: #214f26;
+  --color: #d7d0c8;
+}
+
+.accion-boton--warning {
+  --background: #856100;
+  --background-hover: #967000;
+  --background-activated: #735300;
+  --color: #d7d0c8;
+}
+
+.accion-boton--danger {
+  --background: #9d231f;
+  --background-hover: #af2823;
+  --background-activated: #8a1e1b;
+  --color: #d7d0c8;
+}
+
+.accion-boton--primary {
+  --background: #0c5b75;
+  --background-hover: #0f6885;
+  --background-activated: #0a4d63;
+  --color: #d7d0c8;
+}
+
+.accion-boton--info {
+  --background: #5a3ea0;
+  --background-hover: #6848b8;
+  --background-activated: #4c3588;
+  --color: #d7d0c8;
+}
+
+.accion-boton--dark-danger {
+  --background: #7d1a1a;
+  --background-hover: #8f1e1e;
+  --background-activated: #6b1616;
+  --color: #d7d0c8;
+}
+
+.accion-boton[disabled] {
+  opacity: 0.5;
+}
+
+@media (min-width: 768px) {
+  .accion-col {
+    flex: 0 0 auto;
+  }
+
+  .acciones-principales-row > .accion-col {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+
+  .acciones-principales-row > .accion-col:last-child:nth-child(odd) {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+@media (max-height: 760px) {
+  .acciones-principales-row {
+    row-gap: 8px;
+  }
+
+  .accion-boton {
+    width: 92px;
+    min-height: 92px;
+    --border-radius: 20px;
+    --padding-top: 10px;
+    --padding-bottom: 10px;
+  }
+
+  .accion-boton::part(native) {
+    min-height: 92px;
+  }
+
+  .accion-boton__contenido {
+    gap: 6px;
+  }
+
+  .accion-boton__contenido ion-icon {
+    font-size: 1.9rem;
+  }
+
+  .accion-boton__contenido span {
+    font-size: 0.92rem;
+  }
+}
+
+ion-avatar img {
+  object-fit: cover;
+}
+
+.preview-foto-imagen {
+  display: block;
+  width: 100%;
+  max-height: 280px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.preview-fotos-modal ion-card {
+  margin-left: 0;
+  margin-right: 0;
+}
