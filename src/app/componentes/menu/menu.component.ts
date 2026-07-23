@@ -55,7 +55,13 @@ export class MenuComponent implements OnInit, OnDestroy {
 			title: 'Autogestión', 
 			path: '', 
 			permisoId: 600100, // Permiso principal del menú
-			hijos: [{
+			hijos: [
+			{
+				icon: 'home', 
+				title: 'Inicio', 
+				path: '/modulos/inicio'
+			},
+			{
 				icon: 'person-add-outline', 
 				title: 'Datos básicos', 
 				path: '/modulos/datosbasicos',

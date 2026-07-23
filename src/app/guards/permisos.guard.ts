@@ -39,7 +39,7 @@ export class PermisosGuard implements CanActivate {
     } catch (error) {
       console.error('Error en guard de permisos:', error);
       // En caso de error, redirigir a datos básicos como primera opción
-      this.router.navigateByUrl('/modulos/datosbasicos');
+      this.router.navigateByUrl('/modulos/inicio');
       return false;
     }
   }

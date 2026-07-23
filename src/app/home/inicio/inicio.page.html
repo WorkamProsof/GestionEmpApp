@@ -1,7 +1,22 @@
 <app-header titulo="Inicio"></app-header>
 
-<ion-content color="gray">
-	<div id="container">
-		<img style="width: 30%; opacity: 0.5;" src="assets/images/Cocora2.png" alt="">
+<ion-content [fullscreen]="true">
+
+  <!-- Cuadrícula de módulos tipo escritorio de celular -->
+  <section class="modules">
+	<div class="module" *ngFor="let module of modules">
+		<button
+		  type="button"
+		  class="module__button ion-activatable"
+		  (click)="openModule(module)"
+		  *ngIf="validarPermiso(module.permisoId)"
+		>
+		  <span class="module__icon" [style.background]="module.color">
+			<ion-icon [name]="module.icon" aria-hidden="true"></ion-icon>
+		  </span>
+		  <span class="module__label">{{ module.title }}</span>
+		  <ion-ripple-effect></ion-ripple-effect>
+		</button>
 	</div>
+  </section>
 </ion-content>

@@ -132,7 +132,7 @@ export class ForgetPasswordPage implements OnInit {
                             this.forgetPassSvc.iniciarSesionUser(data).then(async respuesta => {
                                 if (respuesta && respuesta.valido) {
                                     this.storageService.set('usuario', respuesta.usuario);
-                                    this.router.navigateByUrl('/modulos/datosbasicos');
+                                    this.router.navigateByUrl('/modulos/inicio');
                                     this.notificaciones.presentToastConfirm('Contraseña modificada Exitosamente', 'bottom');
                                     this.formLogin.formulario.reset();
                                     this.retornar();

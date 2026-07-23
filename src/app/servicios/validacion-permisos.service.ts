@@ -488,14 +488,14 @@ export class ValidacionPermisosService {
     try {      
       // Usar router de Angular para preservar el estado de la aplicación
       setTimeout(() => {
-        this.router.navigateByUrl('/modulos/datosbasicos', { replaceUrl: true });
+        this.router.navigateByUrl('/modulos/inicio', { replaceUrl: true });
       }, 1500);
       
     } catch (error) {
       console.error(' Error al redirigir a datos básicos:', error);
       // Solo como último recurso usar window.location
       setTimeout(() => {
-        window.location.href = '/modulos/datosbasicos';
+        window.location.href = '/modulos/inicio';
       }, 1500);
     }
   }
@@ -509,11 +509,11 @@ export class ValidacionPermisosService {
     setTimeout(() => {
       try {
         // Usar router de Angular para preservar el estado de la aplicación
-        this.router.navigateByUrl('/modulos/datosbasicos', { replaceUrl: true });
+        this.router.navigateByUrl('/modulos/inicio', { replaceUrl: true });
       } catch (error) {
         console.error('Error con router, usando fallback:', error);
         // Solo como último recurso usar window.location
-        window.location.href = '/modulos/datosbasicos';
+        window.location.href = '/modulos/inicio';
       }
     }, 1500);
   }

@@ -136,11 +136,11 @@ export class PermisosHelperService {
     const tienePermiso = await this.validarSilencioso(permisoId);
     
     if (!tienePermiso) {
-      // Para guards, redirigir a datos básicos como primera opción
+      // Para guards, redirigir a inicio como primera opción
       this.notificacionesService.notificacion(
         `No tiene permisos para acceder a ${nombreRuta}.`
       );
-      this.router.navigateByUrl('/modulos/datosbasicos');
+      this.router.navigateByUrl('/modulos/inicio');
       return false;
     }
     

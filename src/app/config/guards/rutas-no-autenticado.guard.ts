@@ -21,7 +21,7 @@ export class RutasNoAutenticadoGuard implements CanActivate {
 		if (!resp || !user) {
 			return true;
 		}
-		this.router.navigateByUrl('modulos/datosbasicos');
+		this.router.navigateByUrl('modulos/inicio');
 		return false;
 	}
 
