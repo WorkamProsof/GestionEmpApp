@@ -148,6 +148,7 @@ export class FuncionesGenerales {
 			{ id: 6001009, 	tipo: 'RC', campo: 'Ausentismo' },
 			{ id: 6001100, 	tipo: 'VEE', campo: 'Ver ejecuciones de evaluaciones' },
 			{ id: 6001200, 	tipo: 'PC', campo: 'Perfil de Cargo' },
+			{ id: 6001015, 	tipo: 'MR', campo: 'Marcaciones' },
 
 			// Gastos
 			{ id: 500100, tipo: 'GASTOS', campo: 'modulo_gastos' },

@@ -67,7 +67,6 @@ export class MarcacionesReportePage {
 
     try {
       this.reporte = await this.marcacionesService.obtenerReporte(this.filtros);
-      console.log(this.reporte);
     } catch (error: any) {
       this.reporte = [];
       this.notificacionesService.notificacion(error?.message || 'No fue posible consultar el reporte de marcaciones.');

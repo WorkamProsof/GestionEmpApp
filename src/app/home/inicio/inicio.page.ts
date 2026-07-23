@@ -49,7 +49,7 @@ export class InicioPage implements OnInit {
     { title: 'Elementos protección', icon: 'shield-checkmark-outline', route: 'elementosproteccion', color: '#22c55e' },
     { title: 'Ver Ejecuciones de Evaluación', icon: 'clipboard-outline', route: 'ejecucionesevaluacion', color: '#ec4899', permisoId: 6001100 },
     { title: 'Perfil de cargo', icon: 'briefcase-outline', route: 'perfilcargo', color: '#8b5cf6', permisoId: 6001200 },
-    { title: 'Marcaciones', icon: 'finger-print-outline', route: 'marcaciones', color: '#6366f1', permisoId: 6001015 },
+    { title: 'Marcaciones', icon: 'stopwatch-outline', route: 'marcaciones', color: '#6366f1', permisoId: 6001015 },
     { title: 'Reporte marcaciones', icon: 'bar-chart-outline', route: 'marcaciones-reporte', color: '#f97316', permisoId: 6001015 },
   ];
 
