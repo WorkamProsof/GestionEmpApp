@@ -39,22 +39,85 @@
     </ion-card-header>
 
     <ion-card-content>
-      <ion-list *ngIf="reporte.length > 0">
-        <ion-item *ngFor="let item of reporte">
-          <ion-avatar slot="start">
-            <img [src]="obtenerFoto(item)" alt="Foto validación" (error)="onImageError($event)" />
-          </ion-avatar>
+      <ion-accordion-group *ngIf="reporte.length > 0">
+        <ion-accordion *ngFor="let turno of reporte; let i = index" [value]="i.toString()">
+          <ion-item slot="header" color="light">
+            <ion-avatar slot="start" *ngIf="turno.ingreso">
+              <img [src]="obtenerFoto(turno.ingreso)" alt="Foto validación" (error)="onImageError($event)" />
+            </ion-avatar>
+            <ion-label>
+              <p><strong>Ingreso: </strong> {{ turno.ingreso?.Fecha ? (turno.ingreso.Fecha | date:'dd/MM/yyyy HH:mm') :
+                'Sin Ingreso' }}</p>
+              <p><strong>Salida: </strong> {{ turno.salida?.Fecha ? (turno.salida.Fecha | date:'dd/MM/yyyy HH:mm') :
+                'Sin Salida' }}</p>
+            </ion-label>
+            <ion-badge slot="end" [color]="turno.abierto ? 'warning' : 'success'">{{ turno.abierto ? 'En curso' :
+              'Cerrado' }}</ion-badge>
+          </ion-item>
 
-          <ion-label>
-            <p>Tipo: {{ item.TipoRegistro || 'N/D' }}</p>
-            <p>Hora: {{ item.Fecha ? (item.Fecha | date:'dd/MM/yyyy HH:mm') : 'Sin dato' }}</p>
-          </ion-label>
-        </ion-item>
-      </ion-list>
+          <div class="ion-padding" slot="content">
+            <ion-list *ngIf="turno.eventos.length > 0">
+              <ion-item *ngFor="let evento of turno.eventos" button="true" detail="true"
+                (click)="abrirDetalleEvento(evento)">
+                <ion-avatar slot="start">
+                  <img [src]="obtenerFoto(evento)" alt="Foto evento" (error)="onImageError($event)" />
+                </ion-avatar>
+                <ion-label>
+                  <p><strong>Tipo: </strong> {{ evento.TipoRegistro || 'N/D' }}</p>
+                  <p><strong>Hora: </strong> {{ evento.Fecha ? (evento.Fecha | date:'dd/MM/yyyy HH:mm') : 'Sin dato' }}
+                  </p>
+                </ion-label>
+              </ion-item>
+            </ion-list>
+
+            <ion-text color="medium" *ngIf="turno.eventos.length === 0">
+              <p class="ion-padding-start">No existen actividades para este turno.</p>
+            </ion-text>
+          </div>
+        </ion-accordion>
+      </ion-accordion-group>
 
       <ion-text color="medium" *ngIf="reporte.length === 0">
         No existen datos para los filtros seleccionados.
       </ion-text>
     </ion-card-content>
   </ion-card>
+
+  <!-- MODAL: detalle actividad -->
+  <ion-modal [isOpen]="eventoSeleccionado !== null" (ionModalDidDismiss)="cerrarModalDetalle()">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Detalle de Actividad</ion-title>
+          <ion-buttons slot="end">
+            <ion-button (click)="cerrarModalDetalle()">
+              <ion-icon name="close"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+        </ion-toolbar>
+      </ion-header>
+
+      <ion-content class="ion-padding" *ngIf="eventoSeleccionado as ev">
+        <ion-list lines="full">
+          <ion-item>
+            <ion-label><strong>Tipo de Registro:</strong></ion-label>
+            <ion-text slot="end">{{ ev.TipoRegistro || 'N/D' }}</ion-text>
+          </ion-item>
+          <ion-item>
+            <ion-label><strong>Fecha y Hora:</strong></ion-label>
+            <ion-text slot="end">{{ ev.Fecha ? (ev.Fecha | date:'dd/MM/yyyy HH:mm') : 'Sin dato' }}</ion-text>
+          </ion-item>
+          <ion-item *ngIf="ev.NumeroControl">
+            <ion-label><strong>Observaciones:</strong></ion-label>
+            <ion-text slot="end">{{ ev.NumeroControl }}</ion-text>
+          </ion-item>
+          <ion-item *ngIf="ev.StopTurno">
+            <ion-label><strong>Observaciones:</strong></ion-label>
+            <ion-text slot="end">{{ ev.StopTurno }}</ion-text>
+          </ion-item>
+          <!-- Agrega más campos según sea necesario -->
+        </ion-list>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-content>

@@ -354,6 +354,28 @@ export class MarcacionesPage {
     return resultado?.role === 'confirmar';
   }
 
+    private async confirmarFotografia(fotografia: 'usuario' | 'entorno'): Promise<boolean> {
+    const mensaje = fotografia === 'usuario'
+      ? 'Se va a capturar la fotografía del usuario'
+      : 'Se va a capturar la fotografía del entorno';
+
+    const resultado = await this.notificacionesService.alerta(
+      mensaje,
+      fotografia === 'usuario' ? 'Confirmar fotografía de usuario' : 'Confirmar fotografía de entorno',
+      undefined,
+      [
+        {
+          text: 'Continuar',
+          role: 'confirmar'
+        }
+      ],
+      undefined,
+      false
+    );
+
+    return resultado?.role === 'confirmar';
+  }
+
   private obtenerObservacionParaInicioActividad(): string | undefined {
     const observacion = this.observacionActividad?.trim().slice(0, 100);
     return observacion ? observacion : undefined;
@@ -377,7 +399,9 @@ export class MarcacionesPage {
 
   private async capturarFotosConPrevisualizacion() {
     while (true) {
+      await this.confirmarFotografia('usuario');
       const fotoUsuario = await this.dispositivoService.capturarFotoObligatoria();
+      await this.confirmarFotografia('entorno');
       const fotoEntorno = await this.dispositivoService.capturarFotoObligatoria();
 
       const decision = await this.solicitarDecisionPrevisualizacion(fotoUsuario, fotoEntorno);
@@ -436,23 +460,6 @@ export class MarcacionesPage {
 
   private esErrorCancelacion(error: unknown): boolean {
     return error instanceof Error && error.message === 'OPERACION_CANCELADA';
-  }
-
-  private obtenerFotosRespaldoActividad(accion: AccionActividadMarcacion): { fotoUsuario?: string; fotoEntorno?: string } {
-    if (accion === 'FINALIZAR') {
-      return {};
-    }
-
-    const actividadActiva = this.estadoDia.actividadActiva;
-    
-    if (actividadActiva) {
-      return {
-        fotoUsuario: actividadActiva.RutaFotoTercero,
-        fotoEntorno: actividadActiva.RutaFotoEntorno,
-      }
-    } else {
-      return {};
-    }
   }
 
   async registrarIngreso() {
