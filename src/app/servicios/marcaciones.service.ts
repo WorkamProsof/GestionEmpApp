@@ -50,6 +50,13 @@ export interface EstadoMarcacionDia {
   [key: string]: any;
 }
 
+export interface TurnoAgrupado {
+  ingreso?: DataHistorialIngreso;
+  eventos: DataHistorialIngreso[];
+  salida?: DataHistorialIngreso;
+  abierto: boolean;
+}
+
 @Injectable({
   providedIn: 'root'
 })

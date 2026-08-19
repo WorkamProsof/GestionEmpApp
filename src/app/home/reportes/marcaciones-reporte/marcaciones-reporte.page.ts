@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { HeaderComponent } from 'src/app/componentes/header/header.component';
 import { FuncionesGenerales } from 'src/app/config/funciones/funciones';
-import { MarcacionesService, DataHistorialIngreso } from 'src/app/servicios/marcaciones.service';
+import { MarcacionesService, DataHistorialIngreso, TurnoAgrupado } from 'src/app/servicios/marcaciones.service';
 import { NotificacionesService } from 'src/app/servicios/notificaciones.service';
 import { ValidacionPermisosService } from 'src/app/servicios/validacion-permisos.service';
 
@@ -35,7 +35,8 @@ export class MarcacionesReportePage {
     hasta: ''
   };
 
-  reporte: DataHistorialIngreso[] = [];
+  reporte: TurnoAgrupado[] = [];
+  eventoSeleccionado: DataHistorialIngreso | null = null;
 
   async ionViewWillEnter() {
     await this.validacionPermisosService.inicializar();
@@ -66,7 +67,44 @@ export class MarcacionesReportePage {
     this.cargando = true;
 
     try {
-      this.reporte = await this.marcacionesService.obtenerReporte(this.filtros);
+      const registros = await this.marcacionesService.obtenerReporte(this.filtros);
+      const registrosOrdenados = registros.sort((a, b) => {
+        const fechaA = new Date(a.Fecha || '');
+        const fechaB = new Date(b.Fecha || '');
+        return fechaA.getTime() - fechaB.getTime();
+      });
+
+      const registrosAgrupados: TurnoAgrupado[] = [];
+      let turnoActual: TurnoAgrupado | null = null;
+
+      for (const element of registrosOrdenados) {
+        switch (element.TipoRegistro) {
+          case 'Ingreso Turno':
+            if (turnoActual) {
+              registrosAgrupados.push({ ...turnoActual, abierto: true });
+            }
+            turnoActual = { ingreso: element, eventos: [], abierto: false } as TurnoAgrupado;
+            break;
+          
+          case 'Salida Turno':
+            if (!turnoActual) turnoActual = { eventos: [], abierto: false } as TurnoAgrupado;
+            turnoActual.salida = element;
+            registrosAgrupados.push({ ...turnoActual, abierto: false });
+            turnoActual = null;
+            break;
+          
+          default:
+            if (!turnoActual) turnoActual = { eventos: [], abierto: false } as TurnoAgrupado;
+            turnoActual.eventos.push(element);
+            break;
+        }
+      }
+
+      if (turnoActual) {
+        registrosAgrupados.push({ ...turnoActual, abierto: true });
+      }
+
+      this.reporte = registrosAgrupados;
     } catch (error: any) {
       this.reporte = [];
       this.notificacionesService.notificacion(error?.message || 'No fue posible consultar el reporte de marcaciones.');
@@ -95,5 +133,13 @@ export class MarcacionesReportePage {
     if (target) {
       target.src = this.fotoPorDefecto;
     }
+  }
+
+  abrirDetalleEvento(evento: DataHistorialIngreso) {
+    this.eventoSeleccionado = evento;
+  }
+
+  cerrarModalDetalle() {
+    this.eventoSeleccionado = null;
   }
 }
