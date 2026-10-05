@@ -3,15 +3,20 @@
 </app-header>
 
 <ion-content class="ion-padding-top">
+  <ion-loading
+    [isOpen]="cargandoCartaLaboral"
+    message="Generando carta laboral..."
+    spinner="crescent"
+    [backdropDismiss]="false">
+  </ion-loading>
+
   <div>
     <ion-refresher slot="fixed" (ionRefresh)="obtenerDatosEmpleado($event)">
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
 
-    <ion-searchbar (ionChange)="buscarFiltro('buscarListaHistorico', $event)" clearIcon="close-sharp"
-      placeholder="Buscar mes" [debounce]="250"></ion-searchbar>
     <ion-accordion-group value="EX">
-      <ion-accordion value="EX" *ngIf="this.permisoExtrato" toggle-icon="chevron-down-outline">
+      <ion-accordion value="EX" *ngIf="permisoExtrato && (formFiltro.documento === 'T' || formFiltro.documento === 'E')" toggle-icon="chevron-down-outline">
         <ion-item class="b-item" slot="header">
           <ion-label>Extractos</ion-label>
         </ion-item>
@@ -55,7 +60,7 @@
         </ion-list>
       </ion-accordion>
 
-      <ion-accordion value="CI" *ngIf="this.permisoCertificado" toggle-icon="chevron-down-outline">
+      <ion-accordion value="CI" *ngIf="permisoCertificado && (formFiltro.documento === 'T' || formFiltro.documento === 'C')" toggle-icon="chevron-down-outline">
         <ion-item class="b-item" slot="header">
           <ion-label>Certificados</ion-label>
         </ion-item>

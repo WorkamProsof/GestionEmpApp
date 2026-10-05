@@ -60,6 +60,7 @@ export class CertificadosPage implements OnInit, OnDestroy {
 	src: any;
 	@ViewChild(IonAccordionGroup, { static: true }) accordionGroup!: IonAccordionGroup;
 	viwPDF = false;
+	cargandoCartaLaboral = false;
 	carataLaboral = '';
 	buscarListaHistorico: string = '';
 	segmento = 'historicoFamilia';
@@ -320,10 +321,6 @@ export class CertificadosPage implements OnInit, OnDestroy {
 		this.obtenerDatosEmpleado();
 	}
 
-	buscarFiltro(variable: keyof CertificadosPage, evento: any) {
-		(this as any)[variable] = evento.detail.value;
-	}
-
 	sliding(ref: string) {
 		let elem: any = document.getElementById(ref);
 		(elem as IonItemSliding).getSlidingRatio().then(numero => {
@@ -363,6 +360,7 @@ export class CertificadosPage implements OnInit, OnDestroy {
   @ValidarPermiso(60010071, 'generar carta laboral')
   @LogAccion('Generación de carta laboral')
 	async CartaLaboral(event: any) {
+		this.cargandoCartaLaboral = true;
     try {
       const resultado = await this.datosBasicosService.informacion(
         this.formFiltro, 
@@ -404,6 +402,8 @@ export class CertificadosPage implements OnInit, OnDestroy {
       console.error('❌ ERROR EN CartaLaboral:', error);
       this.datosBasicosService.manejarErrorEmpleadoRetirado(error);
       this.notificacionService.notificacion('Error al generar la carta laboral');
+	} finally {
+		this.cargandoCartaLaboral = false;
     }
 	}
 

@@ -12,9 +12,9 @@
 	<form [formGroup]="formFiltro" (ngSubmit)="filtrar()">
 		<ion-list lines="full">
       <ion-item *ngIf="inputsalario == null">
-        <ion-label position="floating" color="dark">Documento </ion-label>
+        <ion-label position="floating" color="dark">Tipo de documento</ion-label>
         <ion-select  formControlName="documento" okText="Aceptar" cancelText="Cancelar"
-          [interfaceOptions]="{cssClass: 'modal-color'}" placeholder="Seleccione documento" >
+          [interfaceOptions]="{cssClass: 'modal-color'}" placeholder="Seleccione tipo de documento" >
           <ion-select-option color="dark" *ngFor="let item of documento;" [value]="item.valor">{{
             item.titulo }}
           </ion-select-option>
@@ -69,7 +69,7 @@
 		</ion-list>
 		<ion-button class="ion-margin-top" mode="md" expand="full" type="submit" shape="round">
 			<ion-icon slot="start" name="save"></ion-icon>
-			Guardar
+			Filtrar
 		</ion-button>
 		<ion-button (click)="limpiarFormulario()" class="ion-margin-top" color="danger" mode="md" expand="full"
 			shape="round">
