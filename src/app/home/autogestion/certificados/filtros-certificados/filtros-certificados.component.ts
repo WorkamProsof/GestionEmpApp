@@ -40,8 +40,8 @@ export class FiltrosCertificadosComponent implements OnInit, AfterViewInit {
 
 	documento: any = [
 		{ valor: 'T', titulo: 'Todos' },
-		{ valor: 'E', titulo: 'Extracto' },
-		{ valor: 'C', titulo: 'Certificado' }
+		{ valor: 'E', titulo: 'Extractos' },
+		{ valor: 'C', titulo: 'Certificados' }
 	];
 
   	arraySalario: any = [

@@ -2,14 +2,14 @@
 
 <ion-content [fullscreen]="true">
 
-  <!-- Cuadrícula de módulos tipo escritorio de celular -->
+  <!-- Módulos disponibles -->
   <section class="modules">
-	<div class="module" *ngFor="let module of modules">
+	<ng-container *ngFor="let module of modules">
+	<div class="module" *ngIf="validarPermiso(module.permisoId)">
 		<button
 		  type="button"
 		  class="module__button ion-activatable"
 		  (click)="openModule(module)"
-		  *ngIf="validarPermiso(module.permisoId)"
 		>
 		  <span class="module__icon" [style.background]="module.color">
 			<ion-icon [name]="module.icon" aria-hidden="true"></ion-icon>
@@ -18,5 +18,6 @@
 		  <ion-ripple-effect></ion-ripple-effect>
 		</button>
 	</div>
+	</ng-container>
   </section>
 </ion-content>

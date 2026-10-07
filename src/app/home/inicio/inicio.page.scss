@@ -25,20 +25,24 @@
   text-decoration: none;
 }
 
-// Cuadrícula de módulos (estilo escritorio de celular)
+// Distribución flexible de módulos
 .modules {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: left;
   gap: 16px 8px;
   padding: 24px 16px 32px;
 
   // En pantallas muy pequeñas mostramos 3 columnas
   @media (max-width: 360px) {
-    grid-template-columns: repeat(3, 1fr);
+    .module {
+      flex-basis: calc((100% - 16px) / 3);
+    }
   }
 }
 
 .module {
+  flex: 0 0 calc((100% - 24px) / 4);
   position: relative;
   overflow: hidden;
   display: flex;
