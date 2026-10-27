@@ -46,7 +46,7 @@ export class InicioPage implements OnInit {
     { title: 'Solicitar permisos', icon: 'document-text-outline', route: 'solicitarpermisos', color: '#14b8a6', permisoId: 6001008 },
     { title: 'Certificados', icon: 'ribbon-outline', route: 'certificados', color: '#f59e0b', permisoId: 6001007 },
     { title: 'Registro ausentismo', icon: 'medkit-outline', route: 'registroausentismo', color: '#ef4444', permisoId: 6001009 },
-    { title: 'Elementos protección', icon: 'shield-checkmark-outline', route: 'elementosproteccion', color: '#22c55e' },
+    { title: 'Elementos protección', icon: 'shield-checkmark-outline', route: 'elementosproteccion', color: '#22c55e', permisoId: 6001012 },
     { title: 'Ejecuciones de Evaluación', icon: 'clipboard-outline', route: 'ejecucionesevaluacion', color: '#ec4899', permisoId: 6001100 },
     { title: 'Perfil de cargo', icon: 'briefcase-outline', route: 'perfilcargo', color: '#8b5cf6', permisoId: 6001200 },
     { title: 'Marcaciones', icon: 'stopwatch-outline', route: 'marcaciones', color: '#6366f1', permisoId: 6001015 },
