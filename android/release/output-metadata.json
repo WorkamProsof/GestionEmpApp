@@ -1,0 +1,20 @@
+{
+  "version": 3,
+  "artifactType": {
+    "type": "APK",
+    "kind": "Directory"
+  },
+  "applicationId": "com.prosof.co",
+  "variantName": "release",
+  "elements": [
+    {
+      "type": "SINGLE",
+      "filters": [],
+      "attributes": [],
+      "versionCode": 20007,
+      "versionName": "2.39.2",
+      "outputFile": "app-release.apk"
+    }
+  ],
+  "elementType": "File"
+}
