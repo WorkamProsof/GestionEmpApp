@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, Input } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { IonicModule } from '@ionic/angular';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
@@ -18,19 +18,26 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
     FontAwesomeModule
   ]
 })
-export class VerPdfComponent implements OnInit {
+export class VerPdfComponent implements OnInit, OnDestroy {
 
-	@Input() url: any;
+	@Input() url: string | Blob = '';
 	valorZoom: number = 1;
 	safeUrl: SafeResourceUrl | string = '';
 	isBase64: boolean = false;
 	totalPages: number = 0;
 	currentPage: number = 1;
+	private objectUrl: string | null = null;
 
 	constructor(private modalController: ModalController, private sanitizer: DomSanitizer) { }
 
 	ngOnInit() {
 		this.processUrl();
+	}
+
+	ngOnDestroy() {
+		if (this.objectUrl) {
+			URL.revokeObjectURL(this.objectUrl);
+		}
 	}
 
 	processUrl() {
@@ -40,11 +47,23 @@ export class VerPdfComponent implements OnInit {
 		}
 
 		try {
+			if (this.url instanceof Blob) {
+				this.isBase64 = true;
+				this.objectUrl = URL.createObjectURL(this.url);
+				this.safeUrl = this.objectUrl;
+				return;
+			}
+
 			// Verificar si es una URL HTTP/HTTPS
 			if (typeof this.url === 'string' && (this.url.startsWith('http://') || this.url.startsWith('https://'))) {
 				this.isBase64 = false;
 				this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.url);
 			} 
+			// Aceptar Blob URLs creadas para PDFs locales
+			else if (typeof this.url === 'string' && this.url.startsWith('blob:')) {
+				this.isBase64 = true;
+				this.safeUrl = this.url;
+			}
 			// Verificar si ya es un data URI base64
 			else if (typeof this.url === 'string' && this.url.startsWith('data:application/pdf;base64,')) {
 				this.isBase64 = true;
@@ -85,7 +104,8 @@ export class VerPdfComponent implements OnInit {
 			}
 
 			const blob = new Blob([byteArray], { type: 'application/pdf' });
-			return URL.createObjectURL(blob);
+			this.objectUrl = URL.createObjectURL(blob);
+			return this.objectUrl;
 		} catch (error) {
 			console.error('Error al convertir base64 a Blob:', error);
 			// Si falla, retornar el data URL original

@@ -55,6 +55,7 @@
     "animate.css": "^4.1.1",
     "capacitor-native-biometric": "^4.2.2",
     "crypto-js": "^4.2.0",
+    "html2pdf.js": "^0.14.0",
     "html5-qrcode": "^2.3.8",
     "ionic-selectable": "^5.0.3",
     "ionicons": "^7.0.0",
