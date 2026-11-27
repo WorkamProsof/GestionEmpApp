@@ -367,35 +367,49 @@ export class CertificadosPage implements OnInit, OnDestroy {
         this.rutaGeneral + 'ImprimirCartaLaboral'
       );
 
-      const { base64Img, file_aux } = resultado;
+      const html = typeof resultado === 'string'
+        ? resultado
+        : resultado?.html ?? resultado?.datos?.html ?? resultado?.datos;
 
-      // ✅ Validar que base64Img esté bien formado
-      if (!base64Img) {
-        this.notificacionService.notificacion('Error: No se generó el documento PDF');
-        console.error('❌ base64Img no fue retornado por el servidor');
-        return;
+      if (typeof html !== 'string' || !html.trim()) {
+        throw new Error('El servidor no retornó HTML para generar la carta laboral');
       }
 
-      // ✅ Asegurar que el base64 es un string válido
-      if (typeof base64Img !== 'string') {
-        this.notificacionService.notificacion('Error: Formato de PDF inválido');
-        console.error('❌ base64Img no es un string válido:', typeof base64Img);
-        return;
-      }
+      const nombreArchivo = `CartaLaboral-${this.formFiltro.anio ?? this.anio}.pdf`;
+      const html2pdf = (await import('html2pdf.js')).default;
+      const element = document.createElement('div');
+      element.innerHTML = html;
+	  element.style.width = '190mm';      // ancho útil (carta/A4 menos márgenes)
+	  element.style.fontSize = '12px';    // baja un poco la fuente
+	  element.style.lineHeight = '1.3';
 
-      // ✅ Validar que el base64 tenga contenido
-      if (base64Img.trim().length === 0) {
-        this.notificacionService.notificacion('Error: El archivo PDF está vacío');
-        console.error('❌ base64Img está vacío');
-        return;
-      }
+	  const pdfWorker = html2pdf()
+		.from(element)
+		.set({
+			filename: nombreArchivo,
+			margin: [10, 10, 10, 10],
+			image: { type: 'jpeg', quality: 0.98 },
+			html2canvas: { scale: 2, useCORS: true, scrollY: 0 },
+			jsPDF: { unit: 'mm', format: 'letter', orientation: 'portrait' },
+	  });
 
-      if (event == 1) {
-        // Usar el modal VerPdfComponent para consistencia con otros PDFs
-        this.download(base64Img);
+      if (event === 1) {
+        const pdf = await pdfWorker.outputPdf('blob') as Blob;
+        if (pdf.size === 0) {
+          throw new Error('No fue posible generar el PDF de la carta laboral');
+        }
+
+        const modal = await this.modalController.create({
+          component: VerPdfComponent,
+          backdropDismiss: true,
+          cssClass: 'animate__animated animate__slideInRight animate__faster',
+          componentProps: { url: pdf }
+        });
+        await modal.present();
+      } else if (event === 0) {
+        await pdfWorker.save();
       } else {
-        // Abrir en el navegador externo
-        this.obtenerArchivo(file_aux);
+        throw new Error(`Opción de carta laboral no soportada: ${event}`);
       }
     } catch (error) {
       // 🔥 Usar helper centralizado para manejar errores de empleado retirado
@@ -419,5 +433,3 @@ export class CertificadosPage implements OnInit, OnDestroy {
 	}
 
 }
-
-
